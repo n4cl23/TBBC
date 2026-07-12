@@ -1,0 +1,40 @@
+# Dependencies and framework output
+node_modules/
+.next/
+out/
+dist/
+coverage/
+
+# Test output
+playwright-report/
+test-results/
+
+# Logs and operating-system files
+*.log
+.DS_Store
+Thumbs.db
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# Local databases
+*.sqlite
+*.sqlite-journal
+prisma/dev.db
+
+# Runtime uploads (official assets remain in public/images)
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Hosting and editor state
+.vercel/
+.idea/
+.vscode/settings.json
+
+# Generated TypeScript state
+*.tsbuildinfo
+
+# Local agent metadata
+.agents/

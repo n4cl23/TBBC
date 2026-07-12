@@ -1,0 +1,3 @@
+import {NextRequest,NextResponse} from 'next/server';
+export function proxy(request:NextRequest){const user=process.env.ADMIN_USER,password=process.env.ADMIN_PASSWORD;if(!user||!password){if(process.env.NODE_ENV==='development')return NextResponse.next();return new NextResponse('Admin não configurado.',{status:503})}const authorization=request.headers.get('authorization');if(authorization?.startsWith('Basic ')){try{const [givenUser,givenPassword]=atob(authorization.slice(6)).split(':');if(givenUser===user&&givenPassword===password)return NextResponse.next()}catch{}}return new NextResponse('Autenticação necessária.',{status:401,headers:{'WWW-Authenticate':'Basic realm="Black Banner Admin"'}})}
+export const config={matcher:['/admin/:path*','/api/admin/:path*']};

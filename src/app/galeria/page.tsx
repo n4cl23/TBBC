@@ -1,0 +1,1 @@
+import {PageHead} from '@/components/UI';import {Gallery} from '@/components/Gallery';export default function Page(){return <><PageHead eyebrow="Arquivo visual" title="Galeria" text="Renders, estudos e trabalhos em progresso do universo de Asterheim."/><section className="section"><div className="container"><Gallery/></div></section></>}

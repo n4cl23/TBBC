@@ -1,0 +1,1 @@
+import {CharacterAdminList} from '@/components/admin/CharacterAdminList';export default function Page(){return <><span className="eyebrow">Conteúdo visual</span><h1 className="admin-title">Personagens</h1><p className="muted">Pesquise, filtre e atualize imagens principais e galerias.</p><CharacterAdminList/></>}

@@ -1,0 +1,1 @@
+import {crowns} from '@/data/content';export default function Page(){return <><h1 className="admin-title">Coroas</h1><div className="admin-grid">{crowns.map(x=><div className="admin-panel" key={x.slug}><h2 className="serif">{x.name}</h2><p className="muted">{x.material}</p></div>)}</div></>}
