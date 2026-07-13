@@ -26,3 +26,7 @@ O símbolo representa um estandarte dividido por uma lâmina e uma estrela fratu
 ## Responsividade
 
 Posters alternam entre composição assimétrica desktop e coluna única mobile. Capítulos e destinos reduzem elementos ornamentais, preservando nome, imagem, hierarquia e ação.
+
+## Experiências dos Reinos
+
+Cada página de Reino funciona como um atlas cinematográfico: hero territorial, narrativa exclusiva, mapa local, arquitetura, Guardião, Coroa, habitantes, bestiário, artefatos, timeline, cultura, Art Bible e Marketplace. Cores e atmosferas são derivadas da identidade de cada território, enquanto a estrutura permanece reutilizável em `RealmExperience`.

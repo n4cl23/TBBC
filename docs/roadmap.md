@@ -35,3 +35,11 @@ JSON local não oferece transações nem bloqueio distribuído. Rate limit em me
 - Criar credenciais e adaptadores isolados por marketplace.
 - Adicionar fila de sincronização, retentativas, webhooks e observabilidade.
 - Comparar preço, downloads e avaliação remotos antes de aplicar alterações no CMS.
+
+# Próxima Sprint — Atlas Vivo
+
+- Arte panorâmica exclusiva e otimizada por Reino.
+- Rotas internas para locais, fortalezas, ruínas e templos.
+- Bestiário e artefatos como entidades públicas navegáveis.
+- Filtros territoriais reais no CMS para personagens e eventos.
+- Otimização de LCP, entrega de imagens e estabilidade visual dos heroes.

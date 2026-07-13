@@ -9,6 +9,8 @@ import './marketplace.css';
 import './cinematic.css';
 import './identity.css';
 import './cinematic-fixes.css';
+import './realm-experience.css';
+import './realm-experience-fixes.css';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 
