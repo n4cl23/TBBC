@@ -39,9 +39,27 @@ model WorldEntity {
   prompts     Prompt[]
   technical   TechnicalAsset[]
   productions ProductionProject[]
+  translations ContentTranslation[]
 
   @@unique([type, slug])
   @@index([type, status])
+}
+
+model ContentTranslation {
+  id          String            @id @default(cuid())
+  entityId    String
+  locale      String
+  slug        String?
+  fields      Json
+  status      PublicationStatus @default(draft)
+  version     Int               @default(1)
+  publishedAt DateTime?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  entity      WorldEntity       @relation(fields: [entityId], references: [id], onDelete: Cascade)
+
+  @@unique([entityId, locale])
+  @@index([locale, status])
 }
 
 model ProductionProject {
@@ -134,8 +152,27 @@ model Marketplace {
   createdAt      DateTime             @default(now())
   updatedAt      DateTime             @updatedAt
   listings       MarketplaceListing[]
+  translations   MarketplaceTranslation[]
 
   @@index([status])
+}
+
+model MarketplaceTranslation {
+  id            String            @id @default(cuid())
+  marketplaceId String
+  locale        String
+  name          String
+  description   String
+  seoTitle      String?
+  seoDescription String?
+  status        PublicationStatus @default(draft)
+  version       Int               @default(1)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  marketplace   Marketplace       @relation(fields: [marketplaceId], references: [id], onDelete: Cascade)
+
+  @@unique([marketplaceId, locale])
+  @@index([locale, status])
 }
 
 model MarketplaceListing {

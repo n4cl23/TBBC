@@ -30,3 +30,7 @@ Posters alternam entre composição assimétrica desktop e coluna única mobile.
 ## Experiências dos Reinos
 
 Cada página de Reino funciona como um atlas cinematográfico: hero territorial, narrativa exclusiva, mapa local, arquitetura, Guardião, Coroa, habitantes, bestiário, artefatos, timeline, cultura, Art Bible e Marketplace. Cores e atmosferas são derivadas da identidade de cada território, enquanto a estrutura permanece reutilizável em `RealmExperience`.
+
+## Codex lendário
+
+Guardiões usam uma experiência de Boss com juramento, arco narrativo, poderes, inimigos, artefatos, timeline, miniatura e processo criativo. Coroas são apresentadas como relíquias conscientes, com poder, runas, portadores e linha sucessória. Coleções funcionam como sagas e apresentam seu elenco exclusivamente em pôsteres.

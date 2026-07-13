@@ -16,6 +16,8 @@ import type {
   CmsVersion,
   PublicationStatus,
 } from '@/types/cms';
+import { locales, type Locale } from '@/lib/i18n';
+import { translationCompletion } from '@/types/translation';
 const labels: Record<CmsEntityType, string> = {
   characters: 'Personagens',
   collections: 'Coleções',
@@ -51,6 +53,7 @@ export function EntityManager({ entity }: { entity: CmsEntityType }) {
     [draft, setDraft] = useState(''),
     [slug, setSlug] = useState(''),
     [publication, setPublication] = useState<PublicationStatus>('draft'),
+    [editorLocale, setEditorLocale] = useState<Locale>('pt-br'),
     [versions, setVersions] = useState<CmsVersion[]>([]),
     [message, setMessage] = useState(''),
     [loading, setLoading] = useState(true);
@@ -73,6 +76,7 @@ export function EntityManager({ entity }: { entity: CmsEntityType }) {
     [records, query, status],
   );
   async function open(record?: CmsRecord) {
+    setEditorLocale('pt-br');
     if (!record) {
       setEditing(undefined);
       setSlug('');
@@ -91,16 +95,78 @@ export function EntityManager({ entity }: { entity: CmsEntityType }) {
     setPublication(record.status);
     setVersions(json.versions || []);
   }
+  function selectLocale(locale: Locale) {
+    setEditorLocale(locale);
+    if (locale === 'pt-br') {
+      setDraft(
+        JSON.stringify(editing?.data || { name: '', summary: '' }, null, 2),
+      );
+      setPublication(editing?.status || 'draft');
+      return;
+    }
+    const translations = (editing?.data.translations || {}) as Record<
+      string,
+      { fields?: Record<string, unknown>; status?: PublicationStatus }
+    >;
+    const translation = translations[locale];
+    setDraft(JSON.stringify(translation?.fields || {}, null, 2));
+    setPublication(translation?.status || 'draft');
+  }
+  function currentCompletion() {
+    try {
+      return translationCompletion(
+        entity,
+        JSON.parse(draft || '{}') as Record<string, unknown>,
+      );
+    } catch {
+      return 'incomplete';
+    }
+  }
   async function save() {
     try {
-      const data = JSON.parse(draft) as Record<string, unknown>,
+      const fields = JSON.parse(draft) as Record<string, unknown>;
+      if (
+        editorLocale !== 'pt-br' &&
+        publication === 'published' &&
+        translationCompletion(entity, fields) !== 'complete'
+      ) {
+        setMessage(
+          'Tradução incompleta. Preencha os campos obrigatórios antes de publicar.',
+        );
+        return;
+      }
+      const existingTranslations = (editing?.data.translations || {}) as Record<
+        string,
+        unknown
+      >;
+      const data =
+          editorLocale === 'pt-br'
+            ? fields
+            : {
+                ...(editing?.data || {}),
+                translations: {
+                  ...existingTranslations,
+                  [editorLocale]: {
+                    fields,
+                    status: publication,
+                    updatedAt: new Date().toISOString(),
+                  },
+                },
+              },
         url = editing
           ? `/api/admin/cms/${entity}/${encodeURIComponent(editing.id)}`
           : `/api/admin/cms/${entity}`,
         res = await fetch(url, {
           method: editing ? 'PATCH' : 'POST',
           headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ slug, data, status: publication }),
+          body: JSON.stringify({
+            slug,
+            data,
+            status:
+              editorLocale === 'pt-br'
+                ? publication
+                : editing?.status || 'draft',
+          }),
         }),
         json = await res.json();
       setMessage(json.message);
@@ -272,6 +338,40 @@ export function EntityManager({ entity }: { entity: CmsEntityType }) {
           </div>
           <div className="admin-grid">
             <div className="admin-panel">
+              <div
+                className="translation-tabs"
+                role="tablist"
+                aria-label="Idioma editorial"
+              >
+                {locales.map((locale) => (
+                  <button
+                    role="tab"
+                    aria-selected={editorLocale === locale}
+                    className={`admin-btn ${editorLocale === locale ? '' : 'secondary'}`}
+                    onClick={() => selectLocale(locale)}
+                    key={locale}
+                  >
+                    {locale === 'pt-br'
+                      ? 'Português'
+                      : locale === 'en'
+                        ? 'English'
+                        : 'Español'}
+                  </button>
+                ))}
+              </div>
+              <p className="muted">
+                Status do idioma:{' '}
+                <strong>
+                  {editorLocale === 'pt-br' ? 'principal' : currentCompletion()}
+                </strong>
+                {editorLocale !== 'pt-br' &&
+                !(
+                  editing?.data.translations as
+                    Record<string, unknown> | undefined
+                )?.[editorLocale]
+                  ? ' · usando fallback pt-BR'
+                  : ''}
+              </p>
               <label>
                 Slug
                 <input
@@ -307,6 +407,27 @@ export function EntityManager({ entity }: { entity: CmsEntityType }) {
                 />
               </label>
               <div className="admin-toolbar">
+                {editorLocale !== 'pt-br' && (
+                  <button
+                    className="admin-btn secondary"
+                    onClick={() =>
+                      setDraft(
+                        JSON.stringify(
+                          Object.fromEntries(
+                            Object.entries(editing?.data || {}).filter(
+                              ([key]) => key !== 'translations',
+                            ),
+                          ),
+                          null,
+                          2,
+                        ),
+                      )
+                    }
+                  >
+                    <Copy size={16} />
+                    Copiar português como base
+                  </button>
+                )}
                 <button className="admin-btn" onClick={save}>
                   <Save size={16} />
                   Salvar
