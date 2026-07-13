@@ -8,6 +8,7 @@ import {
 } from '@/data/content';
 import { marketplaces } from '@/data/marketplaces';
 import { locales, localizedPath, type Locale } from '@/lib/i18n';
+import {atlasPoints} from '@/data/atlas';
 const base = 'https://blackbannerchronicles.com';
 function entry(
   paths: Record<Locale, string>,
@@ -41,6 +42,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'about',
     'contact',
     'marketplaces',
+    'atlas',
   ] as const)
     rows.push(
       Object.fromEntries(
@@ -64,5 +66,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
           ]),
         ) as Record<Locale, string>,
       );
+  for(const point of atlasPoints) rows.push(Object.fromEntries(locales.map(locale=>[locale,localizedPath(locale,'atlas',`${point.realm}/${point.slug}`)])) as Record<Locale,string>);
   return rows.flatMap((paths) => locales.map((locale) => entry(paths, locale)));
 }

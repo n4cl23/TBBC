@@ -24,6 +24,7 @@ export const routeNames = {
     es: 'marketplaces',
   },
   artBible: { 'pt-br': 'art-bible', en: 'art-bible', es: 'art-bible' },
+  atlas: { 'pt-br': 'atlas', en: 'atlas', es: 'atlas' },
   print: { 'pt-br': 'impressao-3d', en: '3d-printing', es: 'impresion-3d' },
 } as const;
 type RouteKey = keyof typeof routeNames;
@@ -38,6 +39,7 @@ export const dictionary = {
       realms: 'Reinos',
       gallery: 'Galeria',
       marketplaces: 'Marketplaces',
+      atlas: 'Atlas',
     },
     language: 'Idioma',
     openMenu: 'Abrir menu',
@@ -56,6 +58,7 @@ export const dictionary = {
       realms: 'Realms',
       gallery: 'Gallery',
       marketplaces: 'Marketplaces',
+      atlas: 'Atlas',
     },
     language: 'Language',
     openMenu: 'Open menu',
@@ -74,6 +77,7 @@ export const dictionary = {
       realms: 'Reinos',
       gallery: 'Galería',
       marketplaces: 'Marketplaces',
+      atlas: 'Atlas',
     },
     language: 'Idioma',
     openMenu: 'Abrir menú',
