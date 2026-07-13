@@ -1,5 +1,9 @@
 # Deploy
 
+## Produção Vercel
+
+O projeto de produção é `theblackbanner` e sua origem canônica é `https://theblackbanner.vercel.app`. Defina `NEXT_PUBLIC_SITE_URL` com esse valor em Preview e Production. O host legado `tbbc-three.vercel.app` é preservado somente como redirecionamento permanente.
+
 ## Requisitos
 
 - Node.js 22 LTS

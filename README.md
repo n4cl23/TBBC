@@ -1,5 +1,7 @@
 # The Black Banner Chronicles
 
+Produção: [theblackbanner.vercel.app](https://theblackbanner.vercel.app). O endereço anterior `tbbc-three.vercel.app` é mantido apenas como redirecionamento permanente.
+
 ## Marketplace Hub
 
 O CMS agora administra marketplaces, anúncios, preços, moedas e disponibilidade sem alterações de código. Consulte [docs/marketplace-hub.md](docs/marketplace-hub.md) para os contratos, rotas e estratégia de integrações futuras.

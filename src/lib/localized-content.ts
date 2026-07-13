@@ -6,14 +6,15 @@ export type LocalizedResult<T> = { data: T; requestedLocale: Locale; resolvedLoc
 
 export const translatableFields: Partial<Record<CmsEntityType, readonly string[]>> = {
   collections: ['name','title','subtitle','quote','summary','description','story','editorialHook','cta','seoTitle','seoDescription','imageAlt'],
-  characters: ['name','title','subtitle','quote','summary','story','origin','rise','conflict','currentState','legacy','personality','rumors','curiosities','cta','prompt','seoTitle','seoDescription','imageAlt','caption'],
+  characters: ['name','title','subtitle','quote','summary','story','origin','rise','conflict','currentState','legacy','personality','rumors','curiosities','cta','prompt','technicalSheet','printInfo','relatedMiniature','seoTitle','seoDescription','imageAlt','caption'],
   guardians: ['name','title','subtitle','quote','summary','story','origin','rise','conflict','currentState','legacy','virtue','element','symbol','prompt','seoTitle','seoDescription','imageAlt'],
-  realms: ['name','title','subtitle','quote','summary','story','architecture','origin','foundation','influence','atmosphere','seoTitle','seoDescription','imageAlt'],
+  realms: ['name','title','subtitle','quote','summary','story','architecture','origin','foundation','influence','atmosphere','symbol','color','seoTitle','seoDescription','imageAlt'],
   crowns: ['name','title','subtitle','quote','visual','history','concept','material','element','prompt','seoTitle','seoDescription','imageAlt'],
   weapons: ['name','type','legend','description','seoTitle','seoDescription','imageAlt'],
-  timeline: ['era','title','summary'], artBible: ['name','title','subtitle','summary','description','chapters','seoTitle','seoDescription','imageAlt'],
-  news: ['title','excerpt','body','seoTitle','seoDescription','imageAlt'], gallery: ['title','alt','caption'],
+  timeline: ['era','title','summary','year'], artBible: ['name','title','subtitle','summary','description','chapters','seoTitle','seoDescription','imageAlt'],
+  news: ['title','excerpt','body','date','seoTitle','seoDescription','imageAlt'], gallery: ['title','alt','caption'],
   marketplaces: ['name','description','seoTitle','seoDescription'], printGuide: ['name','title','subtitle','summary','description','instructions','seoTitle','seoDescription'],
+  marketplaceListings: ['title','license','notes'],
 };
 
 function translationsOf(entity: Record<string, unknown>) { return (entity.translations || {}) as Partial<Record<Locale, StoredTranslation>>; }

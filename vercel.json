@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "tbbc-three.vercel.app" }],
+      "destination": "https://theblackbanner.vercel.app/:path*",
+      "permanent": true
+    }
+  ]
+}

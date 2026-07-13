@@ -9,7 +9,8 @@ import {
 import { marketplaces } from '@/data/marketplaces';
 import { locales, localizedPath, type Locale } from '@/lib/i18n';
 import {atlasPoints} from '@/data/atlas';
-const base = 'https://blackbannerchronicles.com';
+import {SITE_URL} from '@/lib/site';
+const base = SITE_URL;
 function entry(
   paths: Record<Locale, string>,
   locale: Locale,

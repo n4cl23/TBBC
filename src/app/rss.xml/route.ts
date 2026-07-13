@@ -7,10 +7,11 @@ import {
   localizedPath,
   type Locale,
 } from '@/lib/i18n';
+import {SITE_URL} from '@/lib/site';
 export async function GET() {
   const value = (await headers()).get('x-tbcc-locale') || 'pt-br',
     locale: Locale = isLocale(value) ? value : 'pt-br',
-    base = 'https://blackbannerchronicles.com',
+    base = SITE_URL,
     items = news
       .map(
         (item) =>

@@ -14,6 +14,7 @@ import {
   news,
 } from '@/data/content';
 import {marketplaces, marketplaceListings} from '@/data/marketplaces';
+import {artBibleSeeds, printGuideSeeds, withEditorialTranslations} from '@/data/editorial-translations';
 import type {
   AuditEntry,
   CmsDatabase,
@@ -34,6 +35,8 @@ const seeds: Partial<Record<CmsEntityType, unknown[]>> = {
   news,
   marketplaces,
   marketplaceListings,
+  artBible: artBibleSeeds,
+  printGuide: printGuideSeeds,
 };
 async function readDb(): Promise<CmsDatabase> {
   try {
@@ -48,7 +51,8 @@ async function writeDb(db: CmsDatabase) {
 function baseRecords(entity: CmsEntityType): CmsRecord[] {
   const now = new Date().toISOString();
   return (seeds[entity] || []).map((item) => {
-    const data = item as Record<string, unknown>,
+    const raw = item as Record<string, unknown>,
+      data = withEditorialTranslations(entity, raw),
       slug = String(data.slug || data.id);
     return {
       id: `seed:${entity}:${slug}`,

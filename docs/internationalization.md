@@ -1,5 +1,9 @@
 # Internacionalização
 
+## Estado editorial
+
+Os seeds oficiais possuem conteúdo relacionado publicado em PT-BR, inglês e espanhol. O painel `/admin/translations` mostra publicações, lacunas e fallbacks por entidade. Uma tradução incompleta nunca é mesclada campo a campo: o resolvedor retorna a entidade-base integral em PT-BR.
+
 ## Estratégia
 
 A implementação usa recursos nativos do Next.js e `Intl`, sem biblioteca externa e sem tradução automática em execução. O locale é resolvido na borda pelo proxy, persistido no cookie `tbcc-locale` e propagado pelo header `x-tbcc-locale`.
