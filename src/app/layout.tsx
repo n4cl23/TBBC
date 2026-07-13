@@ -15,6 +15,7 @@ import './legendary-experience.css';
 import './collection-experience.css';
 import './atlas.css';
 import './bestiary.css';
+import './character-codex.css';
 import './i18n.css';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
