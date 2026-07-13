@@ -5,7 +5,7 @@ export type StoredTranslation = { fields?: Record<string, unknown>; status?: Pub
 export type LocalizedResult<T> = { data: T; requestedLocale: Locale; resolvedLocale: Locale; usedFallback: boolean; translationStatus: 'base'|'missing'|'draft'|'incomplete'|'published'; cacheKey: string; cacheTag: string };
 
 export const translatableFields: Partial<Record<CmsEntityType, readonly string[]>> = {
-  collections: ['name','title','subtitle','quote','summary','description','story','editorialHook','cta','seoTitle','seoDescription','imageAlt'],
+  collections: ['name','title','subtitle','quote','summary','description','story','editorialHook','cta','seoTitle','seoDescription','imageAlt','status'],
   characters: ['name','title','subtitle','quote','summary','story','origin','rise','conflict','currentState','legacy','personality','rumors','curiosities','cta','prompt','technicalSheet','printInfo','relatedMiniature','seoTitle','seoDescription','imageAlt','caption'],
   guardians: ['name','title','subtitle','quote','summary','story','origin','rise','conflict','currentState','legacy','virtue','element','symbol','prompt','seoTitle','seoDescription','imageAlt'],
   realms: ['name','title','subtitle','quote','summary','story','architecture','origin','foundation','influence','atmosphere','symbol','color','seoTitle','seoDescription','imageAlt'],
