@@ -1,5 +1,75 @@
-import type {Metadata} from 'next';import {Cinzel,Inter} from 'next/font/google';import './globals.css';import './sprint2.css';import './sprint4.css';import './sprint5.css';import './sprint5-fixes.css';import './marketplace.css';import './cinematic.css';import './identity.css';import './cinematic-fixes.css';import './realm-experience.css';import './realm-experience-fixes.css';import './legendary-experience.css';import './collection-experience.css';import './atlas.css';import './i18n.css';import {Header} from '@/components/Header';import {Footer} from '@/components/Footer';import {dictionary,localeConfig} from '@/lib/i18n';import {requestLocale} from '@/lib/locale-server';import {SITE_NAME,SITE_URL} from '@/lib/site';
-const display=Cinzel({subsets:['latin'],variable:'--font-display'});
-const body=Inter({subsets:['latin'],variable:'--font-body'});
-export async function generateMetadata():Promise<Metadata>{const locale=await requestLocale(),copy=dictionary[locale],canonical=`/${locale}`;return {metadataBase:new URL(SITE_URL),title:{default:SITE_NAME,template:`%s | ${SITE_NAME}`},description:copy.metaDescription,alternates:{canonical,languages:{'pt-BR':'/pt-br',en:'/en',es:'/es','x-default':'/pt-br'}},openGraph:{type:'website',url:canonical,siteName:SITE_NAME,locale:localeConfig[locale].html.replace('-','_'),title:SITE_NAME,description:copy.tagline,images:['/images/hero/banner-chronicles.webp']},twitter:{card:'summary_large_image',title:SITE_NAME,description:copy.tagline,images:['/images/hero/banner-chronicles.webp']}}}
-export default async function Layout({children}:{children:React.ReactNode}){const locale=await requestLocale();return <html lang={localeConfig[locale].html} data-scroll-behavior="smooth"><body className={`${display.variable} ${body.variable}`}><Header/><main>{children}</main><Footer/></body></html>}
+import type { Metadata } from 'next';
+import { Cinzel, Inter } from 'next/font/google';
+import './globals.css';
+import './sprint2.css';
+import './sprint4.css';
+import './sprint5.css';
+import './sprint5-fixes.css';
+import './marketplace.css';
+import './cinematic.css';
+import './identity.css';
+import './cinematic-fixes.css';
+import './realm-experience.css';
+import './realm-experience-fixes.css';
+import './legendary-experience.css';
+import './collection-experience.css';
+import './atlas.css';
+import './bestiary.css';
+import './i18n.css';
+import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
+import { dictionary, localeConfig } from '@/lib/i18n';
+import { requestLocale } from '@/lib/locale-server';
+import { SITE_NAME, SITE_URL } from '@/lib/site';
+const display = Cinzel({ subsets: ['latin'], variable: '--font-display' });
+const body = Inter({ subsets: ['latin'], variable: '--font-body' });
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await requestLocale(),
+    copy = dictionary[locale],
+    canonical = `/${locale}`;
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: { default: SITE_NAME, template: `%s | ${SITE_NAME}` },
+    description: copy.metaDescription,
+    alternates: {
+      canonical,
+      languages: {
+        'pt-BR': '/pt-br',
+        en: '/en',
+        es: '/es',
+        'x-default': '/pt-br',
+      },
+    },
+    openGraph: {
+      type: 'website',
+      url: canonical,
+      siteName: SITE_NAME,
+      locale: localeConfig[locale].html.replace('-', '_'),
+      title: SITE_NAME,
+      description: copy.tagline,
+      images: ['/images/hero/banner-chronicles.webp'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: SITE_NAME,
+      description: copy.tagline,
+      images: ['/images/hero/banner-chronicles.webp'],
+    },
+  };
+}
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const locale = await requestLocale();
+  return (
+    <html lang={localeConfig[locale].html} data-scroll-behavior="smooth">
+      <body className={`${display.variable} ${body.variable}`}>
+        <Header />
+        <main>{children}</main>
+        <Footer />
+      </body>
+    </html>
+  );
+}

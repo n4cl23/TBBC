@@ -37,7 +37,17 @@ export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin'))
     return adminAuth(request);
-  if (pathname.startsWith('/api') || pathname.startsWith('/_next') || pathname === '/sitemap.xml' || pathname === '/robots.txt')
+  // A localized URL is rewritten to the App Router's canonical internal path.
+  // Next dev may run the rewritten request through proxy() again; this marker
+  // prevents that second pass from redirecting back to the localized URL.
+  if (request.headers.get('x-tbcc-internal-rewrite') === '1')
+    return NextResponse.next();
+  if (
+    pathname.startsWith('/api') ||
+    pathname.startsWith('/_next') ||
+    pathname === '/sitemap.xml' ||
+    pathname === '/robots.txt'
+  )
     return NextResponse.next();
   const parts = pathname.split('/').filter(Boolean);
   if (!parts.length) {
@@ -60,12 +70,12 @@ export function proxy(request: NextRequest) {
       canonicalUrl.pathname = `/${[locale, ...parts].join('/')}`;
       return NextResponse.redirect(canonicalUrl, 308);
     }
-    const
-      segment = parts.shift() || '',
+    const segment = parts.shift() || '',
       internal = internalSegment(segment),
       target = `/${[internal, ...parts].filter(Boolean).join('/')}`;
     const headers = new Headers(request.headers);
     headers.set('x-tbcc-locale', locale);
+    headers.set('x-tbcc-internal-rewrite', '1');
     const response = NextResponse.rewrite(new URL(target || '/', request.url), {
       request: { headers },
     });
