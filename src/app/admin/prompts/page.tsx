@@ -1,0 +1,1 @@
+import {EntityManager} from '@/components/admin/EntityManager';export default function Page(){return <><h1 className="admin-title">Prompt Library</h1><p className="muted">Lychee, Midjourney, Flux, Kling, PixVerse, Google Vids, animação e impressão.</p><EntityManager entity="prompts"/></>}

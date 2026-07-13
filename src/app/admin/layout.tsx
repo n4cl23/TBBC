@@ -1,1 +1,1 @@
-import {AdminShell} from '@/components/admin/AdminShell';import './admin.css';export const metadata={title:'Administração'};export default function Layout({children}:{children:React.ReactNode}){return <AdminShell>{children}</AdminShell>}
+import {AdminShell} from '@/components/admin/AdminShell';import './admin.css';import './sprint3-admin.css';export const metadata={title:'Administração',robots:{index:false,follow:false}};export default function Layout({children}:{children:React.ReactNode}){return <AdminShell>{children}</AdminShell>}

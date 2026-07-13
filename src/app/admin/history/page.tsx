@@ -1,0 +1,1 @@
+import {AuditHistory} from '@/components/admin/AuditHistory';export default function Page(){return <><span className="eyebrow">Auditoria editorial</span><h1 className="admin-title">Histórico</h1><p className="muted">Usuário, IP, operação e campos alterados em cada versão.</p><AuditHistory/></>}

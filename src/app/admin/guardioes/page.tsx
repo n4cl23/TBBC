@@ -1,1 +1,1 @@
-import {guardians} from '@/data/content';export default function Page(){return <><h1 className="admin-title">Guardiões</h1><div className="admin-grid">{guardians.map(x=><div className="admin-panel" key={x.slug}><h2 className="serif">{x.name}</h2><p className="muted">{x.title}</p><span className="badge">{x.status}</span></div>)}</div></>}
+import {EntityManager} from '@/components/admin/EntityManager';export default function Page(){return <><h1 className="admin-title">Guardiões</h1><EntityManager entity="guardians"/></>}

@@ -46,12 +46,17 @@ Em `/admin/personagens`, pesquise ou filtre o personagem, escolha **Editar**, ar
 
 Os arquivos processados ficam em `public/uploads`; metadados ficam em `src/data/media.json`. Consulte [docs/media-management.md](docs/media-management.md) para arquitetura, segurança e migração de storage.
 
+## CMS editorial
+
+O Sprint 3 adiciona CRUD, pesquisa, rascunho/publicação, duplicação, versões e auditoria para personagens, coleções, Guardiões, reinos, Coroas, armas, timeline, galeria, novidades, Art Bible e guia de impressão. O repositório local fica em `src/data/cms.json`; `/admin/history` registra usuário, IP, operação e campos alterados.
+
 ## Scripts
 
 - `npm run dev`: desenvolvimento
 - `npm run lint`: ESLint
 - `npm run typecheck`: TypeScript
 - `npm run test`: Vitest
+- `npm run test:e2e`: Playwright, interações e seis breakpoints
 - `npm run build`: produção
 
 ## Banco de dados

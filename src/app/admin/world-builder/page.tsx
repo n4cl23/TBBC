@@ -1,0 +1,1 @@
+import {WorldBuilder} from '@/components/admin/WorldBuilder';export default function Page(){return <><span className="eyebrow">Assistente interno</span><h1 className="admin-title">World Builder</h1><p className="muted">Sugestões determinísticas para manter coerência de paleta, escala e relacionamentos. Nenhum dado é salvo sem revisão editorial.</p><WorldBuilder/></>}

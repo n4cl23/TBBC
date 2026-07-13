@@ -1,0 +1,1 @@
+import {EntityManager} from '@/components/admin/EntityManager';export default function Page(){return <><h1 className="admin-title">Editor da Art Bible</h1><p className="muted">Estrutura preparada para capítulos, seções, Markdown, imagens e blocos editoriais.</p><EntityManager entity="artBible"/></>}

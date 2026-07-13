@@ -1,1 +1,1 @@
-import {realms} from '@/data/content';export default function Page(){return <><h1 className="admin-title">Reinos</h1><div className="admin-grid">{realms.map(x=><div className="admin-panel" key={x.slug}><h2 className="serif">{x.name}</h2><p className="muted">{x.architecture}</p></div>)}</div></>}
+import {EntityManager} from '@/components/admin/EntityManager';export default function Page(){return <><h1 className="admin-title">Reinos</h1><EntityManager entity="realms"/></>}

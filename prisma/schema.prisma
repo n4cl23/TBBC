@@ -1,0 +1,159 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum PublicationStatus {
+  draft
+  published
+  archived
+}
+
+enum AssetStatus {
+  planned
+  modeling
+  printing
+  painting
+  published
+  archived
+}
+
+model WorldEntity {
+  id          String            @id @default(cuid())
+  type        String
+  slug        String
+  name        String
+  data        Json
+  status      PublicationStatus @default(draft)
+  version     Int               @default(1)
+  publishedAt DateTime?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  versions    EntityVersion[]
+  outgoing    Relation[]        @relation("RelationFrom")
+  incoming    Relation[]        @relation("RelationTo")
+  mediaLinks  MediaRelation[]
+  prompts     Prompt[]
+  technical   TechnicalAsset[]
+
+  @@unique([type, slug])
+  @@index([type, status])
+}
+
+model Relation {
+  id            String      @id @default(cuid())
+  fromId        String
+  toId          String
+  kind          String
+  label         String?
+  bidirectional Boolean     @default(true)
+  metadata      Json?
+  from          WorldEntity @relation("RelationFrom", fields: [fromId], references: [id], onDelete: Cascade)
+  to            WorldEntity @relation("RelationTo", fields: [toId], references: [id], onDelete: Cascade)
+  createdAt     DateTime    @default(now())
+
+  @@unique([fromId, toId, kind])
+  @@index([fromId, kind])
+  @@index([toId, kind])
+}
+
+model EntityVersion {
+  id        String            @id @default(cuid())
+  entityId  String
+  version   Int
+  data      Json
+  status    PublicationStatus
+  actor     String
+  createdAt DateTime          @default(now())
+  entity    WorldEntity       @relation(fields: [entityId], references: [id], onDelete: Cascade)
+
+  @@unique([entityId, version])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actor      String
+  role       String?
+  ip         String
+  entityType String
+  entityId   String
+  operation  String
+  changes    Json
+  createdAt  DateTime @default(now())
+
+  @@index([entityType, entityId])
+  @@index([createdAt])
+}
+
+model MediaAsset {
+  id        String          @id @default(cuid())
+  slug      String          @unique
+  filename  String
+  src       String
+  alt       String
+  caption   String?
+  author    String?
+  license   String?
+  category  String
+  mimeType  String?
+  size      Int?
+  width     Int?
+  height    Int?
+  version   Int             @default(1)
+  tags      String[]
+  metadata  Json?
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  relations MediaRelation[]
+}
+
+model MediaRelation {
+  id       String      @id @default(cuid())
+  mediaId  String
+  entityId String
+  role     String
+  order    Int         @default(0)
+  media    MediaAsset  @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  entity   WorldEntity @relation(fields: [entityId], references: [id], onDelete: Cascade)
+
+  @@unique([mediaId, entityId, role])
+}
+
+model Prompt {
+  id        String       @id @default(cuid())
+  entityId  String?
+  tool      String
+  title     String
+  content   String
+  version   Int          @default(1)
+  tags      String[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  entity    WorldEntity? @relation(fields: [entityId], references: [id], onDelete: SetNull)
+
+  @@index([tool])
+}
+
+model TechnicalAsset {
+  id           String       @id @default(cuid())
+  entityId     String?
+  name         String
+  format       String
+  src          String?
+  scale        String?
+  weightGrams  Float?
+  printMinutes Int?
+  resinMl      Float?
+  volumeCm3    Float?
+  status       AssetStatus  @default(planned)
+  version      Int          @default(1)
+  metadata     Json?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  entity       WorldEntity? @relation(fields: [entityId], references: [id], onDelete: SetNull)
+
+  @@index([format, status])
+}

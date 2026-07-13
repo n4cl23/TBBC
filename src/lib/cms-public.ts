@@ -1,0 +1,1 @@
+import 'server-only';import type {CmsEntityType} from '@/types/cms';import {listCmsRecords} from './cms-repository';export async function getPublishedData<T>(entity:CmsEntityType):Promise<T[]>{return (await listCmsRecords(entity)).filter(x=>x.status==='published').map(x=>x.data as T)}

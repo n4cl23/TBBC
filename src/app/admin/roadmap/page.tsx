@@ -1,0 +1,1 @@
+import {EntityManager} from '@/components/admin/EntityManager';export default function Page(){return <><h1 className="admin-title">Roadmap de produção</h1><p className="muted">Planejado, modelagem, impressão, pintura, publicado e arquivado.</p><EntityManager entity="roadmap"/></>}

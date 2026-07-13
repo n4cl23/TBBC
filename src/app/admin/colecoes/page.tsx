@@ -1,1 +1,1 @@
-import {collections} from '@/data/content';export default function Page(){return <><h1 className="admin-title">Coleções</h1><div className="admin-grid">{collections.map(x=><div className="admin-panel" key={x.slug}><span className="badge">{x.status}</span><h2 className="serif">{x.name}</h2><p className="muted">{x.description}</p><strong>{x.count} miniaturas</strong></div>)}</div></>}
+import {EntityManager} from '@/components/admin/EntityManager';export default function Page(){return <><h1 className="admin-title">Coleções</h1><EntityManager entity="collections"/></>}

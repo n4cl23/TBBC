@@ -1,0 +1,1 @@
+import {EntityManager} from '@/components/admin/EntityManager';export default function Page(){return <><h1 className="admin-title">STL Library</h1><p className="muted">STL, OBJ, GLB, LYS, suportes, multipart, escala, peso, resina e tempo de impressão.</p><EntityManager entity="stlAssets"/></>}
