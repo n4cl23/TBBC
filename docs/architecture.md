@@ -7,3 +7,6 @@ A administração usa Route Handlers em `src/app/api/admin`, componentes cliente
 Não existe banco de dados nesta versão. O catálogo principal é TypeScript e os metadados mutáveis são JSON. Para múltiplas instâncias ou escrita concorrente, a migração recomendada é PostgreSQL, mantendo os tipos e a camada de repositório.
 
 O Sprint 3 introduz `CmsRepository`: os dados TypeScript funcionam como seed e registros em `src/data/cms.json` substituem o seed por slug. Cada gravação cria versão imutável e evento de auditoria. O site público já consome essa camada para personagens; as demais entidades permanecem compatíveis enquanto a migração incremental avança.
+# Marketplace Hub
+
+O domínio comercial é desacoplado do catálogo narrativo por vínculos polimórficos (`entityType` + `entityId`). A camada pública consome somente registros publicados do repositório CMS. Marketplaces externos são destinos; integrações futuras deverão implementar adaptadores de sincronização sem acoplar APIs aos componentes ou ao domínio editorial.

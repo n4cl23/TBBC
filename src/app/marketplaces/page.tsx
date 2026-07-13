@@ -1,0 +1,6 @@
+import type {Metadata} from 'next';
+import {MarketplaceDirectoryCard,MarketplaceHero} from '@/components/marketplace/Marketplace';
+import {getPublishedData} from '@/lib/cms-public';
+import type {Marketplace,MarketplaceListing} from '@/types/marketplace';
+export const metadata:Metadata={title:'Marketplaces',description:'Encontre miniaturas e arquivos STL oficiais de The Black Banner Chronicles.',alternates:{canonical:'/marketplaces'},openGraph:{title:'Marketplace Hub | The Black Banner Chronicles',description:'Modelos oficiais disponíveis nos principais marketplaces.'},twitter:{card:'summary_large_image'}};
+export default async function Page(){const [markets,listings]=await Promise.all([getPublishedData<Marketplace>('marketplaces'),getPublishedData<MarketplaceListing>('marketplaceListings')]);return <><MarketplaceHero title="Onde as lendas ganham forma"/><section className="section"><div className="container"><span className="eyebrow">Canais oficiais</span><h2 className="serif">Escolha seu marketplace</h2><div className="market-grid">{markets.filter(x=>x.status==='active').map(market=><MarketplaceDirectoryCard key={market.id} marketplace={market} count={listings.filter(x=>x.marketplaceId===market.id&&!['archived','retired'].includes(x.status)).length}/>)}</div></div></section></>}

@@ -1,0 +1,1 @@
+import {EntityManager} from '@/components/admin/EntityManager';export default function Page(){return <><span className="eyebrow">Marketplace Hub</span><h1 className="admin-title">Anúncios e preços</h1><p className="muted">Vincule personagens, criaturas, coleções ou arquivos STL aos canais de venda.</p><EntityManager entity="marketplaceListings"/></>}

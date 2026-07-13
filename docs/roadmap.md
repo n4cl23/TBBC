@@ -22,3 +22,16 @@
 ## Riscos conhecidos
 
 JSON local não oferece transações nem bloqueio distribuído. Rate limit em memória funciona por instância e deve migrar para Redis/KV. Basic Auth é provisório e não substitui autenticação baseada em sessão e papéis.
+# Sprint 7 — Marketplace Hub
+
+- CMS de marketplaces, anúncios e histórico de preços.
+- Catálogo público multicanal, ofertas por personagem e progressão de coleções.
+- SEO Product/Offer, moedas internacionais, badges e links externos seguros.
+- Arquitetura preparada para adaptadores, sem sincronização externa nesta etapa.
+
+# Próxima evolução
+
+- Persistir os novos modelos no PostgreSQL de produção e migrar os registros seed.
+- Criar credenciais e adaptadores isolados por marketplace.
+- Adicionar fila de sincronização, retentativas, webhooks e observabilidade.
+- Comparar preço, downloads e avaliação remotos antes de aplicar alterações no CMS.

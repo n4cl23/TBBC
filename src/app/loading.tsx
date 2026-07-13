@@ -1,0 +1,1 @@
+import {BannerSigil} from '@/components/Brand';export default function Loading(){return <div className="splash-screen" role="status" aria-label="Carregando Asterheim"><BannerSigil/><span>THE BLACK BANNER</span><i/></div>}

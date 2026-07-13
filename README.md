@@ -1,5 +1,9 @@
 # The Black Banner Chronicles
 
+## Marketplace Hub
+
+O CMS agora administra marketplaces, anúncios, preços, moedas e disponibilidade sem alterações de código. Consulte [docs/marketplace-hub.md](docs/marketplace-hub.md) para os contratos, rotas e estratégia de integrações futuras.
+
 Site oficial, catálogo de miniaturas e arquivo visual do universo autoral de Asterheim. O projeto apresenta personagens, reinos, Guardiões, Coroas e as coleções The Black Banner Company, The Broken Mug Tavern, Iron Tankard Tavern, Legends of the Realm, Beasts of Asterheim e The Six Crowns of Asterheim.
 
 ## Stack
