@@ -1,3 +1,21 @@
-'use client';import Link from 'next/link';import {usePathname,useRouter} from 'next/navigation';import {Globe2,Menu,X} from 'lucide-react';import {useState} from 'react';import {BrandLockup} from '@/components/Brand';import {dictionary,isLocale,localeConfig,locales,localizedPath,switchLocalePath,type Locale} from '@/lib/i18n';
+'use client';
+
+import Link from 'next/link';
+import {usePathname} from 'next/navigation';
+import {Globe2,Menu,X} from 'lucide-react';
+import {useState} from 'react';
+import {BrandLockup} from '@/components/Brand';
+import {dictionary,isLocale,localeConfig,locales,localizedPath,switchLocalePath,type Locale} from '@/lib/i18n';
+
 const keys=['universe','atlas','collections','characters','guardians','crowns','realms','gallery','marketplaces'] as const;
-export function Header(){const [open,setOpen]=useState(false),path=usePathname(),router=useRouter(),first=path.split('/').filter(Boolean)[0],locale:Locale=isLocale(first)?first:'pt-br',copy=dictionary[locale];if(path.startsWith('/admin'))return null;const navigation=keys.map(key=>[localizedPath(locale,key),copy.nav[key]] as const);function change(next:Locale){document.cookie=`tbcc-locale=${next}; path=/; max-age=31536000; samesite=lax`;router.push(switchLocalePath(path,next))}return <header className="header"><div className="container"><nav className="nav" aria-label={locale==='en'?'Main navigation':locale==='es'?'Navegación principal':'Navegação principal'}><BrandLockup/><div className="links">{navigation.map(([href,label])=><Link key={href} href={href}>{label}</Link>)}</div><label className="language-switcher"><Globe2/><span className="sr-only">{copy.language}</span><select value={locale} onChange={event=>change(event.target.value as Locale)} aria-label={copy.language}>{locales.map(item=><option value={item} key={item}>{localeConfig[item].short}</option>)}</select></label><button className="menu-button" aria-label={open?copy.closeMenu:copy.openMenu} onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</button></nav>{open&&<div className="mobile">{navigation.map(([href,label])=><Link onClick={()=>setOpen(false)} key={href} href={href}>{label}</Link>)}<label className="mobile-language"><span>{copy.language}</span><select value={locale} onChange={event=>change(event.target.value as Locale)}>{locales.map(item=><option value={item} key={item}>{localeConfig[item].label}</option>)}</select></label></div>}</div></header>}
+
+export function Header(){
+  const [open,setOpen]=useState(false),path=usePathname(),first=path.split('/').filter(Boolean)[0],locale:Locale=isLocale(first)?first:'pt-br',copy=dictionary[locale];
+  if(path.startsWith('/admin'))return null;
+  const navigation=keys.map(key=>[localizedPath(locale,key),copy.nav[key]] as const);
+  function change(next:Locale){
+    document.cookie=`tbcc-locale=${next}; path=/; max-age=31536000; samesite=lax`;
+    window.location.assign(switchLocalePath(path,next));
+  }
+  return <header className="header"><div className="container"><nav className="nav" aria-label={locale==='en'?'Main navigation':locale==='es'?'Navegación principal':'Navegação principal'}><BrandLockup/><div className="links">{navigation.map(([href,label])=><Link key={href} href={href}>{label}</Link>)}</div><label className="language-switcher"><Globe2/><span className="sr-only">{copy.language}</span><select value={locale} onChange={event=>change(event.target.value as Locale)} aria-label={copy.language}>{locales.map(item=><option value={item} key={item}>{localeConfig[item].short}</option>)}</select></label><button className="menu-button" aria-label={open?copy.closeMenu:copy.openMenu} onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</button></nav>{open&&<div className="mobile">{navigation.map(([href,label])=><Link onClick={()=>setOpen(false)} key={href} href={href}>{label}</Link>)}<label className="mobile-language"><span>{copy.language}</span><select value={locale} onChange={event=>change(event.target.value as Locale)}>{locales.map(item=><option value={item} key={item}>{localeConfig[item].label}</option>)}</select></label></div>}</div></header>;
+}
