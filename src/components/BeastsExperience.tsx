@@ -12,33 +12,37 @@ import {
 } from 'lucide-react';
 import { useState, type CSSProperties, type ReactNode } from 'react';
 import { beastCategories, beasts, realmRecords } from '@/data/bestiary';
+import {
+  bestiaryUi,
+  categoryLabels,
+  localizedBeasts,
+  realmLabels,
+  threatLabels,
+} from '@/data/bestiary-i18n';
+import type { Locale } from '@/lib/i18n';
 
 const threatRank = { Moderate: 1, High: 2, Severe: 3, Cataclysmic: 4 } as const;
-const evidence = [
-  ['FOOTPRINT 07', 'Heat remained beneath 11 inches of snow.'],
-  ['CLAW 03', 'Blackstone scored without metal residue.'],
-  ['OVUM 02', 'Shell responds to distant thunder.'],
-  ['SKULL 14', 'Found facing the Frost Crown.'],
-  ['PLATE 09', 'Ironhold steel, folded inward.'],
-  ['BLADE 21', 'Edge vitrified in a single breath.'],
-  ['RUIN 05', 'No tool marks on the breach.'],
-  ['SIGHTING 32', 'Witness account sealed by the Crown.'],
-];
-
-export function BeastsExperience() {
-  const [selected, setSelected] = useState(beasts[0]),
+export function BeastsExperience({ locale }: { locale: Locale }) {
+  const records = localizedBeasts(locale),
+    copy = bestiaryUi[locale],
+    categories = categoryLabels[locale],
+    threats = threatLabels[locale],
+    realms = realmLabels[locale],
+    [selectedSlug, setSelectedSlug] = useState(beasts[0].slug),
+    selected =
+      records.find((beast) => beast.slug === selectedSlug) || records[0],
     [category, setCategory] =
       useState<(typeof beastCategories)[number]>('All records');
   const visible =
     category === 'All records'
-      ? beasts
-      : beasts.filter((beast) => beast.category === category);
+      ? records
+      : records.filter((beast) => beast.category === category);
   return (
     <article className="bestiary">
       <header className="bestiary-hero">
         <Image
           src="/images/bestiary/beasts-hero.webp"
-          alt="A colossal antlered beast watching from ruined woodland"
+          alt={copy.heroAlt}
           fill
           priority
           sizes="100vw"
@@ -51,18 +55,19 @@ export function BeastsExperience() {
             The Black Banner Chronicles · Codex Bestiarum
           </span>
           <h1>
-            Beasts <i>of</i>
+            {copy.heroNoun} <i>{copy.heroPrep}</i>
             <br />
             Asterheim
           </h1>
-          <p>“Every legend begins with a survivor.”</p>
+          <p>{copy.quote}</p>
           <a href="#bestiary-map" className="bestiary-cta">
-            <Compass /> Explore the Bestiary <ChevronDown />
+            <Compass /> {copy.explore} <ChevronDown />
           </a>
         </div>
         <div className="bestiary-folio">
-          Folio I<br />
-          <b>Restricted Archive</b>
+          {copy.folio}
+          <br />
+          <b>{copy.restricted}</b>
         </div>
       </header>
 
@@ -74,46 +79,33 @@ export function BeastsExperience() {
           <span>VI</span>
         </div>
         <div className="manuscript-copy">
-          <span className="bestiary-kicker">
-            A warning to those who turn these pages
-          </span>
-          <h2 id="bestiary-intro-title">The surviving leaves</h2>
-          <p className="dropcap">
-            For centuries, pathfinders, royal hunters and nameless survivors
-            recorded the creatures of the Six Realms. Most pages were lost to
-            fire, salt and frightened hands. What remains now forms the official
-            Bestiary of Asterheim.
-          </p>
-          <p>
-            Read not as a scholar alone. Every mark was purchased with a life,
-            every map drawn from a road someone failed to return by.
-          </p>
+          <span className="bestiary-kicker">{copy.warning}</span>
+          <h2 id="bestiary-intro-title">{copy.leaves}</h2>
+          <p className="dropcap">{copy.intro1}</p>
+          <p>{copy.intro2}</p>
           <div className="scribe-signature">
-            Elias Crow <span>Keeper of the Black Archive</span>
+            Elias Crow <span>{copy.keeper}</span>
           </div>
         </div>
         <aside className="margin-note">
           <Feather />
-          <p>“If the ink turns warm, close the book.”</p>
-          <small>— note found in the Kaldr folio</small>
+          <p>{copy.warmInk}</p>
+          <small>{copy.kaldrNote}</small>
         </aside>
       </section>
 
       <section id="bestiary-map" className="bestiary-map-section">
         <div className="bestiary-section-head">
           <div>
-            <span className="bestiary-kicker">Territories & migration</span>
-            <h2>The creature map</h2>
+            <span className="bestiary-kicker">{copy.territories}</span>
+            <h2>{copy.mapTitle}</h2>
           </div>
-          <p>
-            Six crowns. Six realms. No border has ever stopped what lives beyond
-            the torchlight.
-          </p>
+          <p>{copy.mapText}</p>
         </div>
         <div className="creature-map">
           <Image
             src="/images/atlas/asterheim-atlas-v1.webp"
-            alt="Map of the Six Realms of Asterheim"
+            alt={copy.mapAlt}
             fill
             sizes="(max-width: 900px) 100vw, 1200px"
           />
@@ -123,20 +115,27 @@ export function BeastsExperience() {
               key={realm.name}
               className="beast-marker"
               style={{ left: `${realm.x}%`, top: `${realm.y}%` }}
-              aria-label={`${realm.name}: ${realm.count} recorded species`}
+              aria-label={`${realms[realm.name]}: ${realm.count} ${copy.species}`}
             >
               <span />
               <div>
-                <small>{realm.name}</small>
-                <strong>{realm.count} recorded species</strong>
-                <em>Danger · {realm.danger}</em>
-                <b>Dominant · {realm.dominant}</b>
+                <small>{realms[realm.name]}</small>
+                <strong>
+                  {realm.count} {copy.species}
+                </strong>
+                <em>
+                  {copy.danger} ·{' '}
+                  {threats[realm.danger as keyof typeof threats]}
+                </em>
+                <b>
+                  {copy.dominant} · {realm.dominant}
+                </b>
               </div>
             </button>
           ))}
           <div className="map-legend">
             <MapPin />
-            <span>Hover the royal seals to reveal field intelligence</span>
+            <span>{copy.hover}</span>
           </div>
         </div>
       </section>
@@ -144,17 +143,15 @@ export function BeastsExperience() {
       <section className="bestiary-index" aria-labelledby="index-title">
         <div className="bestiary-section-head">
           <div>
-            <span className="bestiary-kicker">Taxonomia prohibita</span>
-            <h2 id="index-title">The forbidden index</h2>
+            <span className="bestiary-kicker">{copy.taxonomy}</span>
+            <h2 id="index-title">{copy.index}</h2>
           </div>
-          <p>
-            Classification follows the last decree of the Six Crown Council.
-          </p>
+          <p>{copy.indexText}</p>
         </div>
         <div
           className="category-ribbon"
           role="list"
-          aria-label="Creature categories"
+          aria-label={copy.categories}
         >
           {beastCategories.map((item) => (
             <button
@@ -162,7 +159,7 @@ export function BeastsExperience() {
               onClick={() => setCategory(item)}
               className={category === item ? 'active' : ''}
             >
-              {item}
+              {categories[item]}
             </button>
           ))}
         </div>
@@ -172,7 +169,7 @@ export function BeastsExperience() {
               <button
                 className={`folio-card ${selected.slug === beast.slug ? 'selected' : ''}`}
                 key={beast.slug}
-                onClick={() => setSelected(beast)}
+                onClick={() => setSelectedSlug(beast.slug)}
                 style={{ '--folio-index': index } as CSSProperties}
               >
                 <div className="folio-image">
@@ -183,20 +180,19 @@ export function BeastsExperience() {
                     sizes="(max-width: 760px) 90vw, 320px"
                   />
                 </div>
-                <span>Record {String(index + 1).padStart(2, '0')}</span>
+                <span>
+                  {copy.record} {String(index + 1).padStart(2, '0')}
+                </span>
                 <h3>{beast.name}</h3>
                 <i>{beast.scientific}</i>
                 <p>{beast.epithet}</p>
                 <b className={`threat threat-${threatRank[beast.threat]}`}>
-                  {beast.threat} threat
+                  {threats[beast.threat]} {copy.threat}
                 </b>
               </button>
             ))
           ) : (
-            <p className="empty-record">
-              The surviving leaves contain no unsealed record in this
-              classification.
-            </p>
+            <p className="empty-record">{copy.empty}</p>
           )}
         </div>
       </section>
@@ -211,10 +207,13 @@ export function BeastsExperience() {
           />
           <div className="record-image-shade" />
           <span className="record-number">
-            NO. {String(beasts.indexOf(selected) + 1).padStart(3, '0')}
+            NO.{' '}
+            {String(
+              records.findIndex((beast) => beast.slug === selected.slug) + 1,
+            ).padStart(3, '0')}
           </span>
           <div className="record-caption">
-            <small>Last confirmed sighting</small>
+            <small>{copy.lastSighting}</small>
             <p>
               <MapPin />
               {selected.position}
@@ -223,9 +222,7 @@ export function BeastsExperience() {
         </div>
         <div className="record-page">
           <div className="record-ornament">✦</div>
-          <span className="bestiary-kicker">
-            Royal field record · Eyes only
-          </span>
+          <span className="bestiary-kicker">{copy.royalRecord}</span>
           <h2>{selected.name}</h2>
           <p className="record-latin">
             {selected.scientific} · “{selected.epithet}”
@@ -233,70 +230,70 @@ export function BeastsExperience() {
           <blockquote>{selected.chronicle}</blockquote>
           <dl className="record-specs">
             <div>
-              <dt>Realm</dt>
+              <dt>{copy.labels[0]}</dt>
               <dd>{selected.realm}</dd>
             </div>
             <div>
-              <dt>Habitat</dt>
+              <dt>{copy.labels[1]}</dt>
               <dd>{selected.habitat}</dd>
             </div>
             <div>
-              <dt>Class</dt>
-              <dd>{selected.category}</dd>
+              <dt>{copy.labels[2]}</dt>
+              <dd>{categories[selected.category]}</dd>
             </div>
             <div>
-              <dt>Threat</dt>
-              <dd>{selected.threat}</dd>
+              <dt>{copy.labels[3]}</dt>
+              <dd>{threats[selected.threat]}</dd>
             </div>
             <div>
-              <dt>Element</dt>
+              <dt>{copy.labels[4]}</dt>
               <dd>{selected.element}</dd>
             </div>
             <div>
-              <dt>Height</dt>
+              <dt>{copy.labels[5]}</dt>
               <dd>{selected.height}</dd>
             </div>
             <div>
-              <dt>Weight</dt>
+              <dt>{copy.labels[6]}</dt>
               <dd>{selected.weight}</dd>
             </div>
             <div>
-              <dt>Lifespan</dt>
+              <dt>{copy.labels[7]}</dt>
               <dd>{selected.lifespan}</dd>
             </div>
             <div>
-              <dt>First record</dt>
+              <dt>{copy.labels[8]}</dt>
               <dd>{selected.firstSeen}</dd>
             </div>
           </dl>
         </div>
         <div className="record-notes">
-          <Note title="Observed behavior" icon={<BookOpen />}>
+          <Note title={copy.observed} icon={<BookOpen />}>
             {selected.behavior}
           </Note>
-          <Note title="History & consequence" icon={<Feather />}>
+          <Note title={copy.consequence} icon={<Feather />}>
             {selected.history}
           </Note>
-          <Note title="The world around it" icon={<Compass />}>
+          <Note title={copy.world} icon={<Compass />}>
             {selected.worldImpact}
           </Note>
           <div className="tactical-notes">
-            <List title="Weaknesses" items={selected.weaknesses} />
-            <List title="Resistances" items={selected.resistances} />
-            <List title="Attacks" items={selected.attacks} />
-            <List title="Rare remains" items={selected.drops} />
+            <List title={copy.weaknesses} items={selected.weaknesses} />
+            <List title={copy.resistances} items={selected.resistances} />
+            <List title={copy.attacks} items={selected.attacks} />
+            <List title={copy.remains} items={selected.drops} />
           </div>
           <div className="lore-margins">
             <p>
-              <b>Curiosity</b>
+              <b>{copy.curiosity}</b>
               {selected.curiosities}
             </p>
             <p>
-              <b>Legend</b>
+              <b>{copy.legend}</b>
               {selected.legends}
             </p>
             <p>
-              <b>Other beasts</b>
+              <b>{copy.other}</b>
               {selected.relations}
             </p>
             <p>
@@ -312,16 +309,13 @@ export function BeastsExperience() {
       <section className="evidence-section">
         <div className="bestiary-section-head">
           <div>
-            <span className="bestiary-kicker">Recovered evidence</span>
-            <h2>What the dead left behind</h2>
+            <span className="bestiary-kicker">{copy.recovered}</span>
+            <h2>{copy.deadLeft}</h2>
           </div>
-          <p>
-            Catalogued fragments from sites where the creature was seen — or
-            where something survived it.
-          </p>
+          <p>{copy.evidenceText}</p>
         </div>
         <div className="evidence-grid">
-          {evidence.map(([title, text], index) => (
+          {copy.evidence.map(([title, text], index) => (
             <article
               key={title}
               style={{ '--evidence': index } as CSSProperties}
@@ -332,21 +326,21 @@ export function BeastsExperience() {
               </div>
               <h3>{title}</h3>
               <p>{text}</p>
-              <small>Black Archive · Sealed</small>
+              <small>{copy.sealed}</small>
             </article>
           ))}
         </div>
       </section>
       <footer className="bestiary-closing">
         <ShieldAlert />
-        <span className="bestiary-kicker">End of surviving folio</span>
+        <span className="bestiary-kicker">{copy.end}</span>
         <h2>
-          Some pages were not lost.
+          {copy.removed1}
           <br />
-          They were removed.
+          {copy.removed2}
         </h2>
         <a href="#bestiary-map" className="bestiary-cta">
-          Return to the map
+          {copy.returnMap}
         </a>
       </footer>
     </article>

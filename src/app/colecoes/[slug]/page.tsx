@@ -16,6 +16,7 @@ import { requestLocale } from '@/lib/locale-server';
 import { localeDiagnostics } from '@/lib/localized-content';
 import type { Marketplace, MarketplaceListing } from '@/types/marketplace';
 import { BeastsExperience } from '@/components/BeastsExperience';
+import { bestiaryMeta } from '@/data/bestiary-i18n';
 
 export function generateStaticParams() {
   return collections.map((x) => ({ slug: x.slug }));
@@ -36,10 +37,10 @@ export async function generateMetadata({
   const canonical = localizedPath(locale, 'collections', slug);
   const isBestiary = slug === 'beasts-of-asterheim';
   const title = isBestiary
-    ? 'Beasts of Asterheim — The Official Bestiary'
+    ? bestiaryMeta[locale].title
     : collection?.name || 'Collection';
   const description = isBestiary
-    ? 'The surviving field records of the creatures that haunt the Six Realms of Asterheim.'
+    ? bestiaryMeta[locale].description
     : collection?.description;
   return {
     title,
@@ -71,7 +72,8 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const [{ slug }, locale] = await Promise.all([params, requestLocale()]);
-  if (slug === 'beasts-of-asterheim') return <BeastsExperience />;
+  if (slug === 'beasts-of-asterheim')
+    return <BeastsExperience locale={locale} />;
   const [collectionResult, characterResults, media, markets, listings] =
     await Promise.all([
       getLocalizedPublishedEntity<Collection>('collections', slug, locale),
