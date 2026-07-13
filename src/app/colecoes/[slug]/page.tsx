@@ -1,1 +1,44 @@
-export const dynamic='force-dynamic';import Image from 'next/image';import {notFound} from 'next/navigation';import {collections,characters} from '@/data/content';import {listCharacterMedia} from '@/lib/media-repository';import {mediaSrc} from '@/lib/media';import {CharacterPoster} from '@/components/CharacterPoster';import {getPublishedData} from '@/lib/cms-public';import type {Marketplace,MarketplaceListing} from '@/types/marketplace';export function generateStaticParams(){return collections.map(x=>({slug:x.slug}))}export default async function Page({params}:{params:Promise<{slug:string}>}){const {slug}=await params,c=collections.find(x=>x.slug===slug);if(!c)notFound();const chars=characters.filter(x=>x.collection===slug),[media,markets,listings]=await Promise.all([listCharacterMedia(),getPublishedData<Marketplace>('marketplaces'),getPublishedData<MarketplaceListing>('marketplaceListings')]),cover=chars[0]?media[chars[0].slug]?.primary||chars[0].image:'/images/hero/banner-chronicles.webp';return <article className="collection-book" style={{'--collection':c.accent} as React.CSSProperties}><header className="collection-hero"><Image src={mediaSrc(cover,'full')} alt={c.name} fill priority sizes="100vw"/><div/><div className="container"><span className="eyebrow">Coleção · {c.count} crônicas</span><h1 className="serif">{c.name}</h1><blockquote>“{c.description}”</blockquote><p>{c.status} · Uma saga contada em personagens e resina.</p><a className="button" href="#collection-cast">Conhecer o elenco</a></div></header><section id="collection-cast" className="legend-section"><div className="container"><span className="eyebrow">Personagens da saga</span><h2 className="serif collection-title">Um estandarte. Muitos destinos.</h2><div className="poster-grid">{chars.map((x,index)=><CharacterPoster key={x.slug} name={x.name} title={x.title||x.scale} quote={x.summary} href={`/personagens/${x.slug}`} image={media[x.slug]?.primary||x.image} index={index}/>)}</div></div></section><section className="legend-section legend-dark"><div className="container"><span className="eyebrow">Progressão da coleção</span><h2 className="serif collection-title">Do conceito ao marketplace</h2><div className="collection-progress">{chars.map(character=>{const listing=listings.find(x=>x.entityId===character.slug),market=markets.find(x=>x.id===listing?.marketplaceId);return <div className="collection-progress-row" key={character.slug}><span aria-hidden>{listing?.status==='available'?'✓':listing?.status==='coming-soon'?'◷':'○'}</span><strong>{character.name}</strong><small>{market?.name||'Ainda não anunciado'}</small><small>{listing?new Intl.NumberFormat('pt-BR',{style:'currency',currency:listing.currency}).format(listing.price):character.status}</small></div>})}</div></div></section></article>}
+export const dynamic = 'force-dynamic';
+import type { Metadata } from 'next';
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
+import { collections, type Character, type Collection } from '@/data/content';
+import { listCharacterMedia } from '@/lib/media-repository';
+import { mediaSrc } from '@/lib/media';
+import { CharacterPoster } from '@/components/CharacterPoster';
+import { getLocalizedPublishedData, getLocalizedPublishedEntity, getPublishedData } from '@/lib/cms-public';
+import { formatPrice, localizedAlternates, localizedPath } from '@/lib/i18n';
+import { requestLocale } from '@/lib/locale-server';
+import { localeDiagnostics } from '@/lib/localized-content';
+import type { Marketplace, MarketplaceListing } from '@/types/marketplace';
+
+export function generateStaticParams() { return collections.map((x) => ({ slug: x.slug })); }
+
+export async function generateMetadata({ params }: { params: Promise<{slug:string}> }): Promise<Metadata> {
+  const [{ slug }, locale] = await Promise.all([params, requestLocale()]);
+  const result = await getLocalizedPublishedEntity<Collection>('collections', slug, locale);
+  const collection = result?.data;
+  const canonical = localizedPath(locale, 'collections', slug);
+  return { title: collection?.name || 'Collection', description: collection?.description, alternates: { canonical, languages: localizedAlternates('collections', slug) }, openGraph: { title: collection?.name, description: collection?.description, locale: locale === 'pt-br' ? 'pt_BR' : locale } };
+}
+
+export default async function Page({ params }: { params: Promise<{slug:string}> }) {
+  const [{ slug }, locale] = await Promise.all([params, requestLocale()]);
+  const [collectionResult, characterResults, media, markets, listings] = await Promise.all([
+    getLocalizedPublishedEntity<Collection>('collections', slug, locale),
+    getLocalizedPublishedData<Character>('characters', locale),
+    listCharacterMedia(),
+    getPublishedData<Marketplace>('marketplaces'),
+    getPublishedData<MarketplaceListing>('marketplaceListings'),
+  ]);
+  if (!collectionResult) notFound();
+  const collection = collectionResult.data;
+  const characters = characterResults.map((x) => x.data).filter((x) => x.collection === slug);
+  const cover = characters[0] ? media[characters[0].slug]?.primary || characters[0].image : '/images/hero/banner-chronicles.webp';
+  const copy = locale === 'en' ? { chapter:'Collection', chronicles:'chronicles', saga:'A saga told through characters and resin.', cast:'Meet the cast', people:'Characters in the saga', title:'One banner. Many destinies.', progress:'Collection progress', journey:'From concept to marketplace', missing:'Not announced yet' } : locale === 'es' ? { chapter:'Colección', chronicles:'crónicas', saga:'Una saga contada en personajes y resina.', cast:'Conocer el elenco', people:'Personajes de la saga', title:'Un estandarte. Muchos destinos.', progress:'Progreso de la colección', journey:'Del concepto al marketplace', missing:'Aún no anunciado' } : { chapter:'Coleção', chronicles:'crônicas', saga:'Uma saga contada em personagens e resina.', cast:'Conhecer o elenco', people:'Personagens da saga', title:'Um estandarte. Muitos destinos.', progress:'Progressão da coleção', journey:'Do conceito ao marketplace', missing:'Ainda não anunciado' };
+  return <article className="collection-book" style={{'--collection':collection.accent} as React.CSSProperties} {...localeDiagnostics(collectionResult)}>
+    <header className="collection-hero"><Image src={mediaSrc(cover,'full')} alt={String((collection as Collection & {imageAlt?:string}).imageAlt || collection.name)} fill priority sizes="100vw"/><div/><div className="container"><span className="eyebrow">{copy.chapter} · {collection.count} {copy.chronicles}</span><h1 className="serif">{collection.name}</h1><blockquote>“{collection.description}”</blockquote><p>{collection.status} · {copy.saga}</p><a className="button" href="#collection-cast">{copy.cast}</a></div></header>
+    <section id="collection-cast" className="legend-section"><div className="container"><span className="eyebrow">{copy.people}</span><h2 className="serif collection-title">{copy.title}</h2><div className="poster-grid">{characters.map((character,index)=><CharacterPoster key={character.slug} name={character.name} title={character.title||character.scale} quote={character.summary} href={localizedPath(locale,'characters',character.slug)} image={media[character.slug]?.primary||character.image} index={index}/>)}</div></div></section>
+    <section className="legend-section legend-dark"><div className="container"><span className="eyebrow">{copy.progress}</span><h2 className="serif collection-title">{copy.journey}</h2><div className="collection-progress">{characters.map((character)=>{const listing=listings.find((x)=>x.entityId===character.slug),market=markets.find((x)=>x.id===listing?.marketplaceId);return <div className="collection-progress-row" key={character.slug}><span aria-hidden>{listing?.status==='available'?'✓':listing?.status==='coming-soon'?'◷':'○'}</span><strong>{character.name}</strong><small>{market?.name||copy.missing}</small><small>{listing?formatPrice(listing.price,listing.currency,locale):character.status}</small></div>})}</div></div></section>
+  </article>;
+}

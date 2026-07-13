@@ -4,14 +4,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import {
-  collections,
-  guardians,
-  crowns,
-  realms,
-  timeline,
   type Character,
+  type Collection,
+  type Crown,
+  type Guardian,
+  type Realm,
+  type TimelineEvent,
 } from '@/data/content';
-import { getPublishedData } from '@/lib/cms-public';
+import { getLocalizedPublishedData, getLocalizedPublishedEntity, getPublishedData } from '@/lib/cms-public';
 import { getCharacterMedia } from '@/lib/media-repository';
 import { getCharacterNarrative } from '@/lib/character-narrative';
 import { mediaSrc } from '@/lib/media';
@@ -27,19 +27,21 @@ import {
 import { Figure, Specs } from '@/components/UI';
 import { MarketplaceGrid } from '@/components/marketplace/Marketplace';
 import type { Marketplace, MarketplaceListing } from '@/types/marketplace';
+import { localizedAlternates, localizedPath } from '@/lib/i18n';
+import { requestLocale } from '@/lib/locale-server';
+import { localeDiagnostics } from '@/lib/localized-content';
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params,
-    c = (await getPublishedData<Character>('characters')).find(
-      (x) => x.slug === slug,
-    );
+  const [{ slug }, locale] = await Promise.all([params, requestLocale()]),
+    c = (await getLocalizedPublishedEntity<Character>('characters', slug, locale))?.data,
+    canonical = localizedPath(locale, 'characters', slug);
   return {
     title: c?.name || 'Personagem',
     description: c?.summary,
-    alternates: { canonical: `/personagens/${slug}` },
+    alternates: { canonical, languages: localizedAlternates('characters', slug) },
     openGraph: {
       title: c?.name,
       description: c?.summary,
@@ -56,17 +58,24 @@ export default async function Page({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params,
-    characters = await getPublishedData<Character>('characters'),
+  const [{ slug }, locale] = await Promise.all([params, requestLocale()]),
+    characterResults = await getLocalizedPublishedData<Character>('characters', locale),
+    characters = characterResults.map((x) => x.data),
     index = characters.findIndex((x) => x.slug === slug),
-    c = characters[index];
+    c = characters[index], characterResult = characterResults[index];
   if (!c) notFound();
-  const [media, marketplaces, allListings] = await Promise.all([
+  const [media, marketplaces, allListings, collectionResults, guardianResults, crownResults, realmResults, timelineResults] = await Promise.all([
       getCharacterMedia(slug),
       getPublishedData<Marketplace>('marketplaces'),
       getPublishedData<MarketplaceListing>('marketplaceListings'),
+      getLocalizedPublishedData<Collection>('collections', locale),
+      getLocalizedPublishedData<Guardian>('guardians', locale),
+      getLocalizedPublishedData<Crown>('crowns', locale),
+      getLocalizedPublishedData<Realm>('realms', locale),
+      getLocalizedPublishedData<TimelineEvent>('timeline', locale),
     ]),
     main = media.primary || c.image,
+    collections = collectionResults.map((x)=>x.data), guardians = guardianResults.map((x)=>x.data), crowns = crownResults.map((x)=>x.data), realms = realmResults.map((x)=>x.data), timeline = timelineResults.map((x)=>x.data),
     collection = collections.find((x) => x.slug === c.collection),
     guardian = guardians.find((x) => x.name === c.guardian),
     crown = crowns.find((x) => x.name === c.crown),
@@ -79,7 +88,7 @@ export default async function Page({
     listings = allListings.filter((x) => x.entityId === c.slug),
     available = listings.find((x) => x.status === 'available');
   return (
-    <article className="character-book">
+    <article className="character-book" {...localeDiagnostics(characterResult)}>
       {available && <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify({'@context':'https://schema.org','@type':'Product',name:c.name,image:mediaSrc(main,'full'),description:c.summary,offers:{'@type':'Offer',url:available.url,price:available.price,priceCurrency:available.currency,availability:'https://schema.org/InStock'}})}}/>}
       <header className="character-hero">
         <Image
@@ -308,7 +317,7 @@ export default async function Page({
               <h2 className="serif">{realm.name}</h2>
               <AsterheimMap />
               <p>
-                <Link className="button ghost" href={`/reinos/${realm.slug}`}>
+                <Link className="button ghost" href={localizedPath(locale,'realms',realm.slug)}>
                   Conhecer arquitetura e história
                 </Link>
               </p>

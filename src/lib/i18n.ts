@@ -120,3 +120,11 @@ export function formatPrice(amount: number, currency: string, locale: Locale) {
     currency,
   }).format(amount);
 }
+export function localizedAlternates(key: RouteKey, slug?: string) {
+  return {
+    'pt-BR': localizedPath('pt-br', key, slug),
+    en: localizedPath('en', key, slug),
+    es: localizedPath('es', key, slug),
+    'x-default': localizedPath('pt-br', key, slug),
+  };
+}
