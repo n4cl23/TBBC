@@ -49,7 +49,18 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL(`/${locale}`, request.url));
   }
   if (isLocale(parts[0])) {
-    const locale = parts.shift() as Locale,
+    const locale = parts.shift() as Locale;
+    let duplicatedLocale = false;
+    while (parts[0] && isLocale(parts[0])) {
+      parts.shift();
+      duplicatedLocale = true;
+    }
+    if (duplicatedLocale) {
+      const canonicalUrl = request.nextUrl.clone();
+      canonicalUrl.pathname = `/${[locale, ...parts].join('/')}`;
+      return NextResponse.redirect(canonicalUrl, 308);
+    }
+    const
       segment = parts.shift() || '',
       internal = internalSegment(segment),
       target = `/${[internal, ...parts].filter(Boolean).join('/')}`;
