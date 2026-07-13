@@ -4,6 +4,7 @@ import './globals.css';
 import './sprint2.css';
 import './sprint4.css';
 import './sprint5.css';
+import './sprint5-fixes.css';
 import {Header} from '@/components/Header';
 import {Footer} from '@/components/Footer';
 
