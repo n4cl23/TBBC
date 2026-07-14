@@ -18,6 +18,7 @@ import './bestiary.css';
 import './character-codex.css';
 import './i18n.css';
 import './art-direction.css';
+import './artbook-rhythm.css';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { dictionary, localeConfig } from '@/lib/i18n';

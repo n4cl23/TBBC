@@ -23,7 +23,6 @@ import {
   type Crown,
   type Guardian,
   type Realm,
-  type TimelineEvent,
 } from '@/data/content';
 import {
   getLocalizedPublishedData,
@@ -102,7 +101,6 @@ export default async function Page({
     guardianResults,
     crownResults,
     realmResults,
-    timelineResults,
   ] = await Promise.all([
     getCharacterMedia(slug),
     getPublishedData<Marketplace>('marketplaces'),
@@ -111,14 +109,12 @@ export default async function Page({
     getLocalizedPublishedData<Guardian>('guardians', locale),
     getLocalizedPublishedData<Crown>('crowns', locale),
     getLocalizedPublishedData<Realm>('realms', locale),
-    getLocalizedPublishedData<TimelineEvent>('timeline', locale),
   ]);
 
   const collections = collectionResults.map((result) => result.data);
   const guardians = guardianResults.map((result) => result.data);
   const crowns = crownResults.map((result) => result.data);
   const realms = realmResults.map((result) => result.data);
-  const timeline = timelineResults.map((result) => result.data);
   const collection = collections.find(
     (item) => item.slug === character.collection,
   );
@@ -136,20 +132,19 @@ export default async function Page({
   );
   const available = listings.find((listing) => listing.status === 'available');
 
-  const timelineSource = timeline.length
-    ? [
-        timeline[0],
-        timeline[index % timeline.length],
-        timeline[(index + 2) % timeline.length],
-        timeline[timeline.length - 1],
-      ]
-    : [];
-  const timelineCopy = [
+  const timelineSource = character.timeline || [];
+  const storyChapters = [
     narrative.origin,
     narrative.rise,
     narrative.fall,
     narrative.current,
-  ];
+    narrative.legacy,
+  ]
+    .map((text, chapterIndex) => ({
+      text,
+      title: copy.storyParts[chapterIndex],
+    }))
+    .filter((chapter) => chapter.text.trim().length > 0);
 
   const galleryCandidates = [
     heroImage,
@@ -220,6 +215,32 @@ export default async function Page({
       detail: character.technicalSheet[0],
       icon: <Sword />,
     },
+    ...(character.allies || []).map((relationSlug) => {
+      const ally = characters.find((item) => item.slug === relationSlug);
+      return (
+        ally && {
+          id: `ally-${ally.slug}`,
+          label: ally.name,
+          type: copy.relationTypes.ally,
+          detail: ally.summary,
+          href: localizedPath(locale, 'characters', ally.slug),
+          icon: <Shield />,
+        }
+      );
+    }),
+    ...(character.enemies || []).map((relationSlug) => {
+      const enemy = characters.find((item) => item.slug === relationSlug);
+      return (
+        enemy && {
+          id: `enemy-${enemy.slug}`,
+          label: enemy.name,
+          type: copy.relationTypes.enemy,
+          detail: enemy.summary,
+          href: localizedPath(locale, 'characters', enemy.slug),
+          icon: <Sword />,
+        }
+      );
+    }),
   ].filter(Boolean) as Array<{
     id: string;
     label: string;
@@ -347,16 +368,10 @@ export default async function Page({
               title={narrative.epicTitle}
             />
             <div className="codex-story-grid">
-              {[
-                narrative.origin,
-                narrative.rise,
-                narrative.fall,
-                narrative.current,
-                narrative.legacy,
-              ].map((text, storyIndex) => (
-                <article key={copy.storyParts[storyIndex]}>
+              {storyChapters.map(({ text, title }, storyIndex) => (
+                <article key={title}>
                   <span>{String(storyIndex + 1).padStart(2, '0')}</span>
-                  <h3>{copy.storyParts[storyIndex]}</h3>
+                  <h3>{title}</h3>
                   <p>{text}</p>
                 </article>
               ))}
@@ -375,14 +390,14 @@ export default async function Page({
             />
             <div className="codex-timeline">
               {timelineSource.map((event, eventIndex) => (
-                <article key={`${event.id}-${eventIndex}`}>
+                <article key={`${event.year}-${eventIndex}`}>
                   <div>
                     <Sparkles />
                   </div>
                   <small>{event.year}</small>
-                  <span>{copy.timelineParts[eventIndex]}</span>
+                  <span>{copy.timelineParts[eventIndex] || copy.current}</span>
                   <h3>{event.title}</h3>
-                  <p>{timelineCopy[eventIndex]}</p>
+                  <p>{event.description}</p>
                 </article>
               ))}
             </div>
@@ -424,6 +439,11 @@ export default async function Page({
                   title={copy.goals}
                   items={narrative.goals}
                   tone="light"
+                />
+                <PersonalityFacet
+                  title={copy.rumors}
+                  items={narrative.rumors}
+                  tone="gold"
                 />
                 <PersonalityFacet
                   title={copy.motivations}
@@ -603,39 +623,74 @@ export default async function Page({
 
       <Reveal>
         <section className="codex-miniature" id="miniature">
-          <Image
-            src={heroImage}
-            alt={`${copy.miniatureTitle}: ${character.name}`}
-            fill
-            sizes="100vw"
-          />
-          <div className="codex-miniature-shade" />
-          <div className="container codex-miniature-copy">
-            <span className="codex-kicker">{copy.miniature}</span>
-            <h2>{copy.miniatureTitle}</h2>
-            <p>{character.relatedMiniature}</p>
-            <dl className="codex-specs">
-              <div>
-                <dt>{copy.scale}</dt>
-                <dd>{character.scale}</dd>
+          <div className="container codex-miniature-layout">
+            <div className="codex-miniature-media">
+              <Image
+                src={heroImage}
+                alt={`${copy.miniatureTitle}: ${character.name}`}
+                fill
+                sizes="(max-width: 760px) 100vw, 58vw"
+              />
+              <div className="codex-miniature-shade" />
+            </div>
+            <div className="codex-miniature-copy">
+              <span className="codex-kicker">{copy.miniature}</span>
+              <h2>{copy.miniatureTitle}</h2>
+              <p>{character.relatedMiniature}</p>
+              <dl className="codex-specs">
+                <div>
+                  <dt>{copy.scale}</dt>
+                  <dd>{character.scale}</dd>
+                </div>
+                <div>
+                  <dt>{copy.construction}</dt>
+                  <dd>{character.multipart ? copy.yes : copy.no}</dd>
+                </div>
+                <div>
+                  <dt>{copy.parts}</dt>
+                  <dd>{character.printInfo.parts}</dd>
+                </div>
+                <div>
+                  <dt>{copy.supports}</dt>
+                  <dd>{character.printInfo.supports}</dd>
+                </div>
+                <div>
+                  <dt>{copy.printStatus}</dt>
+                  <dd>
+                    {character.lycheeReady ? copy.ready : copy.validating}
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </section>
+      </Reveal>
+
+      <Reveal>
+        <section
+          className="codex-section codex-dark codex-process"
+          id="process"
+        >
+          <div className="container">
+            <CodexHeading
+              index="IX"
+              eyebrow={copy.process}
+              title={copy.processTitle}
+            />
+            <ol className="creative-process">
+              {copy.processSteps.map((step, stepIndex) => (
+                <li key={step}>
+                  <span>{String(stepIndex + 1).padStart(2, '0')}</span>
+                  <strong>{step}</strong>
+                </li>
+              ))}
+            </ol>
+            {character.prompt ? (
+              <div className="official-prompt">
+                <span className="codex-kicker">{copy.promptLabel}</span>
+                <blockquote>{character.prompt}</blockquote>
               </div>
-              <div>
-                <dt>{copy.construction}</dt>
-                <dd>{character.multipart ? copy.yes : copy.no}</dd>
-              </div>
-              <div>
-                <dt>{copy.parts}</dt>
-                <dd>{character.printInfo.parts}</dd>
-              </div>
-              <div>
-                <dt>{copy.supports}</dt>
-                <dd>{character.printInfo.supports}</dd>
-              </div>
-              <div>
-                <dt>{copy.printStatus}</dt>
-                <dd>{character.lycheeReady ? copy.ready : copy.validating}</dd>
-              </div>
-            </dl>
+            ) : null}
           </div>
         </section>
       </Reveal>
@@ -644,7 +699,7 @@ export default async function Page({
         <section className="codex-section codex-dark codex-art-bible">
           <div className="container">
             <CodexHeading
-              index="IX"
+              index="X"
               eyebrow={copy.artBible}
               title={copy.artTitle}
             />

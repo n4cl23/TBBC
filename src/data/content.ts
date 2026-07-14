@@ -1,72 +1,838 @@
-import type {MediaImage} from '@/types/media';
-export type Status='Em desenvolvimento'|'Conceito'|'Legado'|'Planejado';
-export interface Collection{slug:string;name:string;description:string;count:number;status:Status;accent:string;characters:string[]}
-export interface Weapon{id:string;name:string;type:string;legend:string}
-export interface PrintInfo{orientation:string;supports:string;parts:string;notes:string}
-export interface Character{slug:string;name:string;title?:string;collection:string;summary:string;story:string;image:string|MediaImage;gallery:(string|MediaImage)[];scale:string;status:Status;tags:string[];realm?:string;guardian?:string;crown?:string;weapon?:string;virtue?:string;prompt:string;technicalSheet:string[];printInfo:PrintInfo;relatedMiniature:string;printable:boolean;multipart:boolean;lycheeReady:boolean}
-export interface Guardian{slug:string;name:string;title:string;crown:string;weapon?:string;realm:string;element:string;virtue:string;summary:string;story:string;accent:string;symbol:string;scale:string;status:Status;prompt:string}
-export interface Crown{slug:string;name:string;material:string;element:string;guardian:string;realm:string;visual:string;history:string;concept:string;prompt:string;accent:string;image?:string}
-export interface Realm{slug:string;name:string;color:string;symbol:string;architecture:string;summary:string;accent:string;position:{x:number;y:number}}
-export interface GalleryItem{id:string;title:string;category:'Render'|'Concept'|'Print'|'Painted'|'Work in progress';collection?:string;character?:string;realm?:string;guardian?:string;image:string|MediaImage;alt:string;caption:string;order:number}
-export interface NewsArticle{slug:string;title:string;excerpt:string;date:string}
-export interface PrintProfile{name:string;scale:string;parts:string;status:string}
-export interface TimelineEvent{id:string;era:string;title:string;summary:string;year:string;accent:string}
-export const hero='/images/hero/banner-chronicles.webp';const fallback=hero;
-export const collections:Collection[]=[
- {slug:'black-banner-company',name:'The Black Banner Company',description:'Veteranos, assassinos, batedores e criaturas improváveis sob um mesmo estandarte.',count:10,status:'Em desenvolvimento',accent:'#8f3430',characters:['Black Fang Mercenary','Iron Bull','Silent Ash — Scout','Red Viper — Assassin','Durgan — Blacksmith','Old Garrick — Commander','Elias — Chronicler','Morwen — Herbalist','Finn — Quartermaster and Gambler','Rat King — Mascot']},
- {slug:'broken-mug-tavern',name:'The Broken Mug Tavern',description:'Uma taverna onde viajantes, músicos e lendas dividem a mesma mesa.',count:7,status:'Conceito',accent:'#b58d4d',characters:['Boris — Tavern Keeper','Lily — Tavern Maid','Hugo — Tavern Cook','Rowan — Bard','Old Bran','Milo — Stable Boy','Olaf — The Drunken Giant']},
- {slug:'iron-tankard-tavern',name:'Iron Tankard Tavern',description:'Habitantes, forasteiros e criaturas reunidos sob o peso das canecas de ferro.',count:12,status:'Em desenvolvimento',accent:'#77736b',characters:['Borin Stonebrew','Brakk Stonehide','Elias Crow','Finn Coppercoin','Gerhard Blackwolf','Grukk Iron Mug','Iron Tankard Waitress','Lyra','Morwen Iron Tankard','Rat King External','Sir Aldren','Tavern Mimic']},
- {slug:'legends-of-the-realm',name:'Legends of the Realm',description:'Grandes figuras e entidades que moldaram a história de Asterheim.',count:9,status:'Em desenvolvimento',accent:'#8eb7c8',characters:['The Fallen King','The Last Dragon Slayer','The Ancient Giant','The Vampire Lord','The Forest Guardian','The Demon Prince','The White Dragon','The Kraken Caller','The Iron Colossus']},
- {slug:'beasts-of-asterheim',name:'Beasts of Asterheim',description:'Criaturas primordiais que carregam a memória selvagem do continente.',count:4,status:'Conceito',accent:'#6f8754',characters:['Aegis — The First Sky King','Fenrir — The Moon Devourer','Aster — The World Heart','Skywind — Sovereign of the Endless Sky']},
- {slug:'six-crowns',name:'The Six Crowns of Asterheim',description:'Seis artefatos ancestrais ligados às forças fundamentais do mundo.',count:6,status:'Em desenvolvimento',accent:'#547fa8',characters:[]}
+import type { MediaImage } from '@/types/media';
+import {
+  createCharacterEditorial,
+  createCharacterPrompt,
+  type CharacterPersonality,
+  type CharacterTimelineEntry,
+} from '@/data/character-editorial';
+export type Status = 'Em desenvolvimento' | 'Conceito' | 'Legado' | 'Planejado';
+export interface Collection {
+  slug: string;
+  name: string;
+  description: string;
+  count: number;
+  status: Status;
+  accent: string;
+  characters: string[];
+}
+export interface Weapon {
+  id: string;
+  name: string;
+  type: string;
+  legend: string;
+}
+export interface PrintInfo {
+  orientation: string;
+  supports: string;
+  parts: string;
+  notes: string;
+}
+export interface Character {
+  slug: string;
+  name: string;
+  title?: string;
+  collection: string;
+  summary: string;
+  story: string;
+  subtitle?: string;
+  quote?: string;
+  origin?: string;
+  rise?: string;
+  conflict?: string;
+  currentState?: string;
+  legacy?: string;
+  symbol?: string;
+  rumors?: string[];
+  personality?: CharacterPersonality;
+  timeline?: CharacterTimelineEntry[];
+  allies?: string[];
+  enemies?: string[];
+  image: string | MediaImage;
+  gallery: (string | MediaImage)[];
+  scale: string;
+  status: Status;
+  tags: string[];
+  realm?: string;
+  guardian?: string;
+  crown?: string;
+  weapon?: string;
+  virtue?: string;
+  prompt: string;
+  technicalSheet: string[];
+  printInfo: PrintInfo;
+  relatedMiniature: string;
+  printable: boolean;
+  multipart: boolean;
+  lycheeReady: boolean;
+}
+export interface Guardian {
+  slug: string;
+  name: string;
+  title: string;
+  crown: string;
+  weapon?: string;
+  realm: string;
+  element: string;
+  virtue: string;
+  summary: string;
+  story: string;
+  accent: string;
+  symbol: string;
+  scale: string;
+  status: Status;
+  prompt: string;
+}
+export interface Crown {
+  slug: string;
+  name: string;
+  material: string;
+  element: string;
+  guardian: string;
+  realm: string;
+  visual: string;
+  history: string;
+  concept: string;
+  prompt: string;
+  accent: string;
+  image?: string;
+}
+export interface Realm {
+  slug: string;
+  name: string;
+  color: string;
+  symbol: string;
+  architecture: string;
+  summary: string;
+  accent: string;
+  position: { x: number; y: number };
+}
+export interface GalleryItem {
+  id: string;
+  title: string;
+  category: 'Render' | 'Concept' | 'Print' | 'Painted' | 'Work in progress';
+  collection?: string;
+  character?: string;
+  realm?: string;
+  guardian?: string;
+  image: string | MediaImage;
+  alt: string;
+  caption: string;
+  order: number;
+}
+export interface NewsArticle {
+  slug: string;
+  title: string;
+  excerpt: string;
+  date: string;
+}
+export interface PrintProfile {
+  name: string;
+  scale: string;
+  parts: string;
+  status: string;
+}
+export interface TimelineEvent {
+  id: string;
+  era: string;
+  title: string;
+  summary: string;
+  year: string;
+  accent: string;
+}
+export const hero = '/images/hero/banner-chronicles.webp';
+const fallback = hero;
+export const collections: Collection[] = [
+  {
+    slug: 'black-banner-company',
+    name: 'The Black Banner Company',
+    description:
+      'Veteranos, assassinos, batedores e criaturas improváveis sob um mesmo estandarte.',
+    count: 10,
+    status: 'Em desenvolvimento',
+    accent: '#8f3430',
+    characters: [
+      'Black Fang Mercenary',
+      'Iron Bull',
+      'Silent Ash — Scout',
+      'Red Viper — Assassin',
+      'Durgan — Blacksmith',
+      'Old Garrick — Commander',
+      'Elias — Chronicler',
+      'Morwen — Herbalist',
+      'Finn — Quartermaster and Gambler',
+      'Rat King — Mascot',
+    ],
+  },
+  {
+    slug: 'broken-mug-tavern',
+    name: 'The Broken Mug Tavern',
+    description:
+      'Uma taverna onde viajantes, músicos e lendas dividem a mesma mesa.',
+    count: 7,
+    status: 'Conceito',
+    accent: '#b58d4d',
+    characters: [
+      'Boris — Tavern Keeper',
+      'Lily — Tavern Maid',
+      'Hugo — Tavern Cook',
+      'Rowan — Bard',
+      'Old Bran',
+      'Milo — Stable Boy',
+      'Olaf — The Drunken Giant',
+    ],
+  },
+  {
+    slug: 'iron-tankard-tavern',
+    name: 'Iron Tankard Tavern',
+    description:
+      'Habitantes, forasteiros e criaturas reunidos sob o peso das canecas de ferro.',
+    count: 12,
+    status: 'Em desenvolvimento',
+    accent: '#77736b',
+    characters: [
+      'Borin Stonebrew',
+      'Brakk Stonehide',
+      'Elias Crow',
+      'Finn Coppercoin',
+      'Gerhard Blackwolf',
+      'Grukk Iron Mug',
+      'Iron Tankard Waitress',
+      'Lyra',
+      'Morwen Iron Tankard',
+      'Rat King External',
+      'Sir Aldren',
+      'Tavern Mimic',
+    ],
+  },
+  {
+    slug: 'legends-of-the-realm',
+    name: 'Legends of the Realm',
+    description:
+      'Grandes figuras e entidades que moldaram a história de Asterheim.',
+    count: 9,
+    status: 'Em desenvolvimento',
+    accent: '#8eb7c8',
+    characters: [
+      'The Fallen King',
+      'The Last Dragon Slayer',
+      'The Ancient Giant',
+      'The Vampire Lord',
+      'The Forest Guardian',
+      'The Demon Prince',
+      'The White Dragon',
+      'The Kraken Caller',
+      'The Iron Colossus',
+    ],
+  },
+  {
+    slug: 'beasts-of-asterheim',
+    name: 'Beasts of Asterheim',
+    description:
+      'Criaturas primordiais que carregam a memória selvagem do continente.',
+    count: 4,
+    status: 'Conceito',
+    accent: '#6f8754',
+    characters: [
+      'Aegis — The First Sky King',
+      'Fenrir — The Moon Devourer',
+      'Aster — The World Heart',
+      'Skywind — Sovereign of the Endless Sky',
+    ],
+  },
+  {
+    slug: 'six-crowns',
+    name: 'The Six Crowns of Asterheim',
+    description:
+      'Seis artefatos ancestrais ligados às forças fundamentais do mundo.',
+    count: 6,
+    status: 'Em desenvolvimento',
+    accent: '#547fa8',
+    characters: [],
+  },
 ];
-export const weapons:Weapon[]=[{id:'iron-oath',name:'Iron Oath',type:'Espada real',legend:'Forjada com o metal do primeiro portão de Ironhold.'},{id:'worldroot-staff',name:'Worldroot Staff',type:'Cajado',legend:'Um ramo vivo que jamais perdeu suas folhas.'},{id:'thunder-spear',name:'Thunder Spear',type:'Lança',legend:'Atrai o raio antes mesmo da tempestade nascer.'},{id:'abyss-trident',name:'Abyss Trident',type:'Tridente',legend:'Permite ouvir aquilo que dorme sob as marés.'},{id:'dragons-oath',name:'Dragon’s Oath',type:'Lâmina',legend:'A última arma temperada no fogo de um dragão.'}];
-export const guardians:Guardian[]=[
- {slug:'king-aldric',name:'King Aldric',title:'The Last Sovereign of Ironhold',crown:'Iron Crown',weapon:'Iron Oath',realm:'Ironhold',element:'Ferro',virtue:'Honra',summary:'O último rei diante do portão destruído, recusando-se a abandonar seu juramento.',story:'Quando as correntes do portão cederam, Aldric dispensou sua guarda e permaneceu sozinho. A Coroa de Ferro não lhe concedeu vitória; concedeu-lhe tempo suficiente para que seu povo escapasse.',accent:'#a94432',symbol:'Leão de ferro',scale:'200 mm',status:'Em desenvolvimento',prompt:'Rei veterano sobre ruínas de basalto, coroa geométrica aberta, espada pesada e postura de resistência.'},
- {slug:'vhaldris',name:'Vhaldris',title:'Eternal Guardian of the Frost Crown',crown:'Frost Crown',realm:'Frost Kingdom',element:'Gelo',virtue:'Preservação',summary:'Um dragão branco ancestral fundido ao santuário que protege há milênios.',story:'Vhaldris escolheu tornar-se parte da geleira para impedir que a memória do norte desaparecesse. Suas escamas agora são runas e sua respiração mantém intacto o último arquivo da Primeira Era.',accent:'#93c5d9',symbol:'Floco rúnico',scale:'220 mm',status:'Conceito',prompt:'Dragão branco ancestral integrado a um altar glacial, seis cristais e runas preservadas no gelo.'},
- {slug:'yggor',name:'Yggor',title:'Eternal Guardian of the Oak Crown',crown:'Oak Crown',weapon:'Worldroot Staff',realm:'Elder Forest',element:'Vida',virtue:'Equilíbrio',summary:'O espírito primordial enraizado no santuário da Coroa do Carvalho.',story:'Yggor lembra cada árvore que tombou e cada semente que ainda nascerá. Seu corpo cresce e apodrece em ciclos, mas suas raízes jamais deixam o coração da floresta.',accent:'#79945b',symbol:'Carvalho ancestral',scale:'210 mm',status:'Conceito',prompt:'Guardião colossal de madeira viva, raízes estruturais, âmbar, musgo e cajado da raiz-mundo.'},
- {slug:'vaelor',name:'Vaelor',title:'Storm Warden',crown:'Storm Crown',weapon:'Thunder Spear',realm:'Stormreach',element:'Tempestade',virtue:'Vigilância',summary:'O elo imortal entre o céu, o oceano e a Coroa da Tempestade.',story:'Vaelor vigia o ponto onde nuvens e mar se confundem. Cada raio que atravessa sua lança é uma mensagem de fronteiras distantes que apenas ele consegue interpretar.',accent:'#5388b4',symbol:'Lança partida',scale:'195 mm',status:'Conceito',prompt:'Sentinela de penhasco com lança condutora, bronze negro, manto ao vento e base atingida por raios.'},
- {slug:'nereus',name:'Nereus',title:'The Kraken Caller',crown:'Abyss Crown',weapon:'Abyss Trident',realm:'Kingdom of the Abyss',element:'Oceano',virtue:'Conhecimento',summary:'O último sacerdote capaz de compreender a entidade que dorme nas profundezas.',story:'Nereus não comanda o Kraken. Ele traduz seus sonhos. Cada invocação custa uma lembrança humana, e o sacerdote já esqueceu o rosto de todos que tentou salvar.',accent:'#3b9a91',symbol:'Tridente abissal',scale:'190 mm',status:'Conceito',prompt:'Sacerdote abissal em bronze oxidado, tridente curvo, coral e tentáculos emergindo de uma base marítima.'},
- {slug:'last-dragon-slayer',name:'The Last Dragon Slayer',title:'Bearer of the Dragon’s Oath',crown:'Dragon Crown',weapon:'Dragon’s Oath',realm:'Scorched Wastes',element:'Cinzas',virtue:'Sacrifício',summary:'O guerreiro que encerrou a Era dos Dragões e carrega o peso da extinção.',story:'Celebrado como salvador, ele atravessa campos queimados procurando um ovo que talvez tenha sobrevivido à sua própria lâmina. Sua coroa não celebra uma conquista: registra um crime necessário.',accent:'#b45d3c',symbol:'Crânio de dragão',scale:'205 mm',status:'Em desenvolvimento',prompt:'Caçador solitário com armadura marcada por fogo, lâmina negra, ossos de dragão e postura de remorso.'}
+export const weapons: Weapon[] = [
+  {
+    id: 'iron-oath',
+    name: 'Iron Oath',
+    type: 'Espada real',
+    legend: 'Forjada com o metal do primeiro portão de Ironhold.',
+  },
+  {
+    id: 'worldroot-staff',
+    name: 'Worldroot Staff',
+    type: 'Cajado',
+    legend: 'Um ramo vivo que jamais perdeu suas folhas.',
+  },
+  {
+    id: 'thunder-spear',
+    name: 'Thunder Spear',
+    type: 'Lança',
+    legend: 'Atrai o raio antes mesmo da tempestade nascer.',
+  },
+  {
+    id: 'abyss-trident',
+    name: 'Abyss Trident',
+    type: 'Tridente',
+    legend: 'Permite ouvir aquilo que dorme sob as marés.',
+  },
+  {
+    id: 'dragons-oath',
+    name: 'Dragon’s Oath',
+    type: 'Lâmina',
+    legend: 'A última arma temperada no fogo de um dragão.',
+  },
 ];
-export const crowns:Crown[]=[
- {slug:'iron-crown',name:'Iron Crown',material:'Ferro negro',element:'Ordem',guardian:'King Aldric',realm:'Ironhold',visual:'Estrutura pesada e geométrica inspirada em fortificações e leões.',history:'Forjada dos primeiros seis elos que fecharam o portão de Ironhold.',concept:'A autoridade como peso, nunca como ornamento.',prompt:'Coroa aberta de ferro negro, aro consistente, ameias geométricas e motivo abstrato de leão.',accent:'#8d7560'},
- {slug:'frost-crown',name:'Frost Crown',material:'Prata antiga e gelo primordial',element:'Preservação',guardian:'Vhaldris',realm:'Frost Kingdom',visual:'Coroa aberta com seis pontas cristalinas; sem máscara ou visor.',history:'Surgiu quando o primeiro inverno congelou uma única gota do Mar Celeste.',concept:'Preservar é aceitar permanecer imóvel enquanto o mundo muda.',prompt:'Coroa aberta, seis cristais, prata antiga, sem rosto, sem máscara, proporção de artefato real.',accent:'#a8d8e8'},
- {slug:'oak-crown',name:'Oak Crown',material:'Madeira viva da Árvore do Mundo',element:'Vida',guardian:'Yggor',realm:'Elder Forest',visual:'Galhos, raízes, musgo e âmbar entrelaçados.',history:'Cresceu em torno do primeiro juramento pronunciado sob a Árvore do Mundo.',concept:'Vida como ciclo, não como permanência.',prompt:'Coroa viva aberta com galhos entrelaçados, âmbar e pequenas raízes estruturais.',accent:'#78935a'},
- {slug:'storm-crown',name:'Storm Crown',material:'Bronze negro marcado por raios',element:'Mudança',guardian:'Vaelor',realm:'Stormreach',visual:'Pontas assimétricas inspiradas em relâmpagos.',history:'Foi recuperada de um obelisco partido durante a tempestade que durou cem anos.',concept:'Toda estabilidade contém a semente de uma ruptura.',prompt:'Coroa aberta em bronze negro, pontas de raio assimétricas e marcas de descarga.',accent:'#4d83aa'},
- {slug:'abyss-crown',name:'Abyss Crown',material:'Bronze abissal, coral e relíquias oceânicas',element:'Conhecimento',guardian:'Nereus',realm:'Kingdom of the Abyss',visual:'Formas curvas inspiradas em tentáculos.',history:'Encontrada dentro de uma cidade que emergiu do mar por apenas uma noite.',concept:'Conhecimento profundo sempre modifica quem o encontra.',prompt:'Coroa abissal aberta, bronze oxidado, coral e curvas orgânicas sem aparência de elmo.',accent:'#3d9d93'},
- {slug:'dragon-crown',name:'Dragon Crown',material:'Chifres, ossos e aço negro',element:'Fim de uma era',guardian:'The Last Dragon Slayer',realm:'Scorched Wastes',visual:'Relíquia severa forjada do último dragão.',history:'Montada em silêncio com fragmentos daquele que encerrou a Era dos Dragões.',concept:'Uma vitória que jamais deveria ser celebrada.',prompt:'Coroa aberta de osso e aço negro, chifres controlados, cinza vulcânica e aro familiar.',accent:'#b45f3f'}
+export const guardians: Guardian[] = [
+  {
+    slug: 'king-aldric',
+    name: 'King Aldric',
+    title: 'The Last Sovereign of Ironhold',
+    crown: 'Iron Crown',
+    weapon: 'Iron Oath',
+    realm: 'Ironhold',
+    element: 'Ferro',
+    virtue: 'Honra',
+    summary:
+      'O último rei diante do portão destruído, recusando-se a abandonar seu juramento.',
+    story:
+      'Quando as correntes do portão cederam, Aldric dispensou sua guarda e permaneceu sozinho. A Coroa de Ferro não lhe concedeu vitória; concedeu-lhe tempo suficiente para que seu povo escapasse.',
+    accent: '#a94432',
+    symbol: 'Leão de ferro',
+    scale: '200 mm',
+    status: 'Em desenvolvimento',
+    prompt:
+      'Rei veterano sobre ruínas de basalto, coroa geométrica aberta, espada pesada e postura de resistência.',
+  },
+  {
+    slug: 'vhaldris',
+    name: 'Vhaldris',
+    title: 'Eternal Guardian of the Frost Crown',
+    crown: 'Frost Crown',
+    realm: 'Frost Kingdom',
+    element: 'Gelo',
+    virtue: 'Preservação',
+    summary:
+      'Um dragão branco ancestral fundido ao santuário que protege há milênios.',
+    story:
+      'Vhaldris escolheu tornar-se parte da geleira para impedir que a memória do norte desaparecesse. Suas escamas agora são runas e sua respiração mantém intacto o último arquivo da Primeira Era.',
+    accent: '#93c5d9',
+    symbol: 'Floco rúnico',
+    scale: '220 mm',
+    status: 'Conceito',
+    prompt:
+      'Dragão branco ancestral integrado a um altar glacial, seis cristais e runas preservadas no gelo.',
+  },
+  {
+    slug: 'yggor',
+    name: 'Yggor',
+    title: 'Eternal Guardian of the Oak Crown',
+    crown: 'Oak Crown',
+    weapon: 'Worldroot Staff',
+    realm: 'Elder Forest',
+    element: 'Vida',
+    virtue: 'Equilíbrio',
+    summary:
+      'O espírito primordial enraizado no santuário da Coroa do Carvalho.',
+    story:
+      'Yggor lembra cada árvore que tombou e cada semente que ainda nascerá. Seu corpo cresce e apodrece em ciclos, mas suas raízes jamais deixam o coração da floresta.',
+    accent: '#79945b',
+    symbol: 'Carvalho ancestral',
+    scale: '210 mm',
+    status: 'Conceito',
+    prompt:
+      'Guardião colossal de madeira viva, raízes estruturais, âmbar, musgo e cajado da raiz-mundo.',
+  },
+  {
+    slug: 'vaelor',
+    name: 'Vaelor',
+    title: 'Storm Warden',
+    crown: 'Storm Crown',
+    weapon: 'Thunder Spear',
+    realm: 'Stormreach',
+    element: 'Tempestade',
+    virtue: 'Vigilância',
+    summary: 'O elo imortal entre o céu, o oceano e a Coroa da Tempestade.',
+    story:
+      'Vaelor vigia o ponto onde nuvens e mar se confundem. Cada raio que atravessa sua lança é uma mensagem de fronteiras distantes que apenas ele consegue interpretar.',
+    accent: '#5388b4',
+    symbol: 'Lança partida',
+    scale: '195 mm',
+    status: 'Conceito',
+    prompt:
+      'Sentinela de penhasco com lança condutora, bronze negro, manto ao vento e base atingida por raios.',
+  },
+  {
+    slug: 'nereus',
+    name: 'Nereus',
+    title: 'The Kraken Caller',
+    crown: 'Abyss Crown',
+    weapon: 'Abyss Trident',
+    realm: 'Kingdom of the Abyss',
+    element: 'Oceano',
+    virtue: 'Conhecimento',
+    summary:
+      'O último sacerdote capaz de compreender a entidade que dorme nas profundezas.',
+    story:
+      'Nereus não comanda o Kraken. Ele traduz seus sonhos. Cada invocação custa uma lembrança humana, e o sacerdote já esqueceu o rosto de todos que tentou salvar.',
+    accent: '#3b9a91',
+    symbol: 'Tridente abissal',
+    scale: '190 mm',
+    status: 'Conceito',
+    prompt:
+      'Sacerdote abissal em bronze oxidado, tridente curvo, coral e tentáculos emergindo de uma base marítima.',
+  },
+  {
+    slug: 'last-dragon-slayer',
+    name: 'The Last Dragon Slayer',
+    title: 'Bearer of the Dragon’s Oath',
+    crown: 'Dragon Crown',
+    weapon: 'Dragon’s Oath',
+    realm: 'Scorched Wastes',
+    element: 'Cinzas',
+    virtue: 'Sacrifício',
+    summary:
+      'O guerreiro que encerrou a Era dos Dragões e carrega o peso da extinção.',
+    story:
+      'Celebrado como salvador, ele atravessa campos queimados procurando um ovo que talvez tenha sobrevivido à sua própria lâmina. Sua coroa não celebra uma conquista: registra um crime necessário.',
+    accent: '#b45d3c',
+    symbol: 'Crânio de dragão',
+    scale: '205 mm',
+    status: 'Em desenvolvimento',
+    prompt:
+      'Caçador solitário com armadura marcada por fogo, lâmina negra, ossos de dragão e postura de remorso.',
+  },
 ];
-export const realms:Realm[]=[
- {slug:'ironhold',name:'Ironhold',color:'Preto, ferro, vermelho e ouro',symbol:'Leão de ferro',architecture:'Portões monumentais, muralhas, correntes e pedra negra.',summary:'Fortaleza onde juramentos têm mais valor que sangue.',accent:'#a94432',position:{x:28,y:45}},
- {slug:'frost-kingdom',name:'Frost Kingdom',color:'Branco, azul glacial e prata',symbol:'Dragão branco',architecture:'Altares congelados, runas e pedra glacial.',summary:'O norte conserva memórias que o restante do mundo preferiu esquecer.',accent:'#91c5da',position:{x:48,y:20}},
- {slug:'elder-forest',name:'Elder Forest',color:'Marrom, verde, musgo e âmbar',symbol:'Carvalho ancestral',architecture:'Santuários vivos e ruínas dominadas por raízes.',summary:'Uma floresta que decide quem pode atravessá-la.',accent:'#79945b',position:{x:31,y:67}},
- {slug:'stormreach',name:'Stormreach',color:'Bronze, azul elétrico e preto',symbol:'Lança de tempestade',architecture:'Penhascos, obeliscos e altares expostos.',summary:'Penhascos onde vigias conversam com tempestades.',accent:'#547fa8',position:{x:68,y:31}},
- {slug:'kingdom-of-the-abyss',name:'Kingdom of the Abyss',color:'Turquesa, verde profundo e bronze',symbol:'Kraken',architecture:'Ruínas submersas, faróis e santuários marítimos.',summary:'Um reino entre marés, sonhos e cidades afogadas.',accent:'#3e968c',position:{x:76,y:67}},
- {slug:'scorched-wastes',name:'Scorched Wastes',color:'Cinza vulcânico, vermelho e osso',symbol:'Crânio de dragão',architecture:'Ruínas queimadas e pedra vulcânica.',summary:'A cicatriz deixada pelo fim da Era dos Dragões.',accent:'#ad5b3e',position:{x:53,y:78}}
+export const crowns: Crown[] = [
+  {
+    slug: 'iron-crown',
+    name: 'Iron Crown',
+    material: 'Ferro negro',
+    element: 'Ordem',
+    guardian: 'King Aldric',
+    realm: 'Ironhold',
+    visual: 'Estrutura pesada e geométrica inspirada em fortificações e leões.',
+    history:
+      'Forjada dos primeiros seis elos que fecharam o portão de Ironhold.',
+    concept: 'A autoridade como peso, nunca como ornamento.',
+    prompt:
+      'Coroa aberta de ferro negro, aro consistente, ameias geométricas e motivo abstrato de leão.',
+    accent: '#8d7560',
+  },
+  {
+    slug: 'frost-crown',
+    name: 'Frost Crown',
+    material: 'Prata antiga e gelo primordial',
+    element: 'Preservação',
+    guardian: 'Vhaldris',
+    realm: 'Frost Kingdom',
+    visual: 'Coroa aberta com seis pontas cristalinas; sem máscara ou visor.',
+    history:
+      'Surgiu quando o primeiro inverno congelou uma única gota do Mar Celeste.',
+    concept: 'Preservar é aceitar permanecer imóvel enquanto o mundo muda.',
+    prompt:
+      'Coroa aberta, seis cristais, prata antiga, sem rosto, sem máscara, proporção de artefato real.',
+    accent: '#a8d8e8',
+  },
+  {
+    slug: 'oak-crown',
+    name: 'Oak Crown',
+    material: 'Madeira viva da Árvore do Mundo',
+    element: 'Vida',
+    guardian: 'Yggor',
+    realm: 'Elder Forest',
+    visual: 'Galhos, raízes, musgo e âmbar entrelaçados.',
+    history:
+      'Cresceu em torno do primeiro juramento pronunciado sob a Árvore do Mundo.',
+    concept: 'Vida como ciclo, não como permanência.',
+    prompt:
+      'Coroa viva aberta com galhos entrelaçados, âmbar e pequenas raízes estruturais.',
+    accent: '#78935a',
+  },
+  {
+    slug: 'storm-crown',
+    name: 'Storm Crown',
+    material: 'Bronze negro marcado por raios',
+    element: 'Mudança',
+    guardian: 'Vaelor',
+    realm: 'Stormreach',
+    visual: 'Pontas assimétricas inspiradas em relâmpagos.',
+    history:
+      'Foi recuperada de um obelisco partido durante a tempestade que durou cem anos.',
+    concept: 'Toda estabilidade contém a semente de uma ruptura.',
+    prompt:
+      'Coroa aberta em bronze negro, pontas de raio assimétricas e marcas de descarga.',
+    accent: '#4d83aa',
+  },
+  {
+    slug: 'abyss-crown',
+    name: 'Abyss Crown',
+    material: 'Bronze abissal, coral e relíquias oceânicas',
+    element: 'Conhecimento',
+    guardian: 'Nereus',
+    realm: 'Kingdom of the Abyss',
+    visual: 'Formas curvas inspiradas em tentáculos.',
+    history:
+      'Encontrada dentro de uma cidade que emergiu do mar por apenas uma noite.',
+    concept: 'Conhecimento profundo sempre modifica quem o encontra.',
+    prompt:
+      'Coroa abissal aberta, bronze oxidado, coral e curvas orgânicas sem aparência de elmo.',
+    accent: '#3d9d93',
+  },
+  {
+    slug: 'dragon-crown',
+    name: 'Dragon Crown',
+    material: 'Chifres, ossos e aço negro',
+    element: 'Fim de uma era',
+    guardian: 'The Last Dragon Slayer',
+    realm: 'Scorched Wastes',
+    visual: 'Relíquia severa forjada do último dragão.',
+    history:
+      'Montada em silêncio com fragmentos daquele que encerrou a Era dos Dragões.',
+    concept: 'Uma vitória que jamais deveria ser celebrada.',
+    prompt:
+      'Coroa aberta de osso e aço negro, chifres controlados, cinza vulcânica e aro familiar.',
+    accent: '#b45f3f',
+  },
 ];
-const imageSlugs=new Set(['black-fang-mercenary','iron-bull','silent-ash','red-viper','durgan','old-garrick','elias','morwen','finn','rat-king','boris','lily','hugo','rowan','old-bran','milo','olaf','borin-stonebrew','brakk-stonehide','elias-crow','finn-coppercoin','gerhard-blackwolf','grukk-iron-mug','iron-tankard-waitress','lyra','morwen-iron-tankard','rat-king-external','sir-aldren','tavern-mimic','the-fallen-king','the-last-dragon-slayer','the-ancient-giant','the-forest-guardian','the-demon-prince','the-white-dragon','the-kraken-caller','the-iron-colossus','aegis','fenrir','aster','skywind']);
-const signatures:Record<string,[string,string]>={
- 'black-fang-mercenary':['O espadachim que nunca ergue o estandarte antes de conhecer o preço da retirada.','Sobreviveu a três companhias destruídas e escolheu a Black Banner porque ela não promete glória.'],
- 'iron-bull':['Um rompe-linhas coberto por placas rebitadas e uma paciência perigosa.','Foi gladiador de pedreiras até usar as próprias correntes para libertar os demais prisioneiros.'],
- 'silent-ash':['Batedora que lê cinzas, pegadas e o silêncio deixado por emboscadas.','Perdeu a voz numa floresta incendiada e transformou cada gesto em linguagem de campo.'],
- 'red-viper':['Assassina de precisão ritual, temida por deixar uma fita rubra junto ao alvo.','Aceita contratos apenas quando acredita que a morte evitará uma guerra maior.'],
- 'durgan':['Ferreiro de campanha que conhece o som de uma lâmina prestes a falhar.','Carrega uma bigorna partida do cerco em que forjou armas por sete dias sem dormir.'],
- 'old-garrick':['Comandante que mede vitórias pelo número de soldados que consegue trazer para casa.','Seu mapa é coberto por nomes, não por territórios; cada nome é alguém que ele se recusa a esquecer.'],
- 'elias':['Cronista que registra derrotas com a mesma precisão reservada aos triunfos.','Descobriu que certos relatos mudam quando lidos sob a luz de uma Coroa e passou a proteger essas versões.'],
- 'morwen':['Herbalista capaz de transformar plantas venenosas em remédios — ou o contrário.','Aprendeu com Yggor que toda cura exige equilíbrio e mantém sementes de cada região visitada.'],
- 'finn':['Contador, apostador e responsável por manter a companhia alimentada apesar de suas dívidas.','Manipula probabilidades com moedas marcadas, mas jamais aposta a vida de outro mercenário.'],
- 'rat-king':['Mascote coroado por acidente e informante mais eficiente das tavernas baixas.','Ninguém sabe se compreende ordens ou se a companhia apenas aprendeu a interpretar seus caprichos.'],
- 'the-fallen-king':['Um soberano sem reino que ainda recebe juramentos de soldados mortos.','Abandonou o trono para salvar a cidade e foi condenado pela mesma população que sobreviveu.'],
- 'the-last-dragon-slayer':['O herói que encerrou uma era e descobriu tarde demais o custo da vitória.','Viaja pelas Terras Queimadas procurando evidências de que seu último golpe não foi realmente o último.'],
- 'aegis':['O primeiro soberano dos céus, cujas asas projetam sombras sobre fortalezas inteiras.','Recusa-se a pousar desde que os homens ergueram torres para aprisionar criaturas aladas.'],
- 'fenrir':['Predador lunar que cresce sempre que uma promessa é quebrada sob a lua cheia.','As antigas matilhas o chamam de fome feita carne e evitam pronunciar seu nome durante eclipses.'],
- 'aster':['Criatura-raiz que mantém o pulso subterrâneo de Asterheim.','Quando Aster dorme, florestas silenciam; quando desperta, montanhas mudam lentamente de lugar.'],
- 'skywind':['Ave soberana que atravessa tempestades antes que elas alcancem o continente.','Suas penas indicam mudanças no clima e são devolvidas ao céu em vez de guardadas como troféus.']
+export const realms: Realm[] = [
+  {
+    slug: 'ironhold',
+    name: 'Ironhold',
+    color: 'Preto, ferro, vermelho e ouro',
+    symbol: 'Leão de ferro',
+    architecture: 'Portões monumentais, muralhas, correntes e pedra negra.',
+    summary: 'Fortaleza onde juramentos têm mais valor que sangue.',
+    accent: '#a94432',
+    position: { x: 28, y: 45 },
+  },
+  {
+    slug: 'frost-kingdom',
+    name: 'Frost Kingdom',
+    color: 'Branco, azul glacial e prata',
+    symbol: 'Dragão branco',
+    architecture: 'Altares congelados, runas e pedra glacial.',
+    summary:
+      'O norte conserva memórias que o restante do mundo preferiu esquecer.',
+    accent: '#91c5da',
+    position: { x: 48, y: 20 },
+  },
+  {
+    slug: 'elder-forest',
+    name: 'Elder Forest',
+    color: 'Marrom, verde, musgo e âmbar',
+    symbol: 'Carvalho ancestral',
+    architecture: 'Santuários vivos e ruínas dominadas por raízes.',
+    summary: 'Uma floresta que decide quem pode atravessá-la.',
+    accent: '#79945b',
+    position: { x: 31, y: 67 },
+  },
+  {
+    slug: 'stormreach',
+    name: 'Stormreach',
+    color: 'Bronze, azul elétrico e preto',
+    symbol: 'Lança de tempestade',
+    architecture: 'Penhascos, obeliscos e altares expostos.',
+    summary: 'Penhascos onde vigias conversam com tempestades.',
+    accent: '#547fa8',
+    position: { x: 68, y: 31 },
+  },
+  {
+    slug: 'kingdom-of-the-abyss',
+    name: 'Kingdom of the Abyss',
+    color: 'Turquesa, verde profundo e bronze',
+    symbol: 'Kraken',
+    architecture: 'Ruínas submersas, faróis e santuários marítimos.',
+    summary: 'Um reino entre marés, sonhos e cidades afogadas.',
+    accent: '#3e968c',
+    position: { x: 76, y: 67 },
+  },
+  {
+    slug: 'scorched-wastes',
+    name: 'Scorched Wastes',
+    color: 'Cinza vulcânico, vermelho e osso',
+    symbol: 'Crânio de dragão',
+    architecture: 'Ruínas queimadas e pedra vulcânica.',
+    summary: 'A cicatriz deixada pelo fim da Era dos Dragões.',
+    accent: '#ad5b3e',
+    position: { x: 53, y: 78 },
+  },
+];
+const imageSlugs = new Set([
+  'black-fang-mercenary',
+  'iron-bull',
+  'silent-ash',
+  'red-viper',
+  'durgan',
+  'old-garrick',
+  'elias',
+  'morwen',
+  'finn',
+  'rat-king',
+  'boris',
+  'lily',
+  'hugo',
+  'rowan',
+  'old-bran',
+  'milo',
+  'olaf',
+  'borin-stonebrew',
+  'brakk-stonehide',
+  'elias-crow',
+  'finn-coppercoin',
+  'gerhard-blackwolf',
+  'grukk-iron-mug',
+  'iron-tankard-waitress',
+  'lyra',
+  'morwen-iron-tankard',
+  'rat-king-external',
+  'sir-aldren',
+  'tavern-mimic',
+  'the-fallen-king',
+  'the-last-dragon-slayer',
+  'the-ancient-giant',
+  'the-forest-guardian',
+  'the-demon-prince',
+  'the-white-dragon',
+  'the-kraken-caller',
+  'the-iron-colossus',
+  'aegis',
+  'fenrir',
+  'aster',
+  'skywind',
+]);
+const signatures: Record<string, [string, string]> = {
+  'black-fang-mercenary': [
+    'O espadachim que nunca ergue o estandarte antes de conhecer o preço da retirada.',
+    'Sobreviveu a três companhias destruídas e escolheu a Black Banner porque ela não promete glória.',
+  ],
+  'iron-bull': [
+    'Um rompe-linhas coberto por placas rebitadas e uma paciência perigosa.',
+    'Foi gladiador de pedreiras até usar as próprias correntes para libertar os demais prisioneiros.',
+  ],
+  'silent-ash': [
+    'Batedora que lê cinzas, pegadas e o silêncio deixado por emboscadas.',
+    'Perdeu a voz numa floresta incendiada e transformou cada gesto em linguagem de campo.',
+  ],
+  'red-viper': [
+    'Assassina de precisão ritual, temida por deixar uma fita rubra junto ao alvo.',
+    'Aceita contratos apenas quando acredita que a morte evitará uma guerra maior.',
+  ],
+  durgan: [
+    'Ferreiro de campanha que conhece o som de uma lâmina prestes a falhar.',
+    'Carrega uma bigorna partida do cerco em que forjou armas por sete dias sem dormir.',
+  ],
+  'old-garrick': [
+    'Comandante que mede vitórias pelo número de soldados que consegue trazer para casa.',
+    'Seu mapa é coberto por nomes, não por territórios; cada nome é alguém que ele se recusa a esquecer.',
+  ],
+  elias: [
+    'Cronista que registra derrotas com a mesma precisão reservada aos triunfos.',
+    'Descobriu que certos relatos mudam quando lidos sob a luz de uma Coroa e passou a proteger essas versões.',
+  ],
+  morwen: [
+    'Herbalista capaz de transformar plantas venenosas em remédios — ou o contrário.',
+    'Aprendeu com Yggor que toda cura exige equilíbrio e mantém sementes de cada região visitada.',
+  ],
+  finn: [
+    'Contador, apostador e responsável por manter a companhia alimentada apesar de suas dívidas.',
+    'Manipula probabilidades com moedas marcadas, mas jamais aposta a vida de outro mercenário.',
+  ],
+  'rat-king': [
+    'Mascote coroado por acidente e informante mais eficiente das tavernas baixas.',
+    'Ninguém sabe se compreende ordens ou se a companhia apenas aprendeu a interpretar seus caprichos.',
+  ],
+  'the-fallen-king': [
+    'Um soberano sem reino que ainda recebe juramentos de soldados mortos.',
+    'Abandonou o trono para salvar a cidade e foi condenado pela mesma população que sobreviveu.',
+  ],
+  'the-last-dragon-slayer': [
+    'O herói que encerrou uma era e descobriu tarde demais o custo da vitória.',
+    'Viaja pelas Terras Queimadas procurando evidências de que seu último golpe não foi realmente o último.',
+  ],
+  aegis: [
+    'O primeiro soberano dos céus, cujas asas projetam sombras sobre fortalezas inteiras.',
+    'Recusa-se a pousar desde que os homens ergueram torres para aprisionar criaturas aladas.',
+  ],
+  fenrir: [
+    'Predador lunar que cresce sempre que uma promessa é quebrada sob a lua cheia.',
+    'As antigas matilhas o chamam de fome feita carne e evitam pronunciar seu nome durante eclipses.',
+  ],
+  aster: [
+    'Criatura-raiz que mantém o pulso subterrâneo de Asterheim.',
+    'Quando Aster dorme, florestas silenciam; quando desperta, montanhas mudam lentamente de lugar.',
+  ],
+  skywind: [
+    'Ave soberana que atravessa tempestades antes que elas alcancem o continente.',
+    'Suas penas indicam mudanças no clima e são devolvidas ao céu em vez de guardadas como troféus.',
+  ],
 };
-const collectionTone:Record<string,string>={'broken-mug-tavern':'Entre canções, dívidas e rumores, tornou-se parte inseparável das noites da Broken Mug.','iron-tankard-tavern':'Seu nome circula entre canecas de ferro, contratos incompletos e histórias contadas em voz baixa.','legends-of-the-realm':'Sua existência alterou fronteiras e permanece registrada nas lendas contraditórias de Asterheim.','black-banner-company':'Marcha sob o Estandarte Negro por escolha, dívida ou uma promessa que ainda não conseguiu cumprir.','beasts-of-asterheim':'Não pertence a reis ou exércitos; responde apenas aos ciclos mais antigos do continente.'};
-const names=collections.flatMap(c=>c.characters.map(n=>({raw:n,collection:c.slug})));
-export const characters:Character[]=names.map(({raw,collection},i)=>{const [name,title]=raw.split(' — '),slug=name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,''),sig=signatures[slug],realm=collection==='beasts-of-asterheim'?'Elder Forest':collection==='legends-of-the-realm'?'Asterheim':undefined,characterImage=imageSlugs.has(slug)?`/images/characters/${slug}.png`:fallback;return {slug,name,title,collection,summary:sig?.[0]||`${name} carrega uma reputação construída por decisões que poucos conheceram por inteiro.`,story:sig?.[1]||collectionTone[collection],image:characterImage,gallery:[characterImage],scale:collection==='legends-of-the-realm'||collection==='beasts-of-asterheim'?'180–220 mm':i%5===0?'90 mm':'75 mm',status:'Conceito',tags:['miniatura','Asterheim',collection],realm,virtue:collection==='black-banner-company'?'Lealdade':undefined,prompt:`Miniatura narrativa de ${name}, silhueta legível, equipamento funcional, base que revela o momento anterior à cena e materiais coerentes com ${collections.find(c=>c.slug===collection)?.name}.`,technicalSheet:['Escultura digital para resina','Base narrativa separada','Detalhes dimensionados para leitura física'],printInfo:{orientation:'Inclinação sugerida entre 25° e 40°',supports:'Suportes médios nos pontos estruturais',parts:i%2===0?'Multipart com encaixes':'Corpo e base separados',notes:'Validar ilhas e drenagem antes da impressão.'},relatedMiniature:`${name} — edição narrativa`,printable:true,multipart:i%2===0,lycheeReady:false}});
-export const gallery:GalleryItem[]=[...characters.filter(c=>typeof c.image==='string'&&c.image!==hero).map((c,i)=>({id:`character-${c.slug}`,title:c.name,category:(i%5===0?'Concept':i%4===0?'Work in progress':'Render') as GalleryItem['category'],collection:c.collection,character:c.slug,realm:c.realm,image:c.image,alt:`Render de ${c.name}`,caption:c.summary,order:i})),...guardians.map((g,i)=>({id:`guardian-${g.slug}`,title:g.name,category:'Render' as const,realm:g.realm,guardian:g.slug,image:`/images/guardians/${g.slug}.png`,alt:`Arte do Guardião ${g.name}`,caption:g.summary,order:100+i}))];
-export const timeline:TimelineEvent[]=[{id:'first',era:'Primeira Era',title:'O despertar das seis forças',summary:'Ferro, gelo, vida, tempestade, oceano e fogo passam a moldar o continente.',year:'Antes dos registros',accent:'#b89b62'},{id:'second',era:'Segunda Era',title:'Os reinos erguem suas fronteiras',summary:'Fortalezas e santuários surgem ao redor dos artefatos ancestrais.',year:'Ano 1',accent:'#78935a'},{id:'fall',era:'Queda dos Reinos',title:'Os juramentos são quebrados',summary:'Alianças falham e as Coroas começam a escolher seus Guardiões.',year:'Ano 418',accent:'#9d4438'},{id:'dragons',era:'Era dos Dragões',title:'O céu torna-se território de guerra',summary:'Dragões e homens disputam o futuro das seis forças.',year:'Ano 511',accent:'#b45f3f'},{id:'guardians',era:'Ascensão dos Guardiões',title:'Seis sacrifícios preservam o equilíbrio',summary:'Cada Guardião aceita um vínculo que não poderá abandonar.',year:'Ano 603',accent:'#547fa8'},{id:'now',era:'Atualidade',title:'O Estandarte Negro é erguido',summary:'Mercenários e cronistas descobrem sinais de uma sétima força.',year:'Ano 742',accent:'#c5a15d'}];
-export const news:NewsArticle[]=[{slug:'o-estandarte-foi-erguido',title:'O estandarte foi erguido',excerpt:'Começa a construção do arquivo vivo de Asterheim.',date:'12 de julho de 2026'}];
+const names = collections.flatMap((c) =>
+  c.characters.map((n) => ({ raw: n, collection: c.slug })),
+);
+const slugOf = (value: string) =>
+  value
+    .split(' — ')[0]
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+export const characters: Character[] = names.map(({ raw, collection }, i) => {
+  const [name, title] = raw.split(' — '),
+    slug = slugOf(raw),
+    sig = signatures[slug],
+    realm =
+      collection === 'beasts-of-asterheim'
+        ? 'Elder Forest'
+        : collection === 'legends-of-the-realm'
+          ? 'Asterheim'
+          : undefined,
+    characterImage = imageSlugs.has(slug)
+      ? `/images/characters/${slug}.png`
+      : fallback,
+    seedEditorial = createCharacterEditorial(
+      slug,
+      name,
+      sig?.[0] || '',
+      sig?.[1] || '',
+    ),
+    summary = sig?.[0] || seedEditorial.subtitle,
+    story = sig?.[1] || seedEditorial.currentState,
+    editorial = createCharacterEditorial(slug, name, summary, story),
+    peers = names
+      .filter((x) => x.collection === collection)
+      .map((x) => slugOf(x.raw)),
+    peerIndex = peers.indexOf(slug);
+  return {
+    slug,
+    name,
+    title,
+    collection,
+    summary,
+    story,
+    ...editorial,
+    allies:
+      peers.length > 1
+        ? [peers[(peerIndex + peers.length - 1) % peers.length]]
+        : [],
+    enemies: peers.length > 2 ? [peers[(peerIndex + 2) % peers.length]] : [],
+    image: characterImage,
+    gallery: [characterImage],
+    scale:
+      collection === 'legends-of-the-realm' ||
+      collection === 'beasts-of-asterheim'
+        ? '180–220 mm'
+        : i % 5 === 0
+          ? '90 mm'
+          : '75 mm',
+    status: 'Conceito',
+    tags: ['miniatura', 'Asterheim', collection],
+    realm,
+    virtue: collection === 'black-banner-company' ? 'Lealdade' : undefined,
+    prompt: createCharacterPrompt(slug, name),
+    technicalSheet: [
+      'Escultura digital para resina',
+      'Base narrativa separada',
+      'Detalhes dimensionados para leitura física',
+    ],
+    printInfo: {
+      orientation: 'Inclinação sugerida entre 25° e 40°',
+      supports: 'Suportes médios nos pontos estruturais',
+      parts: i % 2 === 0 ? 'Multipart com encaixes' : 'Corpo e base separados',
+      notes: 'Validar ilhas e drenagem antes da impressão.',
+    },
+    relatedMiniature: `${name} — edição narrativa`,
+    printable: true,
+    multipart: i % 2 === 0,
+    lycheeReady: false,
+  };
+});
+export const gallery: GalleryItem[] = [
+  ...characters
+    .filter((c) => typeof c.image === 'string' && c.image !== hero)
+    .map((c, i) => ({
+      id: `character-${c.slug}`,
+      title: c.name,
+      category: (i % 5 === 0
+        ? 'Concept'
+        : i % 4 === 0
+          ? 'Work in progress'
+          : 'Render') as GalleryItem['category'],
+      collection: c.collection,
+      character: c.slug,
+      realm: c.realm,
+      image: c.image,
+      alt: `Render de ${c.name}`,
+      caption: c.summary,
+      order: i,
+    })),
+  ...guardians.map((g, i) => ({
+    id: `guardian-${g.slug}`,
+    title: g.name,
+    category: 'Render' as const,
+    realm: g.realm,
+    guardian: g.slug,
+    image: `/images/guardians/${g.slug}.png`,
+    alt: `Arte do Guardião ${g.name}`,
+    caption: g.summary,
+    order: 100 + i,
+  })),
+];
+export const timeline: TimelineEvent[] = [
+  {
+    id: 'first',
+    era: 'Primeira Era',
+    title: 'O despertar das seis forças',
+    summary:
+      'Ferro, gelo, vida, tempestade, oceano e fogo passam a moldar o continente.',
+    year: 'Antes dos registros',
+    accent: '#b89b62',
+  },
+  {
+    id: 'second',
+    era: 'Segunda Era',
+    title: 'Os reinos erguem suas fronteiras',
+    summary:
+      'Fortalezas e santuários surgem ao redor dos artefatos ancestrais.',
+    year: 'Ano 1',
+    accent: '#78935a',
+  },
+  {
+    id: 'fall',
+    era: 'Queda dos Reinos',
+    title: 'Os juramentos são quebrados',
+    summary: 'Alianças falham e as Coroas começam a escolher seus Guardiões.',
+    year: 'Ano 418',
+    accent: '#9d4438',
+  },
+  {
+    id: 'dragons',
+    era: 'Era dos Dragões',
+    title: 'O céu torna-se território de guerra',
+    summary: 'Dragões e homens disputam o futuro das seis forças.',
+    year: 'Ano 511',
+    accent: '#b45f3f',
+  },
+  {
+    id: 'guardians',
+    era: 'Ascensão dos Guardiões',
+    title: 'Seis sacrifícios preservam o equilíbrio',
+    summary: 'Cada Guardião aceita um vínculo que não poderá abandonar.',
+    year: 'Ano 603',
+    accent: '#547fa8',
+  },
+  {
+    id: 'now',
+    era: 'Atualidade',
+    title: 'O Estandarte Negro é erguido',
+    summary: 'Mercenários e cronistas descobrem sinais de uma sétima força.',
+    year: 'Ano 742',
+    accent: '#c5a15d',
+  },
+];
+export const news: NewsArticle[] = [
+  {
+    slug: 'o-estandarte-foi-erguido',
+    title: 'O estandarte foi erguido',
+    excerpt: 'Começa a construção do arquivo vivo de Asterheim.',
+    date: '12 de julho de 2026',
+  },
+];

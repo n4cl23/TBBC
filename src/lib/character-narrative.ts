@@ -350,25 +350,24 @@ export function getCharacterNarrative(
 ): CharacterNarrative {
   const h = hash(character.slug);
   const copy = language[locale];
-  const subject = character.name;
   const motif = copy.motifs[h % copy.motifs.length];
-  const wound = copy.wounds[h % copy.wounds.length];
+  void index;
   return {
-    epicTitle: character.title || copy.titles[(h + index) % copy.titles.length],
-    subtitle: copy.subtitle(motif),
-    quote: copy.quote(copy.quotes[h % copy.quotes.length], subject),
-    origin: copy.origin(subject, motif),
-    rise: copy.rise(character.summary),
-    fall: copy.fall(wound),
-    current: copy.current(character.story, subject),
-    legacy: copy.legacy(subject),
+    epicTitle: character.title || character.name,
+    subtitle: character.subtitle || '',
+    quote: character.quote || '',
+    origin: character.origin || '',
+    rise: character.rise || '',
+    fall: character.conflict || '',
+    current: character.currentState || '',
+    legacy: character.legacy || '',
     curiosities: [],
     legends: [],
-    rumors: [],
-    virtues: [copy.virtues[h % 4], copy.virtues[4 + ((h + 1) % 4)]],
-    flaws: [copy.flaws[h % copy.flaws.length]],
-    fears: copy.fear(wound),
-    goals: [...copy.goals],
+    rumors: character.rumors || [],
+    virtues: character.personality?.virtues || [],
+    flaws: character.personality?.flaws || [],
+    fears: character.personality?.fears || [],
+    goals: character.personality?.goals || [],
     traits: copy.traits.map((label, traitIndex) => ({
       label,
       value: [
@@ -380,7 +379,7 @@ export function getCharacterNarrative(
         25 + ((h >> 10) % 70),
       ][traitIndex],
     })),
-    symbol: copy.symbols[h % copy.symbols.length],
+    symbol: character.symbol || '',
     palette: paletteByCollection[character.collection] || [
       '#111312',
       '#77736b',
