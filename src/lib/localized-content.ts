@@ -20,6 +20,22 @@ export type LocalizedResult<T> = {
 export const translatableFields: Partial<
   Record<CmsEntityType, readonly string[]>
 > = {
+  creatures: [
+    'name',
+    'epithet',
+    'summary',
+    'lore',
+    'origin',
+    'behavior',
+    'habitat',
+    'diet',
+    'weaknesses',
+    'abilities',
+    'seoTitle',
+    'seoDescription',
+    'imageAlt',
+    'captions',
+  ],
   collections: [
     'name',
     'title',

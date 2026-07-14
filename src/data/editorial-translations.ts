@@ -695,13 +695,13 @@ export function withEditorialTranslations(
     ...item,
     translations: {
       ...current,
-      en: {
+      en: current.en || {
         fields: fieldsFor(entity, item, 'en'),
         status: 'published',
         version: 1,
         updatedAt: now,
       },
-      es: {
+      es: current.es || {
         fields: fieldsFor(entity, item, 'es'),
         status: 'published',
         version: 1,

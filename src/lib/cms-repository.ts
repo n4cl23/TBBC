@@ -14,6 +14,7 @@ import {
   news,
 } from '@/data/content';
 import {marketplaces, marketplaceListings} from '@/data/marketplaces';
+import {creatureCmsSeeds} from '@/data/creatures';
 import {artBibleSeeds, printGuideSeeds, withEditorialTranslations} from '@/data/editorial-translations';
 import type {
   AuditEntry,
@@ -35,6 +36,7 @@ const seeds: Partial<Record<CmsEntityType, unknown[]>> = {
   news,
   marketplaces,
   marketplaceListings,
+  creatures: creatureCmsSeeds,
   artBible: artBibleSeeds,
   printGuide: printGuideSeeds,
 };

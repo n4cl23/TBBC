@@ -1,0 +1,23 @@
+.creature-atlas-hero {
+  background: #05090b;
+  overflow: hidden;
+}
+
+.creature-atlas-hero::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(5, 9, 11, .96), rgba(5, 9, 11, .8) 48%, rgba(5, 9, 11, .3));
+}
+
+.creature-atlas-hero > img {
+  z-index: 0;
+  object-fit: cover;
+  object-position: center 42%;
+}
+
+.creature-atlas-hero > .container {
+  position: relative;
+  z-index: 2;
+}

@@ -9,6 +9,7 @@ import {
 import { marketplaces } from '@/data/marketplaces';
 import { locales, localizedPath, type Locale } from '@/lib/i18n';
 import {atlasPoints} from '@/data/atlas';
+import {creatures} from '@/data/creatures';
 import {SITE_URL} from '@/lib/site';
 const base = SITE_URL;
 function entry(
@@ -68,5 +69,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         ) as Record<Locale, string>,
       );
   for(const point of atlasPoints) rows.push(Object.fromEntries(locales.map(locale=>[locale,localizedPath(locale,'atlas',`${point.realm}/${point.slug}`)])) as Record<Locale,string>);
+  rows.push(Object.fromEntries(locales.map(locale=>[locale,localizedPath(locale,'atlas','creatures')])) as Record<Locale,string>);
+  for(const creature of creatures) rows.push(Object.fromEntries(locales.map(locale=>[locale,localizedPath(locale,'atlas',`creatures/${creature.slug}`)])) as Record<Locale,string>);
   return rows.flatMap((paths) => locales.map((locale) => entry(paths, locale)));
 }

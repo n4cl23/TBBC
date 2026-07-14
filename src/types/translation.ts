@@ -20,6 +20,19 @@ export type LocalizedField<T = string> = Partial<Record<Locale, T>>;
 export const requiredTranslationFields: Partial<
   Record<CmsEntityType, string[]>
 > = {
+  creatures: [
+    'name',
+    'epithet',
+    'summary',
+    'lore',
+    'origin',
+    'behavior',
+    'habitat',
+    'diet',
+    'seoTitle',
+    'seoDescription',
+    'imageAlt',
+  ],
   characters: [
     'name',
     'summary',

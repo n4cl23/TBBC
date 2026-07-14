@@ -334,3 +334,128 @@ model TechnicalAsset {
 
   @@index([format, status])
 }
+
+model Creature {
+  id                 String                @id @default(cuid())
+  slug               String                @unique
+  name               String
+  epithet            String
+  realmId            String
+  category           String
+  threatLevel        String
+  summary            String
+  lore               String
+  origin             String
+  behavior           String
+  habitat            String
+  diet               String
+  weaknesses         String[]
+  abilities          String[]
+  visualDirection    String
+  silhouette         String
+  materials          String[]
+  palette            String[]
+  forbiddenElements  String[]
+  guardianId         String?
+  crownId            String?
+  relatedCharacters  String[]
+  relatedEvents      String[]
+  relatedLocations   String[]
+  status             String                @default("concept")
+  featured           Boolean               @default(false)
+  scale              String?
+  heightMm           Float?
+  widthMm            Float?
+  depthMm            Float?
+  multipart          Boolean               @default(false)
+  pieceCount         Int?
+  baseIncluded       Boolean               @default(true)
+  baseDiameter       Float?
+  hollowRecommended  Boolean?
+  drainHoles         Int?
+  supportStatus      String                @default("unknown")
+  lycheeReady         Boolean               @default(false)
+  printStatus         String                @default("unverified")
+  testedPrinter       String?
+  testedResin         String?
+  estimatedResinMl   Float?
+  estimatedPrintTime Int?
+  notes              String?
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  translations        CreatureTranslation[]
+  assets              CreatureAsset[]
+  habitats            CreatureHabitat[]
+
+  @@index([realmId, category])
+  @@index([threatLevel, status])
+  @@index([featured, status])
+}
+
+model CreatureTranslation {
+  id             String            @id @default(cuid())
+  creatureId     String
+  locale         String
+  name           String
+  epithet        String
+  summary        String
+  lore           String
+  origin         String
+  behavior       String
+  habitat        String
+  diet           String
+  weaknesses     String[]
+  abilities      String[]
+  seoTitle       String
+  seoDescription String
+  imageAlt       String
+  captions       String[]
+  status         PublicationStatus @default(draft)
+  version        Int               @default(1)
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  creature       Creature          @relation(fields: [creatureId], references: [id], onDelete: Cascade)
+
+  @@unique([creatureId, locale])
+  @@index([locale, status])
+}
+
+model CreatureAsset {
+  id              String   @id @default(cuid())
+  creatureId      String
+  type            String
+  filename        String
+  url             String?
+  localSourcePath String?
+  mimeType        String
+  sizeBytes       BigInt
+  width           Int?
+  height          Int?
+  version         Int      @default(1)
+  isPrimary       Boolean  @default(false)
+  isPublic        Boolean  @default(false)
+  checksum        String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  creature        Creature @relation(fields: [creatureId], references: [id], onDelete: Cascade)
+
+  @@unique([creatureId, checksum])
+  @@index([creatureId, type, isPublic])
+}
+
+model CreatureHabitat {
+  id         String   @id @default(cuid())
+  creatureId String
+  locationId String
+  rarity     String
+  population String
+  season     String
+  notes      String
+  kind       String   @default("primary")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  creature   Creature @relation(fields: [creatureId], references: [id], onDelete: Cascade)
+
+  @@unique([creatureId, locationId, kind])
+  @@index([locationId, rarity])
+}
