@@ -15,6 +15,10 @@ describe('official creature taxonomy', () => {
       expect(creatureThreatLevels).toContain(creature.threatLevel);
       expect(creature.stlSourceAvailable).toBe(true);
       expect(creature.glbSourceAvailable).toBe(true);
+      expect(creature.heroImage).toBe(`/images/creatures/${creature.slug}/hero.webp`);
+      expect(creature.cardImage).toBe(`/images/creatures/${creature.slug}/card.webp`);
+      expect(creature.thumbnail).toBe(`/images/creatures/${creature.slug}/thumbnail.webp`);
+      expect(creature.gallery).toHaveLength(1);
     }
   });
 
@@ -28,6 +32,9 @@ describe('official creature taxonomy', () => {
         expect(item.abilities.length).toBeGreaterThanOrEqual(3);
         expect(item.weaknesses.length).toBeGreaterThanOrEqual(2);
         expect(item.seoTitle).toContain(item.name);
+        expect(item.imageAlt.length).toBeGreaterThan(10);
+        expect(item).not.toHaveProperty('prompt');
+        expect(item).not.toHaveProperty('visualDirection');
       }
       expect(new Set(localized.map((item) => item.summary)).size).toBe(3);
     }

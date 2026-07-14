@@ -1,18 +1,5 @@
 import { EntityManager } from '@/components/admin/EntityManager';
-import { creatureCoverage } from '@/data/creatures';
+import { creatureCoverage, creatures } from '@/data/creatures';
 
-const stats = [
-  ['Registradas', creatureCoverage.registered],
-  ['Imagens-fonte', creatureCoverage.withImageSource],
-  ['GLB-fonte', creatureCoverage.withGlbSource],
-  ['GLB público', creatureCoverage.withPublicGlb],
-  ['STL-fonte', creatureCoverage.withStlSource],
-  ['Com lore', creatureCoverage.withLore],
-  ['PT / EN / ES', creatureCoverage.translated],
-  ['Publicadas', creatureCoverage.published],
-  ['Marketplace', creatureCoverage.marketplaceAvailable],
-] as const;
-
-export default function Page() {
-  return <><span className="eyebrow">Bestiary pipeline</span><h1 className="admin-title">Criaturas</h1><p className="muted">Taxonomia, narrativa, traduções, arquivos 3D e publicação das {creatureCoverage.expected} criaturas oficiais.</p><div className="admin-grid">{stats.map(([label, value]) => <article className="admin-panel" key={label}><span className="eyebrow">{value} / {creatureCoverage.expected}</span><h2 className="serif">{label}</h2></article>)}</div><section style={{ marginTop: 48 }}><EntityManager entity="creatures"/></section></>;
-}
+const stats = [['Registradas', creatureCoverage.registered], ['Imagens-fonte', creatureCoverage.withImageSource], ['GLB-fonte', creatureCoverage.withGlbSource], ['GLB público', creatureCoverage.withPublicGlb], ['STL-fonte', creatureCoverage.withStlSource], ['Com lore', creatureCoverage.withLore], ['PT / EN / ES', creatureCoverage.translated], ['Publicadas', creatureCoverage.published], ['Marketplace', creatureCoverage.marketplaceAvailable]] as const;
+export default function Page() { return <><span className="eyebrow">Bestiary pipeline</span><h1 className="admin-title">Criaturas</h1><p className="muted">Taxonomia, narrativa, traduções, arquivos 3D e publicação das {creatureCoverage.expected} criaturas oficiais.</p><div className="admin-grid">{stats.map(([label, value]) => <article className="admin-panel" key={label}><span className="eyebrow">{value} / {creatureCoverage.expected}</span><h2 className="serif">{label}</h2></article>)}</div><section className="admin-panel" style={{ marginTop: 32, overflowX: 'auto' }}><h2 className="serif">Cobertura de mídia e editorial</h2><table className="admin-table"><thead><tr><th>Criatura</th><th>Hero / thumb</th><th>Galeria</th><th>GLB / STL</th><th>Lore</th><th>PT / EN / ES</th><th>Marketplace</th></tr></thead><tbody>{creatures.map((creature) => <tr key={creature.slug}><td>{creature.name}<small className="muted"> · {creature.productionStatus}</small></td><td>{creature.assetReadiness.includes('image-ready') ? 'Prontos' : 'Pendentes'}</td><td>{creature.gallery.filter((item) => item.published).length} publicada</td><td>{creature.publicGlbPublished ? 'GLB pronto' : 'GLB pendente'} / {creature.stlSourceAvailable ? 'STL localizado' : 'STL pendente'}</td><td>{creature.lore ? 'Completo' : 'Pendente'}</td><td>{creature.editorialStatus === 'published' ? 'Publicado' : 'Rascunho'} / {creature.translations.en?.status} / {creature.translations.es?.status}</td><td>{creature.marketplace.some((item) => item.availability === 'available') ? 'Disponível' : 'Em produção'}</td></tr>)}</tbody></table></section><section style={{ marginTop: 48 }}><EntityManager entity="creatures"/></section></>; }

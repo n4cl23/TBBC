@@ -19,7 +19,8 @@ describe('creature asset publication boundary', () => {
     const publicAsset = { ...base, id: 'public', url: '/models/kraken.glb' };
     expect(publicCreatureAssets([privateAsset, publicAsset])).toEqual([publicAsset]);
     expect(selectPublicCreatureGlb({ publicGlbUrl: 'C:\\masters\\kraken.glb' })).toBeUndefined();
-    expect(selectPublicCreatureGlb({ publicGlbUrl: '/models/kraken.glb' })).toBe('/models/kraken.glb');
+    expect(selectPublicCreatureGlb({ publicGlbUrl: '/models/kraken.glb' })).toBeUndefined();
+    expect(selectPublicCreatureGlb({ publicGlbUrl: '/models/kraken.glb', publicGlbMimeType: 'model/gltf-binary', publicGlbSizeBytes: 1024, publicGlbPublished: true })).toBe('/models/kraken.glb');
   });
 
   it('uses a safe image fallback when no public render exists', () => {

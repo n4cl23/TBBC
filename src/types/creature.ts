@@ -24,6 +24,21 @@ export const creatureThreatLevels = [
 ] as const;
 export type CreatureThreatLevel = (typeof creatureThreatLevels)[number];
 
+export type CreatureEditorialStatus = 'draft' | 'published' | 'archived';
+export type CreatureProductionStatus = 'concept' | 'modeling' | 'review' | 'print-test' | 'ready' | 'released';
+export type CreatureAssetReadiness = 'image-ready' | 'glb-ready' | 'stl-ready' | 'marketplace-ready';
+export type CreatureGalleryType = 'concept' | 'hero' | 'clay' | 'painted' | 'detail' | 'wireframe' | 'print' | 'turntable';
+
+export interface CreatureMediaItem {
+  id: string;
+  type: CreatureGalleryType;
+  url: string;
+  mimeType: string;
+  width: number;
+  height: number;
+  published: boolean;
+}
+
 export const creatureAssetTypes = [
   'hero',
   'thumbnail',
@@ -75,6 +90,8 @@ export interface CreatureTranslation {
   seoDescription: string;
   imageAlt: string;
   captions: string[];
+  relationToRealm: string;
+  historicalRecord: string;
   status: 'draft' | 'published';
   version: number;
   createdAt: string;
@@ -169,12 +186,24 @@ export interface Creature {
   relatedEvents: string[];
   relatedLocations: string[];
   status: CreatureStatus;
+  editorialStatus: CreatureEditorialStatus;
+  productionStatus: CreatureProductionStatus;
+  assetReadiness: CreatureAssetReadiness[];
   featured: boolean;
   image: string;
+  heroImage: string;
+  cardImage: string;
+  thumbnail: string;
+  gallery: CreatureMediaItem[];
+  fallbackImage: string;
+  usesPlaceholder: boolean;
   imageSourceAvailable: boolean;
   glbSourceAvailable: boolean;
   stlSourceAvailable: boolean;
   publicGlbUrl?: string;
+  publicGlbMimeType?: 'model/gltf-binary';
+  publicGlbSizeBytes?: number;
+  publicGlbPublished?: boolean;
   prompt: string;
   technical: Creature3DProfile;
   habitats: CreatureHabitat[];
@@ -184,10 +213,12 @@ export interface Creature {
   updatedAt: string;
 }
 
-export type LocalizedCreature = Omit<Creature, 'translations'> & {
+export type LocalizedCreature = Omit<Creature, 'translations' | 'prompt' | 'visualDirection' | 'silhouette' | 'forbiddenElements'> & {
   locale: Locale;
   seoTitle: string;
   seoDescription: string;
   imageAlt: string;
   captions: string[];
+  relationToRealm: string;
+  historicalRecord: string;
 };

@@ -1,0 +1,414 @@
+{
+  "generatedAt": "2026-07-14T11:53:32.022Z",
+  "source": "external-preserved-master",
+  "creatures": [
+    {
+      "slug": "ice-wolves",
+      "sourceFilename": "Ice Wolves.png",
+      "sourceSha256": "48fe8b50feb1e3f30c33e09b1c268d42faa403d1ddf0315dcb0250d5db4d75eb",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/ice-wolves/hero.webp",
+        "/images/creatures/ice-wolves/card.webp",
+        "/images/creatures/ice-wolves/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "frost-troll",
+      "sourceFilename": "Frost Troll.png",
+      "sourceSha256": "cf6ea426b07570b4578477e07eb806a8f0c7d8b87e1c6bf4488dd8c2bc9a0cc6",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/frost-troll/hero.webp",
+        "/images/creatures/frost-troll/card.webp",
+        "/images/creatures/frost-troll/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "crystal-bear",
+      "sourceFilename": "Crystal Bear.png",
+      "sourceSha256": "f385f26b91c7880483f2763c7301b64cd4d4bbd89bb6e3bb53e1efda8b9b9d54",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/crystal-bear/hero.webp",
+        "/images/creatures/crystal-bear/card.webp",
+        "/images/creatures/crystal-bear/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "frost-drake",
+      "sourceFilename": "Frost Drake.png",
+      "sourceSha256": "0dff7b44129a0c5925d352d97d1e9dbf45f3f78817e6b0faf23d33adcd238008",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/frost-drake/hero.webp",
+        "/images/creatures/frost-drake/card.webp",
+        "/images/creatures/frost-drake/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "snow-wraith",
+      "sourceFilename": "Snow Wraith.png",
+      "sourceSha256": "5b746e5a8b707c1440d4afe1109a2f055cf30347d7e30ee9d74e36c053341868",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/snow-wraith/hero.webp",
+        "/images/creatures/snow-wraith/card.webp",
+        "/images/creatures/snow-wraith/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "frost-mammoth",
+      "sourceFilename": "Frost Mammoth.png",
+      "sourceSha256": "9ba1064ce08d3d35488340df690356b440e43a169d7a93cf0fe3246df17f2562",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/frost-mammoth/hero.webp",
+        "/images/creatures/frost-mammoth/card.webp",
+        "/images/creatures/frost-mammoth/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "ice-giant",
+      "sourceFilename": "Ice Giant.png",
+      "sourceSha256": "406456a3f0fbfebbc321531e2a1e940410bfc03da893a328012a0cadc8b659cb",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/ice-giant/hero.webp",
+        "/images/creatures/ice-giant/card.webp",
+        "/images/creatures/ice-giant/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "tempest-hawk",
+      "sourceFilename": "Tempest Hawk.png",
+      "sourceSha256": "c6aa0f3a111269626bb1e4c994d5e2788bcf38c9e3dd3df57ee5336826f8d51a",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/tempest-hawk/hero.webp",
+        "/images/creatures/tempest-hawk/card.webp",
+        "/images/creatures/tempest-hawk/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "storm-griffin",
+      "sourceFilename": "Storm Griffin.png",
+      "sourceSha256": "b55784d2d481917754b26d8eb9f2668a603630a4725f4e1770222710c17a7379",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/storm-griffin/hero.webp",
+        "/images/creatures/storm-griffin/card.webp",
+        "/images/creatures/storm-griffin/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "lightning-serpent",
+      "sourceFilename": "Lightning Serpent.png",
+      "sourceSha256": "ba63bc93136982f3360d00f09e136b24917c4e541f143a2d5e13f44b293f436e",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/lightning-serpent/hero.webp",
+        "/images/creatures/lightning-serpent/card.webp",
+        "/images/creatures/lightning-serpent/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "thunder-golem",
+      "sourceFilename": "Thunder Golem.png",
+      "sourceSha256": "ffe9f8e6cb2c329f71bbc2d6e566979ab50f32a1f706374ec180ccca875a693a",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/thunder-golem/hero.webp",
+        "/images/creatures/thunder-golem/card.webp",
+        "/images/creatures/thunder-golem/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "sky-whale",
+      "sourceFilename": "Sky Whale.png",
+      "sourceSha256": "21b3837604acae35edc118864e5b28f67563bcd4e5e33228f04caa1806adda60",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/sky-whale/hero.webp",
+        "/images/creatures/sky-whale/card.webp",
+        "/images/creatures/sky-whale/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "storm-dragon",
+      "sourceFilename": "Storm Dragon.png",
+      "sourceSha256": "eb3c822c9c38e54779e239d8e39ae267e3a6ca99c10cc5bee43a296d64956a45",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/storm-dragon/hero.webp",
+        "/images/creatures/storm-dragon/card.webp",
+        "/images/creatures/storm-dragon/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "iron-golem",
+      "sourceFilename": "Iron Golem.png",
+      "sourceSha256": "b985481c1a098a45c174a4b8d29501adc00eb989f7ebf5d2a92e473eaf48409d",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/iron-golem/hero.webp",
+        "/images/creatures/iron-golem/card.webp",
+        "/images/creatures/iron-golem/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "cave-troll",
+      "sourceFilename": "Cave Troll.png",
+      "sourceSha256": "904526ceabe62e56edbd117a4aef258c6192f24ece628b00498780ba71032180",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/cave-troll/hero.webp",
+        "/images/creatures/cave-troll/card.webp",
+        "/images/creatures/cave-troll/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "forge-beast",
+      "sourceFilename": "Forge Beast.png",
+      "sourceSha256": "55c1375051a25b4a70aa9dcb887157f0b86e63b20e4e4bae017c04d5f0781886",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/forge-beast/hero.webp",
+        "/images/creatures/forge-beast/card.webp",
+        "/images/creatures/forge-beast/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "stone-giant",
+      "sourceFilename": "Stone Giant.png",
+      "sourceSha256": "c19c8d8ac0a5e0bdff459f9e33e034bbeb9ed9fb41fb82997bda5c678ad8ac37",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/stone-giant/hero.webp",
+        "/images/creatures/stone-giant/card.webp",
+        "/images/creatures/stone-giant/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "lava-drake",
+      "sourceFilename": "Lava Drake.png",
+      "sourceSha256": "7b192868ae6b0dd83d5c3b6733df823c5a8d18c4aa4489d788bd8f92e2774c80",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/lava-drake/hero.webp",
+        "/images/creatures/lava-drake/card.webp",
+        "/images/creatures/lava-drake/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "ent",
+      "sourceFilename": "Ent.png",
+      "sourceSha256": "dba4f4a19e910de3e240ec1a8954ff930b0a7c25324cacf8c9c3573c2d02c541",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/ent/hero.webp",
+        "/images/creatures/ent/card.webp",
+        "/images/creatures/ent/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "dryad",
+      "sourceFilename": "Dryad.png",
+      "sourceSha256": "2adfcbd000cec8c4f477bbf1238b2ee102e6c9fc5f6e7368e7faaf643e384116",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/dryad/hero.webp",
+        "/images/creatures/dryad/card.webp",
+        "/images/creatures/dryad/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "ancient-wolf",
+      "sourceFilename": "Ancient Wolf.png",
+      "sourceSha256": "19fe7c2016c396dae19b9a1d34e570a5e49f2b91167ea6625b7d5a827e1eae8e",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/ancient-wolf/hero.webp",
+        "/images/creatures/ancient-wolf/card.webp",
+        "/images/creatures/ancient-wolf/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "forest-spirit",
+      "sourceFilename": "Forest Spirit.png",
+      "sourceSha256": "19c2bb215d282994f00cd18a34aca50919eac811b54533b73d3c204b853befcf",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/forest-spirit/hero.webp",
+        "/images/creatures/forest-spirit/card.webp",
+        "/images/creatures/forest-spirit/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "moss-colossus",
+      "sourceFilename": "Moss Colossus.png",
+      "sourceSha256": "52a27f137906c7e32bf44861686c417392ef66ee7ecc178c75514afd248c5d48",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/moss-colossus/hero.webp",
+        "/images/creatures/moss-colossus/card.webp",
+        "/images/creatures/moss-colossus/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "treant-elder",
+      "sourceFilename": "Treant Elder.png",
+      "sourceSha256": "1a22edc496ba829cf98a1916540dda4ac542bfc80738e90525bb298c03cd1b3c",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/treant-elder/hero.webp",
+        "/images/creatures/treant-elder/card.webp",
+        "/images/creatures/treant-elder/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "kraken",
+      "sourceFilename": "Kraken.png",
+      "sourceSha256": "8688550c7c4d0ad1846a6c9dfd9fe150e102c1160281c462e508b7924595b26e",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/kraken/hero.webp",
+        "/images/creatures/kraken/card.webp",
+        "/images/creatures/kraken/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "sea-serpent",
+      "sourceFilename": "Sea Serpent.png",
+      "sourceSha256": "1e776e11cfa8cade9ca9c304b540eff09c6d35763bd95ce73d85975f26179548",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/sea-serpent/hero.webp",
+        "/images/creatures/sea-serpent/card.webp",
+        "/images/creatures/sea-serpent/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "leviathan",
+      "sourceFilename": "Leviathan.png",
+      "sourceSha256": "5e1588c89b0b2ce0f0930e0783f0b2f1cf21f6e06c3f6d190a4b42950a65a8ac",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/leviathan/hero.webp",
+        "/images/creatures/leviathan/card.webp",
+        "/images/creatures/leviathan/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "deep-horror",
+      "sourceFilename": "Deep Horror.png",
+      "sourceSha256": "971614d9773f43209939a60ecf73c11ac6ffd6533ed93bea2f01e2ec998bb5dc",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/deep-horror/hero.webp",
+        "/images/creatures/deep-horror/card.webp",
+        "/images/creatures/deep-horror/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "coral-titan",
+      "sourceFilename": "Coral Titan.png",
+      "sourceSha256": "04d95f905d201584ae38c7a8751e20468152e126e0c5b412912995f336a5b625",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/coral-titan/hero.webp",
+        "/images/creatures/coral-titan/card.webp",
+        "/images/creatures/coral-titan/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "fire-drake",
+      "sourceFilename": "Fire Drake.png",
+      "sourceSha256": "00b46902f3f95ebb819f8b4f5dc74762e02a8fefb2c318d9ab2eb4bf7c6fc0f1",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/fire-drake/hero.webp",
+        "/images/creatures/fire-drake/card.webp",
+        "/images/creatures/fire-drake/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "ash-demon",
+      "sourceFilename": "Ash Demon.png",
+      "sourceSha256": "fc918dc535b9929b8cac40097d8f1d79af055447edab4696376b31340415f5ef",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/ash-demon/hero.webp",
+        "/images/creatures/ash-demon/card.webp",
+        "/images/creatures/ash-demon/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "sand-worm",
+      "sourceFilename": "Sand Worm.png",
+      "sourceSha256": "8f2ab012c016ae9648af7387d89ae0ce1f90a9c31272aafd7b60c4a3d5d19133",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/sand-worm/hero.webp",
+        "/images/creatures/sand-worm/card.webp",
+        "/images/creatures/sand-worm/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "phoenix",
+      "sourceFilename": "Phoenix.png",
+      "sourceSha256": "a40f6657f42094eefdf92faae6736c877aa875074cda2eaf7fe0aff186279c5b",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/phoenix/hero.webp",
+        "/images/creatures/phoenix/card.webp",
+        "/images/creatures/phoenix/thumbnail.webp"
+      ]
+    },
+    {
+      "slug": "magma-titan",
+      "sourceFilename": "Magma Titan.png",
+      "sourceSha256": "22d32f192abf4fca96433b92da089e4ef1f7f7a3f2c25fd2dd177fafd3bfcc9d",
+      "width": 1024,
+      "height": 1024,
+      "outputs": [
+        "/images/creatures/magma-titan/hero.webp",
+        "/images/creatures/magma-titan/card.webp",
+        "/images/creatures/magma-titan/thumbnail.webp"
+      ]
+    }
+  ]
+}

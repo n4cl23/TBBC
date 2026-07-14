@@ -362,7 +362,21 @@ model Creature {
   relatedEvents      String[]
   relatedLocations   String[]
   status             String                @default("concept")
+  editorialStatus    String                @default("draft")
+  productionStatus   String                @default("concept")
+  assetReadiness     String[]
   featured           Boolean               @default(false)
+  image              String?
+  heroImage          String?
+  cardImage          String?
+  thumbnail          String?
+  gallery            Json?
+  fallbackImage      String?
+  usesPlaceholder    Boolean               @default(false)
+  publicGlbUrl       String?
+  publicGlbMimeType  String?
+  publicGlbSizeBytes Int?
+  publicGlbPublished Boolean               @default(false)
   scale              String?
   heightMm           Float?
   widthMm            Float?
@@ -410,6 +424,8 @@ model CreatureTranslation {
   seoDescription String
   imageAlt       String
   captions       String[]
+  relationToRealm String
+  historicalRecord String
   status         PublicationStatus @default(draft)
   version        Int               @default(1)
   createdAt      DateTime          @default(now())

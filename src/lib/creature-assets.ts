@@ -37,10 +37,10 @@ export function selectCreatureImage(
   );
 }
 
-export function selectPublicCreatureGlb(creature: Pick<Creature, 'publicGlbUrl'>) {
-  return isSafePublicAssetUrl(creature.publicGlbUrl) ? creature.publicGlbUrl : undefined;
+export function selectPublicCreatureGlb(creature: Pick<Creature, 'publicGlbUrl' | 'publicGlbMimeType' | 'publicGlbSizeBytes' | 'publicGlbPublished'>) {
+  return creature.publicGlbPublished && creature.publicGlbMimeType === 'model/gltf-binary' && Boolean(creature.publicGlbSizeBytes) && creature.publicGlbUrl?.toLowerCase().endsWith('.glb') && isSafePublicAssetUrl(creature.publicGlbUrl) ? creature.publicGlbUrl : undefined;
 }
 
-export function selectPublicCreatureImage(creature: Pick<Creature, 'image'>) {
-  return isSafePublicAssetUrl(creature.image) ? creature.image : undefined;
+export function selectPublicCreatureImage(creature: Pick<Creature, 'heroImage' | 'fallbackImage'>) {
+  return isSafePublicAssetUrl(creature.heroImage) ? creature.heroImage : creature.fallbackImage;
 }

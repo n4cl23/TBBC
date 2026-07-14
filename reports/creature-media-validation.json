@@ -1,0 +1,1337 @@
+{
+  "valid": true,
+  "expected": 34,
+  "checked": 34,
+  "uniqueHeroes": 34,
+  "errors": [],
+  "warnings": [
+    "ice-wolves: no validated public GLB; honest preparation state required",
+    "frost-troll: no validated public GLB; honest preparation state required",
+    "crystal-bear: no validated public GLB; honest preparation state required",
+    "frost-drake: no validated public GLB; honest preparation state required",
+    "snow-wraith: no validated public GLB; honest preparation state required",
+    "frost-mammoth: no validated public GLB; honest preparation state required",
+    "ice-giant: no validated public GLB; honest preparation state required",
+    "tempest-hawk: no validated public GLB; honest preparation state required",
+    "storm-griffin: no validated public GLB; honest preparation state required",
+    "lightning-serpent: no validated public GLB; honest preparation state required",
+    "thunder-golem: no validated public GLB; honest preparation state required",
+    "sky-whale: no validated public GLB; honest preparation state required",
+    "storm-dragon: no validated public GLB; honest preparation state required",
+    "iron-golem: no validated public GLB; honest preparation state required",
+    "cave-troll: no validated public GLB; honest preparation state required",
+    "forge-beast: no validated public GLB; honest preparation state required",
+    "stone-giant: no validated public GLB; honest preparation state required",
+    "lava-drake: no validated public GLB; honest preparation state required",
+    "ent: no validated public GLB; honest preparation state required",
+    "dryad: no validated public GLB; honest preparation state required",
+    "ancient-wolf: no validated public GLB; honest preparation state required",
+    "forest-spirit: no validated public GLB; honest preparation state required",
+    "moss-colossus: no validated public GLB; honest preparation state required",
+    "treant-elder: no validated public GLB; honest preparation state required",
+    "kraken: no validated public GLB; honest preparation state required",
+    "sea-serpent: no validated public GLB; honest preparation state required",
+    "leviathan: no validated public GLB; honest preparation state required",
+    "deep-horror: no validated public GLB; honest preparation state required",
+    "coral-titan: no validated public GLB; honest preparation state required",
+    "fire-drake: no validated public GLB; honest preparation state required",
+    "ash-demon: no validated public GLB; honest preparation state required",
+    "sand-worm: no validated public GLB; honest preparation state required",
+    "phoenix: no validated public GLB; honest preparation state required",
+    "magma-titan: no validated public GLB; honest preparation state required"
+  ],
+  "creatures": [
+    {
+      "slug": "ice-wolves",
+      "sourceFilename": "Ice Wolves.png",
+      "sourceSha256": "48fe8b50feb1e3f30c33e09b1c268d42faa403d1ddf0315dcb0250d5db4d75eb",
+      "expectedAltText": "Ice Wolves",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/ice-wolves/hero.webp",
+          "bytes": 98918,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "560cdf6736b509342ba1ea7a98d57572ec9e55bab0e2236e250ac96d662e035a",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/ice-wolves/card.webp",
+          "bytes": 43464,
+          "width": 720,
+          "height": 720,
+          "sha256": "526762c5d7ebfcb847614621f31ebeca2ae524ee9406b4375c52d042bd18d679",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/ice-wolves/thumbnail.webp",
+          "bytes": 10224,
+          "width": 320,
+          "height": 320,
+          "sha256": "b0116460fb3258129c4ff57105cc108a0fe8ebfab8641b6529e1440e2503bab9",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "frost-troll",
+      "sourceFilename": "Frost Troll.png",
+      "sourceSha256": "cf6ea426b07570b4578477e07eb806a8f0c7d8b87e1c6bf4488dd8c2bc9a0cc6",
+      "expectedAltText": "Frost Troll",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/frost-troll/hero.webp",
+          "bytes": 149664,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "395afaf2da59ff4656362b6a75854fba5a7342a8fce8f2e1bc0a75c4a0982b66",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/frost-troll/card.webp",
+          "bytes": 63904,
+          "width": 720,
+          "height": 720,
+          "sha256": "a19cb3624ad6e9b82dbd4b48b222231aab9b048b5e015ba7d2b0a2d2d589b72e",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/frost-troll/thumbnail.webp",
+          "bytes": 14032,
+          "width": 320,
+          "height": 320,
+          "sha256": "b5724ef3af463d23ca1c38ac9c08980d80e9cdf09f6e2a5fcf50eb970f05b050",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "crystal-bear",
+      "sourceFilename": "Crystal Bear.png",
+      "sourceSha256": "f385f26b91c7880483f2763c7301b64cd4d4bbd89bb6e3bb53e1efda8b9b9d54",
+      "expectedAltText": "Crystal Bear",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/crystal-bear/hero.webp",
+          "bytes": 103924,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "652544481c165726f59cf7081b7f83e29b60693a70ed004ebdb9ab8cf7de132c",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/crystal-bear/card.webp",
+          "bytes": 40244,
+          "width": 720,
+          "height": 720,
+          "sha256": "520479e5c0acd7e379b8b70f0b97e6c8269d5158fa6b72a2b598d38b13e42549",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/crystal-bear/thumbnail.webp",
+          "bytes": 9936,
+          "width": 320,
+          "height": 320,
+          "sha256": "69041c3f3656e1a9fae4f5252b37263024b258acee7bd3c83b27cdd52645363c",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "frost-drake",
+      "sourceFilename": "Frost Drake.png",
+      "sourceSha256": "0dff7b44129a0c5925d352d97d1e9dbf45f3f78817e6b0faf23d33adcd238008",
+      "expectedAltText": "Frost Drake",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/frost-drake/hero.webp",
+          "bytes": 59778,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "d6a1a082423b49993a8decb358522640394d9c873eba8ac5ad35ad72fbf5acbe",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/frost-drake/card.webp",
+          "bytes": 26314,
+          "width": 720,
+          "height": 720,
+          "sha256": "681c5873d74e45b7977986e7e96d06184768e30f216d6b97f5ec8376ba8d3f2a",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/frost-drake/thumbnail.webp",
+          "bytes": 6664,
+          "width": 320,
+          "height": 320,
+          "sha256": "a8665c5bd1a14fd0e38173c1bebe48ac4ae638ae3f2a7eb0d7b1d50319dd6c91",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "snow-wraith",
+      "sourceFilename": "Snow Wraith.png",
+      "sourceSha256": "5b746e5a8b707c1440d4afe1109a2f055cf30347d7e30ee9d74e36c053341868",
+      "expectedAltText": "Snow Wraith",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/snow-wraith/hero.webp",
+          "bytes": 77778,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "88cd5c9740ba2388fef7bd1b237ddc830eef8034ca5010abce38e8d7471a6a40",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/snow-wraith/card.webp",
+          "bytes": 33842,
+          "width": 720,
+          "height": 720,
+          "sha256": "35cb8a6c567fb90e0f22529f7d95fb99f05c61f7fca16fbbc34b3666db390b1d",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/snow-wraith/thumbnail.webp",
+          "bytes": 8036,
+          "width": 320,
+          "height": 320,
+          "sha256": "81131320339658d02ef38392a4c8549f42ad607fcd43e0ceeaa3c782bace6dcc",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "frost-mammoth",
+      "sourceFilename": "Frost Mammoth.png",
+      "sourceSha256": "9ba1064ce08d3d35488340df690356b440e43a169d7a93cf0fe3246df17f2562",
+      "expectedAltText": "Frost Mammoth",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/frost-mammoth/hero.webp",
+          "bytes": 186064,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "63bcdeab7b26e0fd0dfffc199ffaa0300e173501b465c47774c60ba412a3b7ce",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/frost-mammoth/card.webp",
+          "bytes": 65764,
+          "width": 720,
+          "height": 720,
+          "sha256": "b4748eecfbd96859af7557fabf040de296abf99fa03122b2a82bf8be9f8bcee9",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/frost-mammoth/thumbnail.webp",
+          "bytes": 13216,
+          "width": 320,
+          "height": 320,
+          "sha256": "a329e326f7886549c074a19db609f361b73393bdd07692aed61d6d5e9090ce4c",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "ice-giant",
+      "sourceFilename": "Ice Giant.png",
+      "sourceSha256": "406456a3f0fbfebbc321531e2a1e940410bfc03da893a328012a0cadc8b659cb",
+      "expectedAltText": "Ice Giant",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/ice-giant/hero.webp",
+          "bytes": 218270,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "863985a5d11651a5cd4b6bed1453ef0719d31dd46556bc0c3f4a33ad853270ff",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/ice-giant/card.webp",
+          "bytes": 77866,
+          "width": 720,
+          "height": 720,
+          "sha256": "7af78d51d1a4c54971a8cbe7ffeab298881283c574fd2110aab621d74517f46b",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/ice-giant/thumbnail.webp",
+          "bytes": 16014,
+          "width": 320,
+          "height": 320,
+          "sha256": "6bcccff987383d6782c5115769ef8f513b4e922f98648599a0f43c39865cafb9",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "tempest-hawk",
+      "sourceFilename": "Tempest Hawk.png",
+      "sourceSha256": "c6aa0f3a111269626bb1e4c994d5e2788bcf38c9e3dd3df57ee5336826f8d51a",
+      "expectedAltText": "Tempest Hawk",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/tempest-hawk/hero.webp",
+          "bytes": 128676,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "8ba1bf20d843f0cae2aa02c259707b58808bb97273f71d4e230dca75500fe4df",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/tempest-hawk/card.webp",
+          "bytes": 44594,
+          "width": 720,
+          "height": 720,
+          "sha256": "8d3f3efaf1dcc2db1ee49781f234287e96e782e7164a366b03d693598ee5f31a",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/tempest-hawk/thumbnail.webp",
+          "bytes": 9740,
+          "width": 320,
+          "height": 320,
+          "sha256": "9ffa87620a92a5404c7599f1a79af71aaf6868aedfc778c5eb78f6d34faf6525",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "storm-griffin",
+      "sourceFilename": "Storm Griffin.png",
+      "sourceSha256": "b55784d2d481917754b26d8eb9f2668a603630a4725f4e1770222710c17a7379",
+      "expectedAltText": "Storm Griffin",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/storm-griffin/hero.webp",
+          "bytes": 81406,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "08fca122c9e3e200224655a44d9f6735582f0a952d40b3e12785eab97ab702ee",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/storm-griffin/card.webp",
+          "bytes": 34614,
+          "width": 720,
+          "height": 720,
+          "sha256": "8407c05101058ca3e5a18e2a47352f36aa223db2f2759e359b8a9c02b28f8959",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/storm-griffin/thumbnail.webp",
+          "bytes": 8236,
+          "width": 320,
+          "height": 320,
+          "sha256": "2809f9a740347baad757f3b64b565c1790de88c589c143b5956c7ef7d63d1ee8",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "lightning-serpent",
+      "sourceFilename": "Lightning Serpent.png",
+      "sourceSha256": "ba63bc93136982f3360d00f09e136b24917c4e541f143a2d5e13f44b293f436e",
+      "expectedAltText": "Lightning Serpent",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/lightning-serpent/hero.webp",
+          "bytes": 101904,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "87d55a76598f4f14e47afecdd541bd119d70570803c3b731a377824dddf0fb81",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/lightning-serpent/card.webp",
+          "bytes": 35896,
+          "width": 720,
+          "height": 720,
+          "sha256": "f2618039945f03282dd941f81b1a4651c6e32a235054c1bc1d6bcfbd41217a58",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/lightning-serpent/thumbnail.webp",
+          "bytes": 8054,
+          "width": 320,
+          "height": 320,
+          "sha256": "a4c009562eac8db2a3795c92ac2731b0a185f0471c374a93dae52ddc0d19dfd0",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "thunder-golem",
+      "sourceFilename": "Thunder Golem.png",
+      "sourceSha256": "ffe9f8e6cb2c329f71bbc2d6e566979ab50f32a1f706374ec180ccca875a693a",
+      "expectedAltText": "Thunder Golem",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/thunder-golem/hero.webp",
+          "bytes": 171570,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "2130b02a9c4f5bc8e3211f36970bdfa6a78ac19aef223b7fd81c6a291279b47a",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/thunder-golem/card.webp",
+          "bytes": 48934,
+          "width": 720,
+          "height": 720,
+          "sha256": "5274fca466a621f4c2745ebb58e0ea9987b0ca3d42830afed1c838f627608bc7",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/thunder-golem/thumbnail.webp",
+          "bytes": 11022,
+          "width": 320,
+          "height": 320,
+          "sha256": "a408759b3b91de0760e3a90ea8e8366cc71bc348f602376c5496c8db793f7d96",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "sky-whale",
+      "sourceFilename": "Sky Whale.png",
+      "sourceSha256": "21b3837604acae35edc118864e5b28f67563bcd4e5e33228f04caa1806adda60",
+      "expectedAltText": "Sky Whale",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/sky-whale/hero.webp",
+          "bytes": 97690,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "36dcf500174400b8709dd3334dd88c67be5d2f3c2e87e500414755bb9d6498f4",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/sky-whale/card.webp",
+          "bytes": 34332,
+          "width": 720,
+          "height": 720,
+          "sha256": "4166d6a386b8ccbfa38c3dce1311ba15d09af74ee51e0de11fe7902d8ecf832d",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/sky-whale/thumbnail.webp",
+          "bytes": 8854,
+          "width": 320,
+          "height": 320,
+          "sha256": "2dfc63af4f5411e2185e3a26319e41bde77b964ad06bac072d47fb65cefeb456",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "storm-dragon",
+      "sourceFilename": "Storm Dragon.png",
+      "sourceSha256": "eb3c822c9c38e54779e239d8e39ae267e3a6ca99c10cc5bee43a296d64956a45",
+      "expectedAltText": "Storm Dragon",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/storm-dragon/hero.webp",
+          "bytes": 76708,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "33ab7fe0c7411ab11825e0ee27231ab2c35ed5d0019c1e93dfc12532fa9ceca6",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/storm-dragon/card.webp",
+          "bytes": 33444,
+          "width": 720,
+          "height": 720,
+          "sha256": "57ec12546a310d90e2ee5c8b90f098fcec25048703b0525632e284320610e324",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/storm-dragon/thumbnail.webp",
+          "bytes": 7870,
+          "width": 320,
+          "height": 320,
+          "sha256": "41a0a04d5c9b6ac366b7885470a59278555b92e305e1797087c3585246bc8c62",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "iron-golem",
+      "sourceFilename": "Iron Golem.png",
+      "sourceSha256": "b985481c1a098a45c174a4b8d29501adc00eb989f7ebf5d2a92e473eaf48409d",
+      "expectedAltText": "Iron Golem",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/iron-golem/hero.webp",
+          "bytes": 117284,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "fc96fb582db90ed85e3353f694966596305855437f0821c5c549322b29829054",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/iron-golem/card.webp",
+          "bytes": 37232,
+          "width": 720,
+          "height": 720,
+          "sha256": "5e2973dc3141e66fd4cd4ea24de0fa72890900b37d8ee8a6c19cc037eb27c374",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/iron-golem/thumbnail.webp",
+          "bytes": 8978,
+          "width": 320,
+          "height": 320,
+          "sha256": "4cdb396241853484f718e669bb38c7963abd52423dde7882d65510b16ded246d",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "cave-troll",
+      "sourceFilename": "Cave Troll.png",
+      "sourceSha256": "904526ceabe62e56edbd117a4aef258c6192f24ece628b00498780ba71032180",
+      "expectedAltText": "Cave Troll",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/cave-troll/hero.webp",
+          "bytes": 156272,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "ad5de290dcc58bdbe80d7e173ea35580b42d0745f72fdc83a59a8eea5aff0e6f",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/cave-troll/card.webp",
+          "bytes": 43148,
+          "width": 720,
+          "height": 720,
+          "sha256": "b0ca8eaa97ca465467bff308ef9b03ae791b5cc70fde6358fab051990d8b8baf",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/cave-troll/thumbnail.webp",
+          "bytes": 9178,
+          "width": 320,
+          "height": 320,
+          "sha256": "71c2ae01bae373beef15e18294190500825ca520d51853552cdd484bf21d2e36",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "forge-beast",
+      "sourceFilename": "Forge Beast.png",
+      "sourceSha256": "55c1375051a25b4a70aa9dcb887157f0b86e63b20e4e4bae017c04d5f0781886",
+      "expectedAltText": "Forge Beast",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/forge-beast/hero.webp",
+          "bytes": 75722,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "a1c9c13fdda01d8ec231ae68c6cb1e7e27abc694df6ad768dc7ec64796b7380e",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/forge-beast/card.webp",
+          "bytes": 31938,
+          "width": 720,
+          "height": 720,
+          "sha256": "35ee3ff8b91fcf53411f8f0c2d7a1cf96fe623b4b560d620aae801da5116318d",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/forge-beast/thumbnail.webp",
+          "bytes": 7858,
+          "width": 320,
+          "height": 320,
+          "sha256": "c78f7091a756703c5b7db067f02c2a2da640e0f98c35b076d6be426651c9575d",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "stone-giant",
+      "sourceFilename": "Stone Giant.png",
+      "sourceSha256": "c19c8d8ac0a5e0bdff459f9e33e034bbeb9ed9fb41fb82997bda5c678ad8ac37",
+      "expectedAltText": "Stone Giant",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/stone-giant/hero.webp",
+          "bytes": 120258,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "8453c5f7d50e70366f4550debdd3d13e0e129e3f148c5515414c48eee305a63e",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/stone-giant/card.webp",
+          "bytes": 49268,
+          "width": 720,
+          "height": 720,
+          "sha256": "2a02b26bf86033f88cf558e84a232a8040025b715eb15f9a57834fe89ce8dd33",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/stone-giant/thumbnail.webp",
+          "bytes": 9778,
+          "width": 320,
+          "height": 320,
+          "sha256": "b3014a05ff6cde0659f409e8fad818a1d0b6646b45f7add82c9aa843c2b0ca98",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "lava-drake",
+      "sourceFilename": "Lava Drake.png",
+      "sourceSha256": "7b192868ae6b0dd83d5c3b6733df823c5a8d18c4aa4489d788bd8f92e2774c80",
+      "expectedAltText": "Lava Drake",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/lava-drake/hero.webp",
+          "bytes": 141794,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "605fd8f2e19bde29a99e26cc0e795990ec4424e0a3d0f5836edd203cde7cfa87",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/lava-drake/card.webp",
+          "bytes": 45164,
+          "width": 720,
+          "height": 720,
+          "sha256": "eb703fb519ae1295dbac2d69f67d7c1c008f7544d72b54184141897a151e2200",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/lava-drake/thumbnail.webp",
+          "bytes": 10170,
+          "width": 320,
+          "height": 320,
+          "sha256": "98ae52da72f1de81a8deae12efefd4080dcffd9906614b204e1f3ea22e90d7cc",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "ent",
+      "sourceFilename": "Ent.png",
+      "sourceSha256": "dba4f4a19e910de3e240ec1a8954ff930b0a7c25324cacf8c9c3573c2d02c541",
+      "expectedAltText": "Ent",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/ent/hero.webp",
+          "bytes": 202254,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "4c204f631c01b9af283a7b00316ab5bcfdbb5a6e5a2d7a6682e71d8047771127",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/ent/card.webp",
+          "bytes": 56150,
+          "width": 720,
+          "height": 720,
+          "sha256": "fd38b17318fd2d71d3580902ae27e633c1c7b099ff3385fc58581ae8cb5576c7",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/ent/thumbnail.webp",
+          "bytes": 10910,
+          "width": 320,
+          "height": 320,
+          "sha256": "d19c55012797ecb7894557afc284da28e608d28ac13ec28e819f6d3daea8e7a0",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "dryad",
+      "sourceFilename": "Dryad.png",
+      "sourceSha256": "2adfcbd000cec8c4f477bbf1238b2ee102e6c9fc5f6e7368e7faaf643e384116",
+      "expectedAltText": "Dryad",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/dryad/hero.webp",
+          "bytes": 85100,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "171ecbcd831a4b3cfc22388bb71cd8d5d038da0c2d553ff4543535e01d26479e",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/dryad/card.webp",
+          "bytes": 33948,
+          "width": 720,
+          "height": 720,
+          "sha256": "24b02cef05d268b4520cf08a57b32f8c82eb23e1bad0133812219eb058542462",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/dryad/thumbnail.webp",
+          "bytes": 8194,
+          "width": 320,
+          "height": 320,
+          "sha256": "f82bc4ccab6fdea908efafc2bbc9a552b91b735c6ba358273081fd42e5f7790c",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "ancient-wolf",
+      "sourceFilename": "Ancient Wolf.png",
+      "sourceSha256": "19fe7c2016c396dae19b9a1d34e570a5e49f2b91167ea6625b7d5a827e1eae8e",
+      "expectedAltText": "Ancient Wolf",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/ancient-wolf/hero.webp",
+          "bytes": 90722,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "dfed1a1e367ce426cb34b3cb8d163ffa835f4982972e84cac0582e247e1c9167",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/ancient-wolf/card.webp",
+          "bytes": 37884,
+          "width": 720,
+          "height": 720,
+          "sha256": "ace680afbf7ab6a10dbd5e766a45d1de3e0e3d1c46c5712b639de1c3f3a7d480",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/ancient-wolf/thumbnail.webp",
+          "bytes": 8760,
+          "width": 320,
+          "height": 320,
+          "sha256": "a151a7527bf5b839960251f8e9547c8dcfe42b8d5deff52a72f25a65c5567f81",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "forest-spirit",
+      "sourceFilename": "Forest Spirit.png",
+      "sourceSha256": "19c2bb215d282994f00cd18a34aca50919eac811b54533b73d3c204b853befcf",
+      "expectedAltText": "Forest Spirit",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/forest-spirit/hero.webp",
+          "bytes": 157946,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "de6c2f1b0b5aa0d7ba95f6c3322284fff2982456e815c69a024f76ecd8364af1",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/forest-spirit/card.webp",
+          "bytes": 40618,
+          "width": 720,
+          "height": 720,
+          "sha256": "4ec87cc6066a11606621ca39c77ae21e5f99cb85ef686b4190290b5761ffd5cf",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/forest-spirit/thumbnail.webp",
+          "bytes": 8128,
+          "width": 320,
+          "height": 320,
+          "sha256": "d2c1e0d3a13a5ecb0dd6a086663e670756a24538a2e237fbe110db8874cf3295",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "moss-colossus",
+      "sourceFilename": "Moss Colossus.png",
+      "sourceSha256": "52a27f137906c7e32bf44861686c417392ef66ee7ecc178c75514afd248c5d48",
+      "expectedAltText": "Moss Colossus",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/moss-colossus/hero.webp",
+          "bytes": 180662,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "e7182bccdd7b801fefef9e51305f90e861f7b71cff7aac79809fcf7245bdb4b4",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/moss-colossus/card.webp",
+          "bytes": 61480,
+          "width": 720,
+          "height": 720,
+          "sha256": "5263fac0d1ed4dd401a17417d5ebb98b779d2673b3e1422234a599633496a7fe",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/moss-colossus/thumbnail.webp",
+          "bytes": 11366,
+          "width": 320,
+          "height": 320,
+          "sha256": "171c0a8db874976ee9566c360f6bbc9e79313a1b281e3f43e4baf72b051b9665",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "treant-elder",
+      "sourceFilename": "Treant Elder.png",
+      "sourceSha256": "1a22edc496ba829cf98a1916540dda4ac542bfc80738e90525bb298c03cd1b3c",
+      "expectedAltText": "Treant Elder",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/treant-elder/hero.webp",
+          "bytes": 104904,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "a7d24d8df32bff9d61ff52f8a2c9709fc6fb88eb48f4a2bd0c2ba2244583d7aa",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/treant-elder/card.webp",
+          "bytes": 39094,
+          "width": 720,
+          "height": 720,
+          "sha256": "790eca1d4f6378f237c2b4daa6f5194e15f961db15072e62e15e8a1b4036e575",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/treant-elder/thumbnail.webp",
+          "bytes": 9086,
+          "width": 320,
+          "height": 320,
+          "sha256": "e8313fda79684ff58682fedf488f64cb5ff987ca7e0855e6231966feacd51147",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "kraken",
+      "sourceFilename": "Kraken.png",
+      "sourceSha256": "8688550c7c4d0ad1846a6c9dfd9fe150e102c1160281c462e508b7924595b26e",
+      "expectedAltText": "Kraken",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/kraken/hero.webp",
+          "bytes": 167724,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "c0cc0935276b2ed7ebd7569f9d35faa243dbb3dd0544090fcf3a9e3b0b6aba79",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/kraken/card.webp",
+          "bytes": 55770,
+          "width": 720,
+          "height": 720,
+          "sha256": "f9aeadd8c059c9e094c34d22041da37a02226bda86f63aba60d952597b65353d",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/kraken/thumbnail.webp",
+          "bytes": 12520,
+          "width": 320,
+          "height": 320,
+          "sha256": "e9af914cf4e8b32c467e10731631e7ada4ff882bdd131318926eb5312983cdbd",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "sea-serpent",
+      "sourceFilename": "Sea Serpent.png",
+      "sourceSha256": "1e776e11cfa8cade9ca9c304b540eff09c6d35763bd95ce73d85975f26179548",
+      "expectedAltText": "Sea Serpent",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/sea-serpent/hero.webp",
+          "bytes": 70222,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "7c56e62ecad0a38a5cbabc6ed39d96b25460c4962a678a9693b272bf6b695d31",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/sea-serpent/card.webp",
+          "bytes": 29108,
+          "width": 720,
+          "height": 720,
+          "sha256": "ed7c30c3ab630eb3dbc4faa866c97005ad6bf929d984ea089a73edfdc5c8dd1a",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/sea-serpent/thumbnail.webp",
+          "bytes": 6888,
+          "width": 320,
+          "height": 320,
+          "sha256": "1bd5a64b4cdecdef2eb70b8bece5b2099fd69af9320ca64b08d63d16f3d1940a",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "leviathan",
+      "sourceFilename": "Leviathan.png",
+      "sourceSha256": "5e1588c89b0b2ce0f0930e0783f0b2f1cf21f6e06c3f6d190a4b42950a65a8ac",
+      "expectedAltText": "Leviathan",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/leviathan/hero.webp",
+          "bytes": 153098,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "63aa8eb6e3763beb681ad7d05598e7767e9edcada2385cf48ebdf05a173c15fd",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/leviathan/card.webp",
+          "bytes": 49482,
+          "width": 720,
+          "height": 720,
+          "sha256": "ca6138c78c4cf082517e5304e1a6db84e4a69ab361e56be053f4ff1f41cc133a",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/leviathan/thumbnail.webp",
+          "bytes": 10570,
+          "width": 320,
+          "height": 320,
+          "sha256": "cb372039b248087bc2ca0b8449f53e5ad2f1b8d93613e947e44c5b74e39f7026",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "deep-horror",
+      "sourceFilename": "Deep Horror.png",
+      "sourceSha256": "971614d9773f43209939a60ecf73c11ac6ffd6533ed93bea2f01e2ec998bb5dc",
+      "expectedAltText": "Deep Horror",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/deep-horror/hero.webp",
+          "bytes": 100836,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "de63096ed662d5bf93ec9246c915ccb8c12ec97221fb3a50b88b0747f388a5f1",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/deep-horror/card.webp",
+          "bytes": 43458,
+          "width": 720,
+          "height": 720,
+          "sha256": "bf217981458c77f15eda77ae078708f3458b1d0ca6d8e350cbb3aa6f9b0d22e5",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/deep-horror/thumbnail.webp",
+          "bytes": 10596,
+          "width": 320,
+          "height": 320,
+          "sha256": "be9096d38c2123888148bfe03b843a00a853494fe66f698020d073898aad49d9",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "coral-titan",
+      "sourceFilename": "Coral Titan.png",
+      "sourceSha256": "04d95f905d201584ae38c7a8751e20468152e126e0c5b412912995f336a5b625",
+      "expectedAltText": "Coral Titan",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/coral-titan/hero.webp",
+          "bytes": 186002,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "571aca899aca81cc064275cbe971ca68b3be794f0ba290dde1b33af182271073",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/coral-titan/card.webp",
+          "bytes": 70088,
+          "width": 720,
+          "height": 720,
+          "sha256": "2433696cde5a246a0609c03f3a0137472801eb26382355ec0d30ffc5c2a6c255",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/coral-titan/thumbnail.webp",
+          "bytes": 15046,
+          "width": 320,
+          "height": 320,
+          "sha256": "38bf0c6004535a90b3ed698c803ed9f80000bcc072d7effe90ed7fdd1dbb1717",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "fire-drake",
+      "sourceFilename": "Fire Drake.png",
+      "sourceSha256": "00b46902f3f95ebb819f8b4f5dc74762e02a8fefb2c318d9ab2eb4bf7c6fc0f1",
+      "expectedAltText": "Fire Drake",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/fire-drake/hero.webp",
+          "bytes": 124004,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "2b65460c9f9ff1ec62aa6052e8caa09788ec6726e3d31bcd983dc5cb99a9894c",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/fire-drake/card.webp",
+          "bytes": 45120,
+          "width": 720,
+          "height": 720,
+          "sha256": "49f49fa9385e8d8c38973e8cc9ec0ca0ee76e1e5812e2c6ae4494f87d5916478",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/fire-drake/thumbnail.webp",
+          "bytes": 10050,
+          "width": 320,
+          "height": 320,
+          "sha256": "014864f6a3a556c0465f95119ea76d2aac1c9c2452b71828ac36dff80aac601a",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "ash-demon",
+      "sourceFilename": "Ash Demon.png",
+      "sourceSha256": "fc918dc535b9929b8cac40097d8f1d79af055447edab4696376b31340415f5ef",
+      "expectedAltText": "Ash Demon",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/ash-demon/hero.webp",
+          "bytes": 117344,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "9e262a85050f59eb3bfda3e8b3bb501dd27b2bd709b015f1ffc0840e1cfe9cd6",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/ash-demon/card.webp",
+          "bytes": 31348,
+          "width": 720,
+          "height": 720,
+          "sha256": "2a533856d4bdf36880a4eb209fe003c90c1e46457b45b7c5a7619b421616f8a5",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/ash-demon/thumbnail.webp",
+          "bytes": 7330,
+          "width": 320,
+          "height": 320,
+          "sha256": "91f3a698135a364e07f38543d4dee64f9a9d642ab2f59a73c59652f3c333cc3a",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "sand-worm",
+      "sourceFilename": "Sand Worm.png",
+      "sourceSha256": "8f2ab012c016ae9648af7387d89ae0ce1f90a9c31272aafd7b60c4a3d5d19133",
+      "expectedAltText": "Sand Worm",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/sand-worm/hero.webp",
+          "bytes": 182070,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "e901975b990fe3d973c5a12d496f786eb606aba768dc5c7d9677c746daa9f732",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/sand-worm/card.webp",
+          "bytes": 50014,
+          "width": 720,
+          "height": 720,
+          "sha256": "5eba1f3881fa7fe7cde374f5529bf886d378daf6dc67441f1ec26d841fb80364",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/sand-worm/thumbnail.webp",
+          "bytes": 10338,
+          "width": 320,
+          "height": 320,
+          "sha256": "2cb77a46d6973d82c2be989d748632a843075d84b1e335eadf2215fe7f548a51",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "phoenix",
+      "sourceFilename": "Phoenix.png",
+      "sourceSha256": "a40f6657f42094eefdf92faae6736c877aa875074cda2eaf7fe0aff186279c5b",
+      "expectedAltText": "Phoenix",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/phoenix/hero.webp",
+          "bytes": 117104,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "7faf7382532408575ad9af139079b4fefd8daa075c643a527afd9df23d0877fb",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/phoenix/card.webp",
+          "bytes": 41060,
+          "width": 720,
+          "height": 720,
+          "sha256": "026f5b1f2b8124da024d6f40950263d85b2f58a42b68cfc5074b5f0208934c2c",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/phoenix/thumbnail.webp",
+          "bytes": 10054,
+          "width": 320,
+          "height": 320,
+          "sha256": "89d849ee7c2aa8bcaff44c75b5843fdc78182a37c82b327e72b9b352f41613c4",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    },
+    {
+      "slug": "magma-titan",
+      "sourceFilename": "Magma Titan.png",
+      "sourceSha256": "22d32f192abf4fca96433b92da089e4ef1f7f7a3f2c25fd2dd177fafd3bfcc9d",
+      "expectedAltText": "Magma Titan",
+      "assets": [
+        {
+          "role": "hero",
+          "url": "/images/creatures/magma-titan/hero.webp",
+          "bytes": 160508,
+          "width": 1024,
+          "height": 1024,
+          "sha256": "0beb52459a332dafa44ba22f9d7af19b8f2518654edbccd83f8cd0828f5533cf",
+          "valid": true
+        },
+        {
+          "role": "card",
+          "url": "/images/creatures/magma-titan/card.webp",
+          "bytes": 51170,
+          "width": 720,
+          "height": 720,
+          "sha256": "85aa2dd5f9a124a722dcff17f137c601c32c5f6c90897d28c53ede86316d5c22",
+          "valid": true
+        },
+        {
+          "role": "thumbnail",
+          "url": "/images/creatures/magma-titan/thumbnail.webp",
+          "bytes": 11082,
+          "width": 320,
+          "height": 320,
+          "sha256": "d2688340360650f6f9c526f0ac3ecc4c9acb532237303c40742cb5ccc709ef77",
+          "valid": true
+        }
+      ],
+      "galleryPublished": 1,
+      "publicGlb": false,
+      "status": "image-ready"
+    }
+  ]
+}
