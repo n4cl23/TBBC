@@ -20,7 +20,7 @@ Reino, cultura, paleta, materiais, afinidade, clima e identidade visual são her
 
 ## Produção
 
-O deployment `dpl_EpaWMbX3hgMZPkhPm1MjJ9nMN9ua` está READY. As APIs semânticas responderam HTTP 200 no domínio canônico. O CMS permanece bloqueado pela configuração externa: o projeto não possui `ADMIN_USER`, `ADMIN_PASSWORD` nem armazenamento persistente de escrita; todas as rotas administrativas, inclusive as anteriores à sprint, respondem 503 por desenho de segurança.
+O deployment `dpl_EpaWMbX3hgMZPkhPm1MjJ9nMN9ua` está READY. As APIs semânticas responderam HTTP 200 no domínio canônico. O Neon PostgreSQL foi provisionado com o schema Prisma e passou a persistir relações semânticas e versões. O acesso web do CMS permanece protegido enquanto `ADMIN_USER` e `ADMIN_PASSWORD` não forem configurados.
 
 ## Testes
 
@@ -33,6 +33,5 @@ O deployment `dpl_EpaWMbX3hgMZPkhPm1MjJ9nMN9ua` está READY. As APIs semânticas
 ## Próximos passos
 
 1. Configurar credenciais administrativas na Vercel.
-2. Provisionar armazenamento persistente para mutações do CMS.
-3. Após a configuração, redeploy e smoke test autenticado de criar, editar e restaurar relação.
-4. Somente relações futuras aprovadas no Canon devem conectar as seis entidades isoladas.
+2. Após a configuração, redeploy e smoke test autenticado de criar, editar e restaurar relação.
+3. Somente relações futuras aprovadas no Canon devem conectar as seis entidades isoladas.

@@ -6,6 +6,8 @@
 - Implementa busca, contexto para IA, consultas inteligentes, cache e travessia limitada.
 - Publica oito famílias de APIs semânticas e integra relações ao CMS.
 - Substitui heurísticas de relacionados em personagens e criaturas por resolução automática do grafo.
+- Conecta relações semânticas e seu histórico de versões ao Neon PostgreSQL via Prisma.
+- Adiciona constraints de peso, prevenção de loops, unicidade e índices de consulta sem inserir dados no Canon.
 
 ## 1.1.0-canon — 2026-07-15
 
