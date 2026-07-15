@@ -1,10 +1,7 @@
-name: Deploy Preview
+name: Deploy Preview (legacy manual deploy)
 
 on:
   workflow_dispatch:
-  pull_request:
-    branches: [main]
-    types: [opened, synchronize, reopened]
 
 concurrency:
   group: preview-${{ github.event.pull_request.number || github.ref }}
@@ -32,11 +29,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx vercel@56.2.0 pull --yes --environment=preview
-      - run: npx vercel@56.2.0 env pull .env.preview.local --environment=preview --yes
-      - name: Apply Preview migrations
-        run: cp .env.preview.local .env && npx prisma migrate deploy
-      - name: Import and verify Canon
-        run: cp .env.preview.local .env && npm run db:canon:import && npm run db:canon:verify
+      - name: Database gate is separate
+        run: echo 'Run Preview Database Gate before this deployment workflow.'
       - run: npx vercel@56.2.0 build
       - id: deploy
         shell: bash

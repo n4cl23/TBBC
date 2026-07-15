@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.0-preview-gate — 2026-07-15
+
+- Move validações PostgreSQL do ambiente local restrito para um runner GitHub protegido pelo environment `preview`.
+- Adiciona pre-flight antiprodução, inventário e deploy de migrations, verificação idempotente do Canon e gates de aplicação.
+- Executa Playwright contra o deployment publicado sem traces, screenshots ou vídeos contendo contexto autenticado.
+- Documenta secrets, metadados seguros, rollback e separação obrigatória da promoção Production.
+
 ## 1.1.0-infrastructure — 2026-07-15
 
 - Adiciona pipelines separados de qualidade, Preview, promoção aprovada, backup e monitoramento.

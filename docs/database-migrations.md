@@ -9,3 +9,4 @@ Use exclusivamente migrações versionadas:
 
 `prisma db push` e `prisma migrate reset` são proibidos. Migrações devem ser aditivas, idempotentes no deploy e preservar integralmente o Canon.
 
+O runner remoto recebe `PREVIEW_DATABASE_URL`, `PREVIEW_DATABASE_URL_UNPOOLED` e `PREVIEW_POSTGRES_URL` como secrets do environment GitHub `preview`. O pre-flight rejeita valores vazios ou placeholders, `main`, environment Production e qualquer metadado diferente de `NEON_BRANCH_NAME=preview`. Falhas interrompem antes de `migrate deploy`.

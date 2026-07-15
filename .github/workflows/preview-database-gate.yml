@@ -1,0 +1,97 @@
+name: Preview Database Gate
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [codex/postgres-cms-persistence]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: preview-database-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  preview-gate:
+    if: github.ref != 'refs/heads/main' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    environment: preview
+    env:
+      GITHUB_ENVIRONMENT: preview
+      NEON_BRANCH_NAME: ${{ vars.NEON_BRANCH_NAME }}
+      NEON_BRANCH_ID: ${{ vars.NEON_BRANCH_ID }}
+      PLAYWRIGHT_BASE_URL: ${{ vars.PREVIEW_BASE_URL }}
+      SMOKE_BASE_URL: ${{ vars.PREVIEW_BASE_URL }}
+      PREVIEW_DATABASE_URL: ${{ secrets.PREVIEW_DATABASE_URL }}
+      PREVIEW_DATABASE_URL_UNPOOLED: ${{ secrets.PREVIEW_DATABASE_URL_UNPOOLED }}
+      PREVIEW_POSTGRES_URL: ${{ secrets.PREVIEW_POSTGRES_URL }}
+      PREVIEW_ADMIN_USER: ${{ secrets.PREVIEW_ADMIN_USER }}
+      PREVIEW_ADMIN_PASSWORD: ${{ secrets.PREVIEW_ADMIN_PASSWORD }}
+      DATABASE_URL: ${{ secrets.PREVIEW_DATABASE_URL }}
+      DATABASE_URL_UNPOOLED: ${{ secrets.PREVIEW_DATABASE_URL_UNPOOLED }}
+      POSTGRES_URL: ${{ secrets.PREVIEW_POSTGRES_URL }}
+      ADMIN_USER: ${{ secrets.PREVIEW_ADMIN_USER }}
+      ADMIN_PASSWORD: ${{ secrets.PREVIEW_ADMIN_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Preview pre-flight and Production guard
+        run: node scripts/preview-preflight.mjs
+      - run: npm ci
+      - run: npx prisma generate
+      - run: npx prisma validate
+      - name: Migration inventory
+        run: |
+          find prisma/migrations -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort
+          echo "MIGRATIONS_FOUND=$(find prisma/migrations -mindepth 1 -maxdepth 1 -type d | wc -l)"
+      - name: Prisma migration status
+        run: npx prisma migrate status > /tmp/migrate-status.log 2>&1
+      - name: Deploy Preview migrations
+        run: |
+          started=$(date +%s)
+          npx prisma migrate deploy > /tmp/migrate-deploy.log 2>&1
+          echo "MIGRATION_DURATION_SECONDS=$(($(date +%s)-started))"
+          echo "MIGRATION_RESULT=PASSED"
+      - name: Import and verify Canon twice
+        run: |
+          npm run db:canon:dry-run
+          npm run db:canon:import
+          npm run db:canon:verify
+          npm run db:integrity
+          npm run db:canon:dry-run
+          npm run db:canon:verify
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run test -- --reporter=junit --outputFile=test-results/unit-junit.xml
+      - run: npm run build
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+      - name: Preview API and CMS boundary smoke
+        run: npm run smoke
+      - name: Playwright against published Preview
+        env:
+          PLAYWRIGHT_DISABLE_ARTIFACTS: '1'
+        run: npm run test:e2e -- --reporter=junit
+      - name: Safe summary
+        if: always()
+        run: |
+          echo "### Preview Database Gate" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Environment: preview" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Neon branch: preview" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Commit: $GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload safe reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-gate-${{ github.run_id }}
+          path: |
+            test-results/*.xml
+          retention-days: 3
+          if-no-files-found: ignore
