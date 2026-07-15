@@ -12,14 +12,14 @@ import {
 import { CharacterPoster } from './CharacterPoster';
 import { MarketplaceGrid } from './marketplace/Marketplace';
 import { RealmCrest } from './WorldIdentity';
-import type { RealmExperience as Experience } from '@/data/realm-experience';
+import type { RealmExperience as Experience } from '@/data/canon-registry';
 import type {
   Character,
   Crown,
   GalleryItem,
   Guardian,
   Realm,
-} from '@/data/content';
+} from '@/data/canon-registry';
 import type { Marketplace, MarketplaceListing } from '@/types/marketplace';
 import { mediaSrc } from '@/lib/media';
 export function RealmExperience({

@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0-canon — 2026-07-15
+
+- Torna o registro canônico a fonte única de identidade para CMS, APIs e Knowledge Graph.
+- Adiciona UUIDs estáveis, metadados de versão e relações exclusivamente por IDs.
+- Elimina duplicação ontológica de guildas e padroniza papéis de Guardião e boss.
+- Publica seis APIs derivadas do Canon e valida duplicatas, aliases e relações órfãs.
+- Documenta a auditoria SSOT, arquitetura e contratos públicos.
+
 ## 1.0.0-canon — 2026-07-14
 
 ### Canon

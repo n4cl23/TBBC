@@ -97,3 +97,31 @@ export interface CanonAlias {
   locale?: 'pt-br' | 'en' | 'es';
   reason: 'legacy' | 'translation' | 'source-folder' | 'retcon';
 }
+
+export interface CanonEntity<T = Record<string, unknown>> {
+  id: string;
+  slug: string;
+  canonicalId: string;
+  aliases: string[];
+  version: string;
+  createdAt: string;
+  updatedAt: string;
+  kind: CanonEntityKind;
+  roles: CanonRole[];
+  data: T;
+}
+
+export interface CanonGraphRelation {
+  id: string;
+  fromId: string;
+  toId: string;
+  kind: CanonRelationKind;
+  bidirectional: boolean;
+  status: CanonStatus;
+}
+
+export interface CanonGraph {
+  version: string;
+  nodes: CanonEntity[];
+  edges: CanonGraphRelation[];
+}

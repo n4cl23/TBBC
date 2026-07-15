@@ -1,12 +1,12 @@
 # Canon oficial de Asterheim
 
-Versão: 1.0.0
+Versão: 1.1.0
 
 Data de corte: 14 de julho de 2026
 
 Status: canônico
 
-Este diretório é a referência editorial oficial de **The Black Banner: Chronicles of Asterheim**. Em conflitos entre documentos antigos, nomes de pastas, seeds ou textos promocionais, prevalecem as decisões registradas aqui e em `src/data/canon.ts`.
+Este diretório é a referência editorial oficial de **The Black Banner: Chronicles of Asterheim**. Em conflitos entre documentos antigos, nomes de pastas, seeds ou textos promocionais, prevalecem as decisões registradas aqui e no registro `src/data/canon-registry.ts`.
 
 ## Tese do universo
 
@@ -31,7 +31,11 @@ Asterheim é um continente cuja história é moldada por seis forças preservada
 - [Criaturas e Bosses](./creatures-and-bosses.md)
 - [Facções, guildas e coleções](./factions-and-collections.md)
 - [Governança](./governance.md)
+- [Auditoria SSOT](./ssot-audit.md)
+- [Arquitetura](./architecture.md)
+- [API](./api.md)
+- [Developer Guide](./developer-guide.md)
 
 ## Fonte executável
 
-O contrato legível por código vive em `src/types/canon.ts`; registros e relações canônicas vivem em `src/data/canon.ts`. A API pública `/api/canon` expõe versão, taxonomia, reinos e timeline sem depender do editor administrativo.
+O contrato legível por código vive em `src/types/canon.ts`; identidades, metadados e relações por UUID vivem em `src/data/canon-registry.ts`. A API pública `/api/canon` expõe o registro e o Knowledge Graph sem depender do editor administrativo.

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Search, SlidersHorizontal } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { creatureRealmProfiles } from '@/data/creatures';
+import { creatureRealmProfiles } from '@/data/canon-registry';
 import { creatureCategoryLabel, creatureProductionLabel, creatureThreatLabel } from '@/lib/creature-display';
 import { localizedPath, type Locale } from '@/lib/i18n';
 import type { CreatureCategory, CreatureProductionStatus, CreatureThreatLevel } from '@/types/creature';

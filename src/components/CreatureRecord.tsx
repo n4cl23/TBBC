@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { AlertTriangle, CheckCircle2, MapPin, Printer, ShieldAlert, Sparkles } from 'lucide-react';
 import type { CSSProperties } from 'react';
 import { atlasPoints } from '@/data/atlas';
-import { creatureRealmProfiles } from '@/data/creatures';
+import { creatureRealmProfiles } from '@/data/canon-registry';
 import { selectPublicCreatureGlb, selectPublicCreatureImage } from '@/lib/creature-assets';
 import { creatureCategoryLabel, creatureProductionLabel, creatureThreatLabel } from '@/lib/creature-display';
 import { localizedPath, type Locale } from '@/lib/i18n';

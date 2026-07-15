@@ -1,2 +1,2 @@
-import {timeline as defaultTimeline,type TimelineEvent} from '@/data/content';
+import {timeline as defaultTimeline,type TimelineEvent} from '@/data/canon-registry';
 export function LoreTimeline({events=defaultTimeline}:{events?:TimelineEvent[]}){return <ol className="lore-timeline">{events.map((event,i)=><li key={event.id} style={{'--era':event.accent} as React.CSSProperties}><span className="timeline-index">{String(i+1).padStart(2,'0')}</span><div><span className="eyebrow">{event.year}</span><h3 className="serif">{event.era}</h3><strong>{event.title}</strong><p className="muted">{event.summary}</p></div></li>)}</ol>}

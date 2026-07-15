@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useState } from 'react';
-import type { Character } from '@/data/content';
+import type { Character } from '@/data/canon-registry';
 type Node = {
   id: string;
   label: string;

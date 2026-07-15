@@ -42,6 +42,7 @@ enum CanonEntityKind {
 
 model WorldEntity {
   id          String            @id @default(cuid())
+  canonicalId String            @unique @default(uuid())
   type        String
   kind        CanonEntityKind?
   slug        String

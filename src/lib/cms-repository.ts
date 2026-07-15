@@ -12,10 +12,16 @@ import {
   timeline,
   gallery,
   news,
-} from '@/data/content';
-import {marketplaces, marketplaceListings} from '@/data/marketplaces';
-import {creatureCmsSeeds} from '@/data/creatures';
-import {canonAliases,canonEvents,officialBossEncounters,officialFactions,officialGuilds} from '@/data/canon';
+  marketplaces,
+  marketplaceListings,
+  creatureCmsSeeds,
+  canonAliases,
+  canonEvents,
+  officialBossEncounters,
+  officialFactions,
+  officialGuilds,
+  getCanonEntity,
+} from '@/data/canon-registry';
 import {artBibleSeeds, printGuideSeeds, withEditorialTranslations} from '@/data/editorial-translations';
 import type {
   AuditEntry,
@@ -63,7 +69,7 @@ function baseRecords(entity: CmsEntityType): CmsRecord[] {
       data = withEditorialTranslations(entity, raw),
       slug = String(data.slug || data.id);
     return {
-      id: `seed:${entity}:${slug}`,
+      id: getCanonEntity(canonKind(entity), slug)?.canonicalId || `seed:${entity}:${slug}`,
       entity,
       slug,
       canonicalSlug: slug,
@@ -76,6 +82,16 @@ function baseRecords(entity: CmsEntityType): CmsRecord[] {
       publishedAt: now,
     };
   });
+}
+function canonKind(entity: CmsEntityType) {
+  if (entity === 'realms') return 'realm' as const;
+  if (entity === 'guardians' || entity === 'characters') return 'character' as const;
+  if (entity === 'creatures') return 'creature' as const;
+  if (entity === 'crowns' || entity === 'weapons') return 'artifact' as const;
+  if (entity === 'events' || entity === 'timeline') return 'event' as const;
+  if (entity === 'factions' || entity === 'guilds') return 'faction' as const;
+  if (entity === 'collections') return 'collection' as const;
+  return 'collection' as const;
 }
 export async function listCmsRecords(entity: CmsEntityType) {
   const db = await readDb(),
