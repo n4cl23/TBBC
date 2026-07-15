@@ -10,4 +10,8 @@ flowchart LR
   C --> U[Experiências do site]
 ```
 
+## Camada semântica
+
+O Canon alimenta `GraphBuilder`, que normaliza relações e herança em memória. `GraphCache` pré-processa o DTO; `GraphService` fornece busca e travessia limitada; APIs, CMS, site e o futuro adaptador de IA consomem exclusivamente esses serviços.
+
 O registro cria UUIDs determinísticos a partir do tipo ontológico e slug. Aliases apontam para a identidade, relações usam IDs e todas as projeções mantêm compatibilidade com os slugs públicos.

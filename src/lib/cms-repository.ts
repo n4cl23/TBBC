@@ -23,6 +23,7 @@ import {
   getCanonEntity,
 } from '@/data/canon-registry';
 import {artBibleSeeds, printGuideSeeds, withEditorialTranslations} from '@/data/editorial-translations';
+import {semanticRelations} from '@/lib/semantic-graph';
 import type {
   AuditEntry,
   CmsDatabase,
@@ -49,6 +50,7 @@ const seeds: Partial<Record<CmsEntityType, unknown[]>> = {
   guilds: [...officialGuilds],
   bossEncounters: [...officialBossEncounters],
   canonAliases,
+  semanticRelations,
   artBible: artBibleSeeds,
   printGuide: printGuideSeeds,
 };

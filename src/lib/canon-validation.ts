@@ -3,6 +3,12 @@ import type {CmsEntityType} from '@/types/cms';
 export type CanonValidationResult={ok:true}|{ok:false;message:string};
 const isStringArray=(value:unknown):value is string[]=>Array.isArray(value)&&value.every(item=>typeof item==='string');
 export function validateCanonPayload(entity:CmsEntityType,data:Record<string,unknown>):CanonValidationResult{
+  if(entity==='semanticRelations'){
+    const source=String(data.source||''),target=String(data.target||''),weight=Number(data.weight);
+    if(!source||!target)return {ok:false,message:'Source e target canônicos são obrigatórios.'};
+    if(source===target)return {ok:false,message:'Loops semânticos não são permitidos.'};
+    if(!Number.isFinite(weight)||weight<0||weight>1)return {ok:false,message:'Weight deve estar entre 0 e 1.'};
+  }
   if(entity==='events'){
     if(typeof data.title!=='string'||typeof data.summary!=='string')return {ok:false,message:'Evento exige título e resumo.'};
     if(data.realms&&!isStringArray(data.realms))return {ok:false,message:'Reinos do evento devem ser uma lista de slugs.'};

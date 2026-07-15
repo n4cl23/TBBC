@@ -34,6 +34,7 @@ const labels: Record<CmsEntityType, string> = {
   guilds: 'Guildas',
   bossEncounters: 'Encontros de boss',
   canonAliases: 'Aliases canônicos',
+  semanticRelations: 'Relações semânticas',
   buildings: 'Construções',
   battles: 'Batalhas',
   printProfiles: 'Perfis de impressão',

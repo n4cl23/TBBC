@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.0-semantic — 2026-07-15
+
+- Adiciona Knowledge Graph semântico, herança contextual e relações ponderadas por UUID.
+- Implementa busca, contexto para IA, consultas inteligentes, cache e travessia limitada.
+- Publica oito famílias de APIs semânticas e integra relações ao CMS.
+- Substitui heurísticas de relacionados em personagens e criaturas por resolução automática do grafo.
+
 ## 1.1.0-canon — 2026-07-15
 
 - Torna o registro canônico a fonte única de identidade para CMS, APIs e Knowledge Graph.

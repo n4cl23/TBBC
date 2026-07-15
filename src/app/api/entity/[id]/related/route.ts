@@ -1,0 +1,2 @@
+import {NextRequest,NextResponse} from 'next/server';import {graphService} from '@/lib/semantic-graph';
+export async function GET(request:NextRequest,{params}:{params:Promise<{id:string}>}){const {id}=await params,entity=graphService.getEntity(id),depth=Number(request.nextUrl.searchParams.get('depth')||1);return entity?NextResponse.json({entity,related:graphService.related(id,depth)}):NextResponse.json({message:'Entidade não encontrada.'},{status:404});}

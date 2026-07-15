@@ -1,0 +1,2 @@
+import {SemanticRelationEditor} from '@/components/admin/SemanticRelationEditor';import {EntityManager} from '@/components/admin/EntityManager';
+export default function Page(){return <><h1 className="admin-title">Semantic Relations</h1><p className="muted">Crie e revise vínculos por IDs canônicos, com autocomplete, peso, descrição, timeline e prioridade.</p><SemanticRelationEditor/><section style={{marginTop:32}}><EntityManager entity="semanticRelations"/></section></>}

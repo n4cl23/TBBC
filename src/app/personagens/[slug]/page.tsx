@@ -24,6 +24,7 @@ import {
   type Guardian,
   type Realm,
 } from '@/data/content';
+import {graphService} from '@/lib/semantic-graph';
 import {
   getLocalizedPublishedData,
   getLocalizedPublishedEntity,
@@ -250,13 +251,11 @@ export default async function Page({
     icon: React.ReactNode;
   }>;
 
-  const relatedCharacters = characters
-    .filter(
-      (item) =>
-        item.collection === character.collection &&
-        item.slug !== character.slug,
-    )
-    .slice(0, 4);
+  const relatedCharacters = graphService.related(character.slug,2)
+    .filter((entity)=>entity.kind==='character')
+    .map((entity)=>characters.find((item)=>item.slug===entity.slug))
+    .filter((item):item is Character=>Boolean(item))
+    .slice(0,4);
 
   return (
     <article

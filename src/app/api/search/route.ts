@@ -1,0 +1,2 @@
+import {NextRequest,NextResponse} from 'next/server';import {graphService} from '@/lib/semantic-graph';import type {CanonEntityKind} from '@/types/canon';
+export function GET(request:NextRequest){const q=request.nextUrl.searchParams;const data=graphService.search({q:q.get('q')||undefined,kind:(q.get('kind')||undefined) as CanonEntityKind|undefined,role:q.get('role')||undefined,kingdom:q.get('kingdom')||undefined,limit:Number(q.get('limit')||20)});return NextResponse.json({data,count:data.length});}

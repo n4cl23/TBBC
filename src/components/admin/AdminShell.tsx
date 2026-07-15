@@ -14,6 +14,7 @@ const items = [
   ['/admin/creator-studio', 'Creator Studio', Sparkles],
   ['/admin/marketplace', 'Marketplace Hub', Box],
   ['/admin/world-builder', 'World Builder', Sparkles],
+  ['/admin/relations', 'Relações', Sparkles],
   ['/admin/world', 'World Database', Database],
   ['/admin/creatures', 'Criaturas', PawPrint],
   ['/admin/personagens', 'Personagens', Users],
