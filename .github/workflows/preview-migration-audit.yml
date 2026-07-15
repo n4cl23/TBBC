@@ -34,6 +34,8 @@ jobs:
       - run: npm ci
       - name: Read-only failed migration audit
         run: node scripts/audit-preview-migration.mjs
+      - name: Publish sanitized audit summary
+        run: cat reports/preview-failed-migration-audit.md >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         with:
           name: preview-failed-migration-audit-${{ github.run_id }}
