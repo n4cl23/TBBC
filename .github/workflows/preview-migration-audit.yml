@@ -2,6 +2,8 @@ name: Preview Failed Migration Audit
 
 on:
   workflow_dispatch:
+  push:
+    branches: [codex/postgres-cms-persistence]
 
 permissions:
   contents: read
