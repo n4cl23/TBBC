@@ -171,6 +171,7 @@ export function EntityManager({ entity }: { entity: CmsEntityType }) {
               editorLocale === 'pt-br'
                 ? publication
                 : editing?.status || 'draft',
+            expectedVersion: editing?.version,
           }),
         }),
         json = await res.json();

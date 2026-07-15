@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.0-persistence — 2026-07-15
+
+- PostgreSQL Neon adotado como fonte única do CMS em produção.
+- Canon 1.1.0 importável de forma transacional e verificável (142 entidades/305 relações).
+- Adicionados snapshots, changesets, restauração versionada, auditoria completa e locking otimista.
+- Relações semânticas agora possuem FKs, enum oficial e validações de integridade.
+- Mídias e variantes consolidadas no banco; gravação em filesystem bloqueada em produção.
+- APIs administrativas receberam schemas estritos, limite de payload, proteção de origem e resposta 409 para conflitos.
+
 ## 1.2.0-semantic — 2026-07-15
 
 - Adiciona Knowledge Graph semântico, herança contextual e relações ponderadas por UUID.

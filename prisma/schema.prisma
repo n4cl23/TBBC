@@ -47,31 +47,76 @@ enum SemanticImportance {
   critical
 }
 
+enum SemanticRelationType {
+  RULES
+  PROTECTS
+  FORGED
+  CREATED
+  DESTROYED
+  PARTICIPATED
+  DEFEATED
+  SEALED
+  AWAKENED
+  ALLY
+  ENEMY
+  MENTOR
+  APPRENTICE
+  TRADES_WITH
+  LOCATED_IN
+  BORN_IN
+  DIED_IN
+  OWNS
+  USES
+  LEADS
+  SERVES
+  FOLLOWS
+  RELATED_TO
+  DISCOVERED
+  HUNTS
+  GUARDS
+  SEEKS
+  BETRAYED
+  SACRIFICED_FOR
+  BOUND_TO
+  MEMBER_OF
+  HABITAT_IN
+  FEATURED_IN
+  PRECEDES
+  CAUSED
+}
+
 model WorldEntity {
-  id          String            @id @default(cuid())
-  canonicalId String            @unique @default(uuid())
-  type        String
-  kind        CanonEntityKind?
-  slug        String
-  canonicalSlug String?
-  name        String
-  data        Json
-  status      PublicationStatus @default(draft)
-  canonStatus CanonStatus       @default(review)
-  version     Int               @default(1)
-  publishedAt DateTime?
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
-  versions    EntityVersion[]
-  outgoing    Relation[]        @relation("RelationFrom")
-  incoming    Relation[]        @relation("RelationTo")
-  mediaLinks  MediaRelation[]
-  prompts     Prompt[]
-  technical   TechnicalAsset[]
-  productions ProductionProject[]
-  translations ContentTranslation[]
-  aliases     CanonAlias[]
-  roles       EntityRole[]
+  id               String               @id @default(cuid())
+  canonicalId      String               @unique @default(uuid())
+  type             String
+  kind             CanonEntityKind?
+  slug             String
+  canonicalSlug    String?
+  name             String
+  data             Json
+  status           PublicationStatus    @default(draft)
+  canonStatus      CanonStatus          @default(review)
+  version          Int                  @default(1)
+  publishedAt      DateTime?
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+  createdBy        String?
+  updatedBy        String?
+  deletedAt        DateTime?
+  revision         Int                  @default(1)
+  versions         EntityVersion[]
+  outgoing         Relation[]           @relation("RelationFrom")
+  incoming         Relation[]           @relation("RelationTo")
+  mediaLinks       MediaRelation[]
+  prompts          Prompt[]
+  technical        TechnicalAsset[]
+  productions      ProductionProject[]
+  translations     ContentTranslation[]
+  aliases          CanonAlias[]
+  roles            EntityRole[]
+  semanticOutgoing SemanticRelation[]   @relation("SemanticSource")
+  semanticIncoming SemanticRelation[]   @relation("SemanticTarget")
+  semanticTimeline SemanticRelation[]   @relation("SemanticTimeline")
 
   @@unique([type, slug])
   @@index([type, status])
@@ -79,28 +124,28 @@ model WorldEntity {
 }
 
 model CanonAlias {
-  id            String          @id @default(cuid())
-  entityId      String
-  alias         String
-  locale        String?
-  reason        String
-  createdAt     DateTime        @default(now())
-  entity        WorldEntity     @relation(fields: [entityId], references: [id], onDelete: Cascade)
+  id        String      @id @default(cuid())
+  entityId  String
+  alias     String
+  locale    String?
+  reason    String
+  createdAt DateTime    @default(now())
+  entity    WorldEntity @relation(fields: [entityId], references: [id], onDelete: Cascade)
 
   @@unique([alias, locale])
   @@index([entityId])
 }
 
 model EntityRole {
-  id            String          @id @default(cuid())
-  entityId      String
-  role          String
-  realmSlug     String?
-  context       Json?
-  status        CanonStatus     @default(review)
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  entity        WorldEntity     @relation(fields: [entityId], references: [id], onDelete: Cascade)
+  id        String      @id @default(cuid())
+  entityId  String
+  role      String
+  realmSlug String?
+  context   Json?
+  status    CanonStatus @default(review)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  entity    WorldEntity @relation(fields: [entityId], references: [id], onDelete: Cascade)
 
   @@unique([entityId, role, realmSlug])
   @@index([role, status])
@@ -180,11 +225,11 @@ model PrintValidation {
 }
 
 model Release {
-  id          String             @id @default(cuid())
+  id          String            @id @default(cuid())
   projectId   String
   name        String
   collection  String?
-  status      String             @default("planned")
+  status      String            @default("planned")
   plannedAt   DateTime?
   publishedAt DateTime?
   checklist   Json?
@@ -192,26 +237,26 @@ model Release {
   downloads   Json?
   notes       String?
   channels    Json?
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
-  project     ProductionProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  project     ProductionProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   @@index([status, plannedAt])
 }
 
 model Marketplace {
-  id             String               @id @default(cuid())
-  slug           String               @unique
+  id             String                   @id @default(cuid())
+  slug           String                   @unique
   name           String
   logo           String?
   website        String
   description    String
   primaryColor   String
   secondaryColor String
-  status         String               @default("active")
+  status         String                   @default("active")
   metadata       Json?
-  createdAt      DateTime             @default(now())
-  updatedAt      DateTime             @updatedAt
+  createdAt      DateTime                 @default(now())
+  updatedAt      DateTime                 @updatedAt
   listings       MarketplaceListing[]
   translations   MarketplaceTranslation[]
 
@@ -219,18 +264,18 @@ model Marketplace {
 }
 
 model MarketplaceTranslation {
-  id            String            @id @default(cuid())
-  marketplaceId String
-  locale        String
-  name          String
-  description   String
-  seoTitle      String?
+  id             String            @id @default(cuid())
+  marketplaceId  String
+  locale         String
+  name           String
+  description    String
+  seoTitle       String?
   seoDescription String?
-  status        PublicationStatus @default(draft)
-  version       Int               @default(1)
-  createdAt     DateTime          @default(now())
-  updatedAt     DateTime          @updatedAt
-  marketplace   Marketplace       @relation(fields: [marketplaceId], references: [id], onDelete: Cascade)
+  status         PublicationStatus @default(draft)
+  version        Int               @default(1)
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  marketplace    Marketplace       @relation(fields: [marketplaceId], references: [id], onDelete: Cascade)
 
   @@unique([marketplaceId, locale])
   @@index([locale, status])
@@ -312,39 +357,48 @@ model EntityVersion {
 }
 
 model AuditLog {
-  id         String   @id @default(cuid())
-  actor      String
-  role       String?
-  ip         String
-  entityType String
-  entityId   String
-  operation  String
-  changes    Json
-  createdAt  DateTime @default(now())
+  id              String   @id @default(cuid())
+  actor           String
+  role            String?
+  ip              String
+  entityType      String
+  entityId        String
+  operation       String
+  changes         Json
+  relationId      String?  @db.Uuid
+  previousVersion Int?
+  newVersion      Int?
+  requestId       String
+  origin          String?
+  createdAt       DateTime @default(now())
 
   @@index([entityType, entityId])
   @@index([createdAt])
 }
 
 model SemanticRelation {
-  id            String             @id @default(uuid()) @db.Uuid
-  source        String             @db.Uuid
-  target        String             @db.Uuid
-  relationType  String
-  weight        Float              @default(0.5)
-  description   String
-  status        CanonStatus        @default(review)
-  timelineEvent String?            @db.Uuid
-  startEra      String?
-  endEra        String?
-  importance    SemanticImportance @default(supporting)
-  canonical     Boolean            @default(false)
-  publicationStatus PublicationStatus @default(draft)
-  aliases       String[]
-  version       Int                @default(1)
-  createdAt     DateTime           @default(now())
-  updatedAt     DateTime           @updatedAt
-  versions      SemanticRelationVersion[]
+  id                String                    @id @default(uuid()) @db.Uuid
+  source            String                    @db.Uuid
+  target            String                    @db.Uuid
+  relationType      SemanticRelationType
+  weight            Float                     @default(0.5)
+  description       String
+  status            CanonStatus               @default(review)
+  timelineEvent     String?                   @db.Uuid
+  startEra          String?
+  endEra            String?
+  importance        SemanticImportance        @default(supporting)
+  canonical         Boolean                   @default(false)
+  publicationStatus PublicationStatus         @default(draft)
+  aliases           String[]
+  version           Int                       @default(1)
+  createdAt         DateTime                  @default(now())
+  updatedAt         DateTime                  @updatedAt
+  versions          SemanticRelationVersion[]
+  metadata          Json?
+  sourceEntity      WorldEntity               @relation("SemanticSource", fields: [source], references: [canonicalId], onDelete: Restrict)
+  targetEntity      WorldEntity               @relation("SemanticTarget", fields: [target], references: [canonicalId], onDelete: Restrict)
+  timelineEntity    WorldEntity?              @relation("SemanticTimeline", fields: [timelineEvent], references: [canonicalId], onDelete: Restrict)
 
   @@unique([source, target, relationType])
   @@index([source, relationType, status])
@@ -353,40 +407,115 @@ model SemanticRelation {
   @@index([importance, canonical])
 }
 
+model CanonVersion {
+  id            String          @id @default(uuid()) @db.Uuid
+  version       String          @unique
+  entityCount   Int
+  relationCount Int
+  checksum      String
+  importedAt    DateTime        @default(now())
+  importedBy    String
+  snapshots     CanonSnapshot[]
+}
+
+model CanonSnapshot {
+  id             String       @id @default(uuid()) @db.Uuid
+  canonVersionId String       @db.Uuid
+  payload        Json
+  checksum       String
+  createdAt      DateTime     @default(now())
+  canonVersion   CanonVersion @relation(fields: [canonVersionId], references: [id], onDelete: Restrict)
+
+  @@index([canonVersionId, createdAt])
+}
+
+model ChangeSet {
+  id            String   @id @default(uuid()) @db.Uuid
+  actor         String
+  entityType    String
+  entityId      String
+  fromVersion   Int?
+  toVersion     Int
+  changedFields Json
+  requestId     String
+  reason        String?
+  createdAt     DateTime @default(now())
+
+  @@index([entityType, entityId, createdAt])
+  @@index([requestId])
+}
+
+model RestoreOperation {
+  id            String   @id @default(uuid()) @db.Uuid
+  entityType    String
+  entityId      String
+  sourceVersion Int
+  newVersion    Int
+  actor         String
+  reason        String
+  requestId     String
+  createdAt     DateTime @default(now())
+
+  @@index([entityType, entityId, createdAt])
+}
+
 model SemanticRelationVersion {
-  id         String             @id @default(uuid()) @db.Uuid
-  relationId String             @db.Uuid
+  id         String            @id @default(uuid()) @db.Uuid
+  relationId String            @db.Uuid
   version    Int
   data       Json
   status     PublicationStatus
   actor      String
-  createdAt  DateTime           @default(now())
-  relation   SemanticRelation   @relation(fields: [relationId], references: [id], onDelete: Cascade)
+  createdAt  DateTime          @default(now())
+  relation   SemanticRelation  @relation(fields: [relationId], references: [id], onDelete: Cascade)
 
   @@unique([relationId, version])
   @@index([relationId, createdAt])
 }
 
 model MediaAsset {
-  id        String          @id @default(cuid())
-  slug      String          @unique
-  filename  String
-  src       String
-  alt       String
-  caption   String?
-  author    String?
-  license   String?
-  category  String
-  mimeType  String?
-  size      Int?
-  width     Int?
-  height    Int?
-  version   Int             @default(1)
-  tags      String[]
-  metadata  Json?
-  createdAt DateTime        @default(now())
-  updatedAt DateTime        @updatedAt
-  relations MediaRelation[]
+  id         String          @id @default(cuid())
+  slug       String          @unique
+  filename   String
+  src        String
+  alt        String
+  caption    String?
+  author     String?
+  license    String?
+  category   String
+  mimeType   String?
+  checksum   String          @unique
+  durationMs Int?
+  storageKey String          @unique
+  publicUrl  String
+  provenance String?
+  size       Int?
+  width      Int?
+  height     Int?
+  version    Int             @default(1)
+  tags       String[]
+  metadata   Json?
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+  relations  MediaRelation[]
+  variants   MediaVariant[]
+}
+
+model MediaVariant {
+  id         String     @id @default(uuid()) @db.Uuid
+  mediaId    String
+  kind       String
+  storageKey String     @unique
+  publicUrl  String
+  mimeType   String
+  size       Int
+  width      Int?
+  height     Int?
+  checksum   String
+  createdAt  DateTime   @default(now())
+  media      MediaAsset @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@unique([mediaId, kind])
 }
 
 model MediaRelation {
@@ -490,18 +619,18 @@ model Creature {
   hollowRecommended  Boolean?
   drainHoles         Int?
   supportStatus      String                @default("unknown")
-  lycheeReady         Boolean               @default(false)
-  printStatus         String                @default("unverified")
-  testedPrinter       String?
-  testedResin         String?
+  lycheeReady        Boolean               @default(false)
+  printStatus        String                @default("unverified")
+  testedPrinter      String?
+  testedResin        String?
   estimatedResinMl   Float?
   estimatedPrintTime Int?
   notes              String?
-  createdAt           DateTime              @default(now())
-  updatedAt           DateTime              @updatedAt
-  translations        CreatureTranslation[]
-  assets              CreatureAsset[]
-  habitats            CreatureHabitat[]
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
+  translations       CreatureTranslation[]
+  assets             CreatureAsset[]
+  habitats           CreatureHabitat[]
 
   @@index([realmId, category])
   @@index([threatLevel, status])
@@ -509,30 +638,30 @@ model Creature {
 }
 
 model CreatureTranslation {
-  id             String            @id @default(cuid())
-  creatureId     String
-  locale         String
-  name           String
-  epithet        String
-  summary        String
-  lore           String
-  origin         String
-  behavior       String
-  habitat        String
-  diet           String
-  weaknesses     String[]
-  abilities      String[]
-  seoTitle       String
-  seoDescription String
-  imageAlt       String
-  captions       String[]
-  relationToRealm String
+  id               String            @id @default(cuid())
+  creatureId       String
+  locale           String
+  name             String
+  epithet          String
+  summary          String
+  lore             String
+  origin           String
+  behavior         String
+  habitat          String
+  diet             String
+  weaknesses       String[]
+  abilities        String[]
+  seoTitle         String
+  seoDescription   String
+  imageAlt         String
+  captions         String[]
+  relationToRealm  String
   historicalRecord String
-  status         PublicationStatus @default(draft)
-  version        Int               @default(1)
-  createdAt      DateTime          @default(now())
-  updatedAt      DateTime          @updatedAt
-  creature       Creature          @relation(fields: [creatureId], references: [id], onDelete: Cascade)
+  status           PublicationStatus @default(draft)
+  version          Int               @default(1)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  creature         Creature          @relation(fields: [creatureId], references: [id], onDelete: Cascade)
 
   @@unique([creatureId, locale])
   @@index([locale, status])
