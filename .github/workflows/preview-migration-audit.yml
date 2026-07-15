@@ -1,0 +1,40 @@
+name: Preview Failed Migration Audit
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: preview
+    env:
+      GITHUB_ENVIRONMENT: preview
+      NEON_BRANCH_NAME: ${{ vars.NEON_BRANCH_NAME }}
+      NEON_BRANCH_ID: ${{ vars.NEON_BRANCH_ID }}
+      PREVIEW_DATABASE_URL: ${{ secrets.PREVIEW_DATABASE_URL }}
+      PREVIEW_DATABASE_URL_UNPOOLED: ${{ secrets.PREVIEW_DATABASE_URL_UNPOOLED }}
+      PREVIEW_POSTGRES_URL: ${{ secrets.PREVIEW_POSTGRES_URL }}
+      PREVIEW_ADMIN_USER: ${{ secrets.PREVIEW_ADMIN_USER }}
+      PREVIEW_ADMIN_PASSWORD: ${{ secrets.PREVIEW_ADMIN_PASSWORD }}
+      DATABASE_URL_UNPOOLED: ${{ secrets.PREVIEW_DATABASE_URL_UNPOOLED }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Preview pre-flight and Production guard
+        run: node scripts/preview-preflight.mjs
+      - run: npm ci
+      - name: Read-only failed migration audit
+        run: node scripts/audit-preview-migration.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: preview-failed-migration-audit-${{ github.run_id }}
+          path: reports/*.md
+          retention-days: 3
+          if-no-files-found: error

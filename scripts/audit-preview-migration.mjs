@@ -1,0 +1,36 @@
+import fs from 'node:fs/promises';
+import {Client} from 'pg';
+
+const migration='20260717000000_postgres_cms_foundation';
+const url=process.env.DATABASE_URL_UNPOOLED;
+if(!url||process.env.NEON_BRANCH_NAME!=='preview')throw new Error('Preview pre-flight failed.');
+const client=new Client({connectionString:url,application_name:'preview-migration-readonly-audit'});
+const redact=value=>String(value??'').replace(/postgres(?:ql)?:\/\/\S+/gi,'[REDACTED]').replace(/[a-z0-9-]+\.neon\.tech(?::\d+)?/gi,'[REDACTED_ENDPOINT]');
+const targetTables=['CanonVersion','CanonSnapshot','ChangeSet','RestoreOperation','MediaVariant'];
+const targetIndexes=['CanonVersion_version_key','CanonSnapshot_canonVersionId_createdAt_idx','ChangeSet_entityType_entityId_createdAt_idx','ChangeSet_requestId_idx','RestoreOperation_entityType_entityId_createdAt_idx','MediaVariant_storageKey_key','MediaVariant_mediaId_kind_key','MediaAsset_checksum_key','MediaAsset_storageKey_key','SemanticRelation_source_relationType_status_idx','SemanticRelation_target_relationType_status_idx','SemanticRelation_source_target_relationType_key'];
+const targetConstraints=['SemanticRelation_source_fkey','SemanticRelation_target_fkey','SemanticRelation_timelineEvent_fkey','CanonSnapshot_canonVersionId_fkey','MediaVariant_mediaId_fkey'];
+const targetColumns={AuditLog:['newVersion','origin','previousVersion','relationId','requestId'],MediaAsset:['checksum','durationMs','provenance','publicUrl','storageKey'],SemanticRelation:['metadata'],WorldEntity:['createdBy','deletedAt','revision','updatedBy']};
+await client.connect();
+try{
+ const migrationRow=(await client.query('SELECT migration_name,started_at,finished_at,rolled_back_at,applied_steps_count,checksum,logs FROM "_prisma_migrations" WHERE migration_name=$1',[migration])).rows[0];
+ if(!migrationRow)throw new Error('Migration record missing.');
+ const tables=new Set((await client.query("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname='public'")).rows.map(r=>r.tablename));
+ const enums=new Set((await client.query("SELECT t.typname FROM pg_type t JOIN pg_namespace n ON n.oid=t.typnamespace WHERE n.nspname='public' AND t.typtype='e'")).rows.map(r=>r.typname));
+ const columns=new Set((await client.query("SELECT table_name||'.'||column_name AS key FROM information_schema.columns WHERE table_schema='public'")).rows.map(r=>r.key));
+ const indexes=new Set((await client.query("SELECT indexname FROM pg_indexes WHERE schemaname='public'")).rows.map(r=>r.indexname));
+ const constraints=new Set((await client.query("SELECT conname FROM pg_constraint c JOIN pg_namespace n ON n.oid=c.connamespace WHERE n.nspname='public'")).rows.map(r=>r.conname));
+ const counts={};for(const table of targetTables)counts[table]=tables.has(table)?Number((await client.query(`SELECT count(*)::int AS count FROM "${table}"`)).rows[0].count):null;
+ const objects=[];
+ objects.push({name:'TYPE SemanticRelationType',before:'absent',after:'present',actual:enums.has('SemanticRelationType')?'present':'absent'});
+ for(const table of targetTables)objects.push({name:`TABLE ${table}`,before:'absent',after:'present',actual:tables.has(table)?`present; rows=${counts[table]}`:'absent'});
+ for(const [table,names] of Object.entries(targetColumns))for(const name of names)objects.push({name:`COLUMN ${table}.${name}`,before:'absent',after:'present',actual:columns.has(`${table}.${name}`)?'present':'absent'});
+ for(const name of targetIndexes)objects.push({name:`INDEX ${name}`,before:name.startsWith('SemanticRelation_')?'replaced':'absent',after:'present',actual:indexes.has(name)?'present':'absent'});
+ for(const name of targetConstraints)objects.push({name:`CONSTRAINT ${name}`,before:'absent',after:'present',actual:constraints.has(name)?'present':'absent'});
+ const present=objects.filter(o=>o.actual.startsWith('present')).length,absent=objects.length-present,hasData=Object.values(counts).some(v=>Number(v)>0);
+ const scenario=present===0?'A':present===objects.length?(hasData?'C':'D'):(hasData?'C':'B');
+ const report=[`# Preview failed migration audit`,``,`- Migration: \`${migrationRow.migration_name}\``,`- Started: ${migrationRow.started_at?.toISOString()??'null'}`,`- Finished: ${migrationRow.finished_at?.toISOString()??'null'}`,`- Rolled back: ${migrationRow.rolled_back_at?.toISOString()??'null'}`,`- Applied steps: ${migrationRow.applied_steps_count}`,`- Checksum: \`${migrationRow.checksum}\``,`- Prisma state: failed`,`- Classified scenario: **${scenario}**`,``,`## Sanitized original log`,``,`\`\`\`text`,redact(migrationRow.logs)||'(empty)','\`\`\`',``,`## Partial schema matrix`,``,`| Object | Expected before | Expected after | Current state | Required action |`,`|---|---|---|---|---|`,...objects.map(o=>`| ${o.name} | ${o.before} | ${o.after} | ${o.actual} | audit before recovery |`),``,`## Evidence summary`,``,`- Expected objects present: ${present}/${objects.length}.`,`- Expected objects absent: ${absent}/${objects.length}.`,`- Data found in newly-created tables: ${hasData?'yes':'no'}.`,`- No database mutation was executed by this audit.`].join('\n');
+ await fs.mkdir('reports',{recursive:true});await fs.writeFile('reports/preview-failed-migration-audit.md',report+'\n');
+ const plan=[`# Preview migration recovery plan`,``,`Status: **PROPOSED — NOT EXECUTED**`,``,`- Scenario: ${scenario}`,`- Target: Neon branch \`preview\` only.`,`- Production access: prohibited.`,`- Root cause and exact recovery commands require review of the audit evidence.`,`- No \`migrate resolve\`, rollback SQL, DDL, or data deletion has been executed.`,``,`## Success criteria`,``,`- Failed migration state resolved with documented evidence.`,`- No partial objects or invalid constraints.`,`- \`prisma migrate status\` aligned and deploy idempotent.`,`- Prisma diff empty or consciously documented.`,`- Canon remains 142 entities and 305 relations.`].join('\n');
+ await fs.writeFile('reports/preview-migration-recovery-plan.md',plan+'\n');
+ process.stdout.write(`MIGRATION_AUDIT=COMPLETED\nSCENARIO=${scenario}\nOBJECTS_PRESENT=${present}\nOBJECTS_ABSENT=${absent}\nPARTIAL_DATA=${hasData?'YES':'NO'}\n`);
+}finally{await client.end()}
