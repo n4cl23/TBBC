@@ -25,6 +25,7 @@ import {
 import {artBibleSeeds, printGuideSeeds, withEditorialTranslations} from '@/data/editorial-translations';
 import {semanticRelations} from '@/lib/semantic-graph';
 import {prisma} from '@/lib/prisma';
+import type {SemanticRelation as DatabaseSemanticRelation,SemanticRelationVersion as DatabaseSemanticRelationVersion} from '@prisma/client';
 import type {
   AuditEntry,
   CmsDatabase,
@@ -99,7 +100,7 @@ function canonKind(entity: CmsEntityType) {
 export async function listCmsRecords(entity: CmsEntityType) {
   if(entity==='semanticRelations'){
     const stored=await prisma.semanticRelation.findMany({orderBy:{updatedAt:'desc'}});
-    const overrides=stored.map((item):CmsRecord=>({id:item.id,entity,slug:`${item.source}-${item.relationType.toLowerCase()}-${item.target}`,canonicalSlug:undefined,canonStatus:item.status,data:{source:item.source,target:item.target,relationType:item.relationType,weight:item.weight,description:item.description,status:item.status,timelineEvent:item.timelineEvent,startEra:item.startEra,endEra:item.endEra,importance:item.importance,canonical:item.canonical,aliases:item.aliases},status:item.publicationStatus,version:item.version,createdAt:item.createdAt.toISOString(),updatedAt:item.updatedAt.toISOString(),publishedAt:item.publicationStatus==='published'?item.updatedAt.toISOString():undefined}));
+    const overrides=stored.map((item:DatabaseSemanticRelation):CmsRecord=>({id:item.id,entity,slug:`${item.source}-${item.relationType.toLowerCase()}-${item.target}`,canonicalSlug:undefined,canonStatus:item.status,data:{source:item.source,target:item.target,relationType:item.relationType,weight:item.weight,description:item.description,status:item.status,timelineEvent:item.timelineEvent,startEra:item.startEra,endEra:item.endEra,importance:item.importance,canonical:item.canonical,aliases:item.aliases},status:item.publicationStatus,version:item.version,createdAt:item.createdAt.toISOString(),updatedAt:item.updatedAt.toISOString(),publishedAt:item.publicationStatus==='published'?item.updatedAt.toISOString():undefined}));
     const keys=new Set(overrides.map((record)=>`${record.data.source}:${record.data.relationType}:${record.data.target}`));
     return [...baseRecords(entity).filter((record)=>!keys.has(`${record.data.source}:${record.data.relationType}:${record.data.target}`)),...overrides];
   }
@@ -235,7 +236,7 @@ export async function listAudit() {
   return (await readDb()).audit;
 }
 export async function listVersions(entity: CmsEntityType, id: string) {
-  if(entity==='semanticRelations'){return (await prisma.semanticRelationVersion.findMany({where:{relationId:id},orderBy:{version:'desc'}})).map((item)=>({id:item.id,recordId:item.relationId,entity,version:item.version,data:item.data as Record<string,unknown>,status:item.status,createdAt:item.createdAt.toISOString(),actor:item.actor}));}
+  if(entity==='semanticRelations'){return (await prisma.semanticRelationVersion.findMany({where:{relationId:id},orderBy:{version:'desc'}})).map((item:DatabaseSemanticRelationVersion)=>({id:item.id,recordId:item.relationId,entity,version:item.version,data:item.data as Record<string,unknown>,status:item.status,createdAt:item.createdAt.toISOString(),actor:item.actor}));}
   const record = await getCmsRecord(entity, id);
   if (!record) return [];
   return (await readDb()).versions
