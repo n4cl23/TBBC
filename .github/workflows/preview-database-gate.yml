@@ -69,7 +69,11 @@ jobs:
       - name: Deploy Preview migrations
         run: |
           started=$(date +%s)
-          npx prisma migrate deploy > /tmp/migrate-deploy.log 2>&1
+          if ! npx prisma migrate deploy > /tmp/migrate-deploy.log 2>&1; then
+            sed -E 's#postgres(ql)?://[^[:space:]]+#[REDACTED]#g; s#`[^`]*neon\.tech:[0-9]+`#[REDACTED_ENDPOINT]#g' /tmp/migrate-deploy.log
+            echo 'MIGRATION_RESULT=FAILED'
+            exit 1
+          fi
           echo "MIGRATION_DURATION_SECONDS=$(($(date +%s)-started))"
           echo "MIGRATION_RESULT=PASSED"
       - name: Import and verify Canon twice
