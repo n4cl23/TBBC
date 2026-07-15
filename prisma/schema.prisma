@@ -87,7 +87,7 @@ enum SemanticRelationType {
 
 model WorldEntity {
   id               String               @id @default(cuid())
-  canonicalId      String               @unique @default(uuid())
+  canonicalId      String               @unique @default(uuid()) @db.Uuid
   type             String
   kind             CanonEntityKind?
   slug             String

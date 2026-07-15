@@ -1,0 +1,58 @@
+name: Preview Migration Recovery
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: preview-migration-recovery
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  recover:
+    if: github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: preview
+    env:
+      GITHUB_ENVIRONMENT: preview
+      NEON_BRANCH_NAME: ${{ vars.NEON_BRANCH_NAME }}
+      NEON_BRANCH_ID: ${{ vars.NEON_BRANCH_ID }}
+      PREVIEW_DATABASE_URL: ${{ secrets.PREVIEW_DATABASE_URL }}
+      PREVIEW_DATABASE_URL_UNPOOLED: ${{ secrets.PREVIEW_DATABASE_URL_UNPOOLED }}
+      PREVIEW_POSTGRES_URL: ${{ secrets.PREVIEW_POSTGRES_URL }}
+      PREVIEW_ADMIN_USER: ${{ secrets.PREVIEW_ADMIN_USER }}
+      PREVIEW_ADMIN_PASSWORD: ${{ secrets.PREVIEW_ADMIN_PASSWORD }}
+      DATABASE_URL: ${{ secrets.PREVIEW_DATABASE_URL_UNPOOLED }}
+      DATABASE_URL_UNPOOLED: ${{ secrets.PREVIEW_DATABASE_URL_UNPOOLED }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Preview pre-flight and Production guard
+        run: node scripts/preview-preflight.mjs
+      - run: npm ci
+      - name: Re-audit and rollback exact partial state
+        run: node scripts/recover-preview-migration.mjs
+      - name: Mark audited execution rolled back
+        run: npx prisma migrate resolve --rolled-back 20260717000000_postgres_cms_foundation
+      - name: Deploy versioned recovery and foundation migrations
+        run: npx prisma migrate deploy
+      - run: npx prisma validate
+      - run: npx prisma migrate status
+      - name: Confirm idempotent deploy
+        run: npx prisma migrate deploy
+      - name: Confirm Prisma schema alignment
+        run: npx prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma --exit-code
+      - name: Sanitized recovery summary
+        if: always()
+        run: |
+          echo '### Preview migration recovery' >> "$GITHUB_STEP_SUMMARY"
+          echo '- Environment: preview' >> "$GITHUB_STEP_SUMMARY"
+          echo '- Production: not accessed' >> "$GITHUB_STEP_SUMMARY"
+          echo '- Migration: 20260717000000_postgres_cms_foundation' >> "$GITHUB_STEP_SUMMARY"
+          echo "- Commit: $GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"

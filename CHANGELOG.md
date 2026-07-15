@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.0-preview-migration-recovery — 2026-07-15
+
+- Documenta o Cenário E da migration CMS falha: FK UUID contra `WorldEntity.canonicalId` persistido como texto.
+- Preserva a migration original e seu checksum; adiciona alinhamento versionado de `canonicalId` para UUID.
+- Adiciona rollback Preview transacional, com inventário exato, zero dados e abort-on-drift antes de `migrate resolve`.
+- Adiciona workflow manual de recuperação e validação de status, deploy idempotente e diff, sem acesso a Production.
+
 ## 1.1.0-preview-gate — 2026-07-15
 
 - Move validações PostgreSQL do ambiente local restrito para um runner GitHub protegido pelo environment `preview`.
