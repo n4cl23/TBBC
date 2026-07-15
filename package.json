@@ -16,6 +16,8 @@
     "db:canon:import": "tsx scripts/canon-db.ts apply",
     "db:canon:verify": "tsx scripts/canon-db.ts verify",
     "db:integrity": "tsx scripts/canon-db.ts verify",
+    "smoke": "node scripts/smoke-test.mjs",
+    "db:verify-isolation": "node scripts/verify-db-isolation.mjs",
     "bestiary:scan": "node scripts/import-bestiary-assets.ts",
     "bestiary:import": "node scripts/import-bestiary-assets.ts",
     "creatures:prepare-media": "node scripts/prepare-creature-media.ts",

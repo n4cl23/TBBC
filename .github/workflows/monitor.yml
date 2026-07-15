@@ -1,0 +1,19 @@
+name: Production Health Monitor
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: API, database, CMS, graph and Canon
+        run: curl --fail --silent --show-error --max-time 20 https://theblackbanner.vercel.app/api/health
+      - name: Admin authentication boundary
+        run: test "$(curl --silent --output /dev/null --write-out '%{http_code}' --max-time 20 https://theblackbanner.vercel.app/admin)" = "401"

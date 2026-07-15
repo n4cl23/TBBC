@@ -1,0 +1,38 @@
+name: Encrypted Database Backup
+
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: production
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: npx vercel@56.2.0 env pull .env.production.local --environment=production --yes
+      - name: Export, compress and encrypt
+        env:
+          BACKUP_ENCRYPTION_KEY: ${{ secrets.BACKUP_ENCRYPTION_KEY }}
+        run: |
+          set -a
+          source .env.production.local
+          set +a
+          pg_dump "$DATABASE_URL_UNPOOLED" --format=custom --no-owner --no-acl --file=theblackbanner.dump
+          gpg --batch --yes --symmetric --cipher-algo AES256 --passphrase "$BACKUP_ENCRYPTION_KEY" --output theblackbanner.dump.gpg theblackbanner.dump
+          rm theblackbanner.dump
+      - uses: actions/upload-artifact@v4
+        with:
+          name: postgres-backup-${{ github.run_id }}
+          path: theblackbanner.dump.gpg
+          retention-days: 14
+          if-no-files-found: error

@@ -1,19 +1,5 @@
-# Deploy
+# Deployment
 
-## Produção Vercel
+O release é promovido em duas fases. O workflow `Deploy Preview` aplica migrações somente no branch Neon de Preview, importa e verifica o Canon 1.1.0, cria um artefato Vercel e executa smoke tests. `Promote Production` exige aprovação do environment `production`, aplica migrações na Main, verifica o Canon e promove exatamente a URL de Preview informada.
 
-O projeto de produção é `theblackbanner` e sua origem canônica é `https://theblackbanner.vercel.app`. Defina `NEXT_PUBLIC_SITE_URL` com esse valor em Preview e Production. O host legado `tbbc-three.vercel.app` é preservado somente como redirecionamento permanente.
-
-## Requisitos
-
-- Node.js 22 LTS
-- npm
-- `ADMIN_USER` e `ADMIN_PASSWORD` definidos como segredos da plataforma
-
-Execute `npm ci`, `npm run build` e `npm start`.
-
-## Mídia
-
-`public/uploads` funciona apenas em servidor com disco gravável e persistente. Plataformas serverless normalmente oferecem filesystem efêmero ou somente leitura; nelas, implemente `ImageStorageProvider` para S3, Cloudinary ou Supabase Storage e use PostgreSQL para os metadados.
-
-Não há deploy automático configurado. O workflow atual faz somente integração contínua.
+Variáveis obrigatórias nos environments GitHub `preview` e `production`: `VERCEL_TOKEN`, `VERCEL_ORG_ID` e `VERCEL_PROJECT_ID`. Production também exige `ADMIN_USER` e `ADMIN_PASSWORD`. Nunca use `prisma db push`.

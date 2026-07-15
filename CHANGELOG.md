@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.0-infrastructure — 2026-07-15
+
+- Adiciona pipelines separados de qualidade, Preview, promoção aprovada, backup e monitoramento.
+- Publica health check integrado para API, PostgreSQL, CMS, grafo e invariantes do Canon.
+- Documenta deployment, release, DevOps, backup e rollback.
+- Bloqueia releases quando Preview e Production compartilham o mesmo PostgreSQL.
+
 ## 1.1.0-persistence — 2026-07-15
 
 - PostgreSQL Neon adotado como fonte única do CMS em produção.
