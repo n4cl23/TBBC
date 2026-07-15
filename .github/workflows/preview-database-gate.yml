@@ -58,10 +58,12 @@ jobs:
           status=$?
           set -e
           if grep -Eq 'P[0-9]{4}|Can.t reach|Authentication failed|Error:' /tmp/migrate-status.log; then
+            sed -E 's#postgres(ql)?://[^[:space:]]+#[REDACTED]#g; s#`[^`]*neon\.tech:[0-9]+`#[REDACTED_ENDPOINT]#g' /tmp/migrate-status.log
             echo 'MIGRATE_STATUS=FAILED'
             exit 1
           fi
           if [ "$status" -ne 0 ] && ! grep -qi 'not yet been applied' /tmp/migrate-status.log; then
+            sed -E 's#postgres(ql)?://[^[:space:]]+#[REDACTED]#g; s#`[^`]*neon\.tech:[0-9]+`#[REDACTED_ENDPOINT]#g' /tmp/migrate-status.log
             echo 'MIGRATE_STATUS=FAILED'
             exit 1
           fi
