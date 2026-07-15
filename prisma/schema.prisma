@@ -21,13 +21,35 @@ enum AssetStatus {
   archived
 }
 
+enum CanonStatus {
+  draft
+  review
+  canonical
+  retconned
+  archived
+}
+
+enum CanonEntityKind {
+  realm
+  location
+  faction
+  character
+  creature
+  artifact
+  event
+  collection
+}
+
 model WorldEntity {
   id          String            @id @default(cuid())
   type        String
+  kind        CanonEntityKind?
   slug        String
+  canonicalSlug String?
   name        String
   data        Json
   status      PublicationStatus @default(draft)
+  canonStatus CanonStatus       @default(review)
   version     Int               @default(1)
   publishedAt DateTime?
   createdAt   DateTime          @default(now())
@@ -40,9 +62,40 @@ model WorldEntity {
   technical   TechnicalAsset[]
   productions ProductionProject[]
   translations ContentTranslation[]
+  aliases     CanonAlias[]
+  roles       EntityRole[]
 
   @@unique([type, slug])
   @@index([type, status])
+  @@index([kind, canonStatus])
+}
+
+model CanonAlias {
+  id            String          @id @default(cuid())
+  entityId      String
+  alias         String
+  locale        String?
+  reason        String
+  createdAt     DateTime        @default(now())
+  entity        WorldEntity     @relation(fields: [entityId], references: [id], onDelete: Cascade)
+
+  @@unique([alias, locale])
+  @@index([entityId])
+}
+
+model EntityRole {
+  id            String          @id @default(cuid())
+  entityId      String
+  role          String
+  realmSlug     String?
+  context       Json?
+  status        CanonStatus     @default(review)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  entity        WorldEntity     @relation(fields: [entityId], references: [id], onDelete: Cascade)
+
+  @@unique([entityId, role, realmSlug])
+  @@index([role, status])
 }
 
 model ContentTranslation {

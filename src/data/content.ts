@@ -5,6 +5,7 @@ import {
   type CharacterPersonality,
   type CharacterTimelineEntry,
 } from '@/data/character-editorial';
+import {canonEvents} from '@/data/canon';
 export type Status = 'Em desenvolvimento' | 'Conceito' | 'Legado' | 'Planejado';
 export interface Collection {
   slug: string;
@@ -776,58 +777,22 @@ export const gallery: GalleryItem[] = [
     order: 100 + i,
   })),
 ];
-export const timeline: TimelineEvent[] = [
-  {
-    id: 'first',
-    era: 'Primeira Era',
-    title: 'O despertar das seis forças',
-    summary:
-      'Ferro, gelo, vida, tempestade, oceano e fogo passam a moldar o continente.',
-    year: 'Antes dos registros',
-    accent: '#b89b62',
-  },
-  {
-    id: 'second',
-    era: 'Segunda Era',
-    title: 'Os reinos erguem suas fronteiras',
-    summary:
-      'Fortalezas e santuários surgem ao redor dos artefatos ancestrais.',
-    year: 'Ano 1',
-    accent: '#78935a',
-  },
-  {
-    id: 'fall',
-    era: 'Queda dos Reinos',
-    title: 'Os juramentos são quebrados',
-    summary: 'Alianças falham e as Coroas começam a escolher seus Guardiões.',
-    year: 'Ano 418',
-    accent: '#9d4438',
-  },
-  {
-    id: 'dragons',
-    era: 'Era dos Dragões',
-    title: 'O céu torna-se território de guerra',
-    summary: 'Dragões e homens disputam o futuro das seis forças.',
-    year: 'Ano 511',
-    accent: '#b45f3f',
-  },
-  {
-    id: 'guardians',
-    era: 'Ascensão dos Guardiões',
-    title: 'Seis sacrifícios preservam o equilíbrio',
-    summary: 'Cada Guardião aceita um vínculo que não poderá abandonar.',
-    year: 'Ano 603',
-    accent: '#547fa8',
-  },
-  {
-    id: 'now',
-    era: 'Atualidade',
-    title: 'O Estandarte Negro é erguido',
-    summary: 'Mercenários e cronistas descobrem sinais de uma sétima força.',
-    year: 'Ano 742',
-    accent: '#c5a15d',
-  },
-];
+const timelineAccents: Record<string,string> = {
+  'Primeira Era':'#b89b62',
+  'Era das Coroas':'#78935a',
+  'Queda dos Reinos':'#9d4438',
+  'Guerra dos Céus':'#b45f3f',
+  'Pacto dos Guardiões':'#547fa8',
+  Atualidade:'#c5a15d',
+};
+export const timeline: TimelineEvent[] = canonEvents.map((event) => ({
+  id:event.slug,
+  era:event.era,
+  title:event.title,
+  summary:event.summary,
+  year:event.displayYear,
+  accent:timelineAccents[event.era] || '#b89b62',
+}));
 export const news: NewsArticle[] = [
   {
     slug: 'o-estandarte-foi-erguido',

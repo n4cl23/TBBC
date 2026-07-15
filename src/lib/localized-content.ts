@@ -141,6 +141,10 @@ export const translatableFields: Partial<
     'imageAlt',
   ],
   timeline: ['era', 'title', 'summary', 'year'],
+  events: ['era', 'title', 'summary', 'displayYear', 'causes', 'consequences'],
+  factions: ['name', 'summary', 'description'],
+  guilds: ['name', 'summary', 'description'],
+  bossEncounters: ['name', 'note'],
   artBible: [
     'name',
     'title',

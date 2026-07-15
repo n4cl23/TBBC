@@ -15,6 +15,7 @@ import {
 } from '@/data/content';
 import {marketplaces, marketplaceListings} from '@/data/marketplaces';
 import {creatureCmsSeeds} from '@/data/creatures';
+import {canonAliases,canonEvents,officialBossEncounters,officialFactions,officialGuilds} from '@/data/canon';
 import {artBibleSeeds, printGuideSeeds, withEditorialTranslations} from '@/data/editorial-translations';
 import type {
   AuditEntry,
@@ -37,6 +38,11 @@ const seeds: Partial<Record<CmsEntityType, unknown[]>> = {
   marketplaces,
   marketplaceListings,
   creatures: creatureCmsSeeds,
+  events: canonEvents,
+  factions: [...officialFactions],
+  guilds: [...officialGuilds],
+  bossEncounters: [...officialBossEncounters],
+  canonAliases,
   artBible: artBibleSeeds,
   printGuide: printGuideSeeds,
 };
@@ -60,6 +66,8 @@ function baseRecords(entity: CmsEntityType): CmsRecord[] {
       id: `seed:${entity}:${slug}`,
       entity,
       slug,
+      canonicalSlug: slug,
+      canonStatus: String(raw.status || '') === 'canonical' ? 'canonical' : 'review',
       data,
       status: 'published',
       version: 1,
@@ -119,6 +127,8 @@ export async function saveCmsRecord(
         : existing?.id || crypto.randomUUID(),
       entity,
       slug: input.slug,
+      canonicalSlug: input.slug,
+      canonStatus: (input.data.canonStatus as CmsRecord['canonStatus']) || existing?.canonStatus || 'review',
       data: input.data,
       status: input.status,
       version: (existing?.version || 0) + 1,

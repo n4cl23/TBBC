@@ -4,7 +4,7 @@ O World Engine estende o CMS com entidades de conhecimento, relações bidirecio
 
 ## Grafo
 
-`WorldEntity` representa qualquer entidade editorial. `Relation` conecta origem e destino por tipo (`ally`, `enemy`, `realm`, `weapon`, `guardian`, `timeline`, `media`, `prompt` ou `related`). Relações podem ser bidirecionais e possuem metadata extensível.
+`WorldEntity` representa qualquer entidade editorial. A taxonomia oficial, os papéis e as relações estão definidos em `docs/canon` e `src/types/canon.ts`. `Relation` conecta entidades sem confundir tipo ontológico com papel narrativo: Guardião e boss são papéis; guilda é subtipo de facção; a timeline é uma projeção de eventos.
 
 ## Migração PostgreSQL
 

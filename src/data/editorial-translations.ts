@@ -385,7 +385,7 @@ const timelineCopy: Record<
   string,
   Record<EditorialLocale, [string, string, string, string]>
 > = {
-  first: {
+  'awakening-six-forces': {
     en: [
       'First Age',
       'The awakening of the six forces',
@@ -399,73 +399,77 @@ const timelineCopy: Record<
       'Antes de los registros',
     ],
   },
-  second: {
+  'foundation-six-realms': {
     en: [
-      'Second Age',
-      'The realms raise their borders',
-      'Fortresses and sanctuaries rise around the ancestral artifacts.',
+      'Age of Crowns',
+      'The foundation of the Six Realms',
+      'Communities raise fortresses and sanctuaries around the six Crowns.',
       'Year 1',
     ],
     es: [
-      'Segunda Era',
-      'Los reinos levantan sus fronteras',
-      'Fortalezas y santuarios surgen alrededor de los artefactos ancestrales.',
+      'Era de las Coronas',
+      'La fundación de los Seis Reinos',
+      'Las comunidades levantan fortalezas y santuarios alrededor de las seis Coronas.',
       'Año 1',
     ],
   },
-  fall: {
+  'night-of-chains': {
     en: [
       'Fall of the Realms',
-      'The oaths are broken',
-      'Alliances fail, and the Crowns begin choosing their Guardians.',
+      'The Night of Chains',
+      'The alliance of Crowns breaks; Ironhold survives the first great siege but does not fall.',
       'Year 418',
     ],
     es: [
       'Caída de los Reinos',
-      'Los juramentos se rompen',
-      'Las alianzas fracasan y las Coronas comienzan a elegir a sus Guardianes.',
+      'La Noche de las Cadenas',
+      'La alianza de las Coronas se rompe; Ironhold resiste el primer gran asedio, pero no cae.',
       'Año 418',
     ],
   },
-  dragons: {
+  'war-of-the-skies': {
     en: [
-      'Age of Dragons',
-      'The sky becomes a battlefield',
-      'Dragons and mortals fight over the future of the six forces.',
+      'War of the Skies',
+      'The War of the Skies',
+      'Mortals and dragons fight over the Crowns; Stormreach is devastated and the south begins to burn.',
       'Year 511',
     ],
     es: [
-      'Era de los Dragones',
-      'El cielo se convierte en campo de batalla',
-      'Dragones y mortales disputan el futuro de las seis fuerzas.',
+      'Guerra de los Cielos',
+      'La Guerra de los Cielos',
+      'Mortales y dragones disputan las Coronas; Stormreach es devastada y el sur comienza a arder.',
       'Año 511',
     ],
   },
-  guardians: {
+  'last-dragon': {
+    en: ['War of the Skies','The fall of the Last Dragon','The bearer of Dragon’s Oath ends the war and turns a military victory into a moral debt.','Year 590'],
+    es: ['Guerra de los Cielos','La caída del Último Dragón','El portador de Dragon’s Oath termina la guerra y convierte una victoria militar en deuda moral.','Año 590'],
+  },
+  'covenant-of-guardians': {
     en: [
-      'Rise of the Guardians',
-      'Six sacrifices preserve the balance',
-      'Each Guardian accepts a bond they can never abandon.',
+      'Covenant of Guardians',
+      'The Covenant of Guardians',
+      'The six bonds are recognized as one covenant, formalizing bonds that began earlier.',
       'Year 603',
     ],
     es: [
-      'Ascenso de los Guardianes',
-      'Seis sacrificios preservan el equilibrio',
-      'Cada Guardián acepta un vínculo que nunca podrá abandonar.',
+      'Pacto de los Guardianes',
+      'El Pacto de los Guardianes',
+      'Los seis vínculos son reconocidos como un pacto, formalizando vínculos iniciados antes.',
       'Año 603',
     ],
   },
-  now: {
+  'raising-black-banner': {
     en: [
       'Present Day',
       'The Black Banner is raised',
-      'Mercenaries and chroniclers discover signs of a seventh force.',
+      'The Black Banner Company gathers signs of a seventh force as Ironhold suffers its final fall.',
       'Year 742',
     ],
     es: [
       'Actualidad',
       'El Estandarte Negro se alza',
-      'Mercenarios y cronistas descubren señales de una séptima fuerza.',
+      'The Black Banner Company reúne señales de una séptima fuerza mientras Ironhold sufre su caída definitiva.',
       'Año 742',
     ],
   },
