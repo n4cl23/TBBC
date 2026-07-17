@@ -49,9 +49,9 @@ try {
 
   const foundForeignKeys = new Set((await client.query(`
     SELECT conname
-    FROM pg_constraint constraint
-    JOIN pg_namespace namespace ON namespace.oid = constraint.connamespace
-    WHERE namespace.nspname = 'public' AND constraint.contype = 'f'
+    FROM pg_constraint c
+    JOIN pg_namespace namespace ON namespace.oid = c.connamespace
+    WHERE namespace.nspname = 'public' AND c.contype = 'f'
   `)).rows.map((row) => row.conname));
   for (const name of expectedForeignKeys) {
     if (!foundForeignKeys.has(name)) throw new Error(`Expected foreign key is absent: ${name}`);
