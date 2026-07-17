@@ -2,6 +2,8 @@ name: Preview Migration Recovery
 
 on:
   workflow_dispatch:
+  push:
+    branches: [codex/postgres-cms-persistence]
 
 concurrency:
   group: preview-migration-recovery
@@ -36,6 +38,8 @@ jobs:
       - name: Preview pre-flight and Production guard
         run: node scripts/preview-preflight.mjs
       - run: npm ci
+      - name: Generate Prisma client
+        run: npx prisma generate
       - name: Re-audit and rollback exact partial state
         run: node scripts/recover-preview-migration.mjs
       - name: Mark audited execution rolled back
@@ -48,6 +52,14 @@ jobs:
         run: npx prisma migrate deploy
       - name: Confirm Prisma schema alignment
         run: npx prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma --exit-code
+      - name: Create read-only recovery evidence
+        run: node scripts/verify-preview-recovery.mjs
+      - name: Upload sanitized recovery evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-migration-recovery-evidence
+          path: reports/preview-migration-recovery-result.md
+          if-no-files-found: error
       - name: Sanitized recovery summary
         if: always()
         run: |
