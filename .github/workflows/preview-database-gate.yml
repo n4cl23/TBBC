@@ -2,8 +2,6 @@ name: Preview Database Gate
 
 on:
   workflow_dispatch:
-  push:
-    branches: [codex/postgres-cms-persistence]
   pull_request:
     branches: [main]
 
