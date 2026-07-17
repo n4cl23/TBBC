@@ -2,8 +2,6 @@ name: Preview Migration Recovery
 
 on:
   workflow_dispatch:
-  push:
-    branches: [codex/postgres-cms-persistence]
 
 concurrency:
   group: preview-migration-recovery
