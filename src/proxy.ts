@@ -7,21 +7,47 @@ import {
   routeNames,
   type Locale,
 } from '@/lib/i18n';
+import { isEditorialRole, type EditorialRole } from '@/lib/editorial-auth';
+
+type EditorialAccount = { username: string; password: string; role: EditorialRole };
+
+function editorialAccounts(): EditorialAccount[] {
+  const fallback = process.env.ADMIN_USER && process.env.ADMIN_PASSWORD
+    ? [{ username: process.env.ADMIN_USER, password: process.env.ADMIN_PASSWORD, role: 'owner' as const }]
+    : [];
+  const raw = process.env.EDITORIAL_ACCOUNTS;
+  if (!raw) return fallback;
+  try {
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return fallback;
+    const accounts = parsed.filter((item): item is EditorialAccount =>
+      Boolean(item) && typeof item.username === 'string' && typeof item.password === 'string' && isEditorialRole(item.role),
+    );
+    return accounts.length ? accounts : fallback;
+  } catch {
+    return fallback;
+  }
+}
 function adminAuth(request: NextRequest) {
-  const user = process.env.ADMIN_USER,
-    password = process.env.ADMIN_PASSWORD;
-  if (!user || !password) {
+  const accounts = editorialAccounts();
+  if (!accounts.length) {
     if (process.env.NODE_ENV === 'development') return NextResponse.next();
     return new NextResponse('Admin não configurado.', { status: 503 });
   }
   const authorization = request.headers.get('authorization');
   if (authorization?.startsWith('Basic ')) {
     try {
-      const [givenUser, givenPassword] = atob(authorization.slice(6)).split(
-        ':',
-      );
-      if (givenUser === user && givenPassword === password)
-        return NextResponse.next();
+      const decoded = atob(authorization.slice(6));
+      const separator = decoded.indexOf(':');
+      const givenUser = decoded.slice(0, separator);
+      const givenPassword = decoded.slice(separator + 1);
+      const account = accounts.find((item) => item.username === givenUser && item.password === givenPassword);
+      if (account) {
+        const headers = new Headers(request.headers);
+        headers.set('x-tbbc-editorial-actor', account.username);
+        headers.set('x-tbbc-editorial-role', account.role);
+        return NextResponse.next({ request: { headers } });
+      }
     } catch {}
   }
   return new NextResponse('Autenticação necessária.', {

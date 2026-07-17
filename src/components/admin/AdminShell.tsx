@@ -12,6 +12,7 @@ import {useState} from 'react';
 const items = [
   ['/admin', 'Dashboard', Home],
   ['/admin/creator-studio', 'Creator Studio', Sparkles],
+  ['/admin/editorial', 'Editorial', BookOpen],
   ['/admin/marketplace', 'Marketplace Hub', Box],
   ['/admin/world-builder', 'World Builder', Sparkles],
   ['/admin/relations', 'Relações', Sparkles],

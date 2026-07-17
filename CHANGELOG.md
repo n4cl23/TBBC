@@ -1,5 +1,13 @@
 # Changelog
 
+## Plataforma editorial reutilizável — 2026-07-17
+
+- Adiciona formulários tipados e validação compartilhada para operações editoriais, mídia e revisão.
+- Adiciona biblioteca de mídia com upload, variantes WebP, texto alternativo, legenda e corte quadrado no navegador.
+- Adiciona adaptadores de armazenamento Vercel Blob e S3; o filesystem local continua restrito ao desenvolvimento.
+- Adiciona papéis `owner`, `editor` e `reviewer`, aplicados às operações de publicação, restauração, arquivamento e mídia.
+- Registra submissões, aprovações e pedidos de ajuste como decisões auditáveis vinculadas à versão existente, sem alterar o Canon.
+
 ## Atlas profissional — 2026-07-17
 
 - Adiciona mapas físico, político, histórico, comercial e climático ao Atlas de Asterheim.
