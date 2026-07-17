@@ -21,6 +21,7 @@ import './art-direction.css';
 import './artbook-rhythm.css';
 import './creature-atlas.css';
 import './creature-atlas-lcp.css';
+import './atlas-vivo.css';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { dictionary, localeConfig } from '@/lib/i18n';
