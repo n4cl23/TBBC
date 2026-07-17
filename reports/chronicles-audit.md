@@ -1,6 +1,6 @@
 # Chronicles of Asterheim — content audit
 
-Generated: 2026-07-17T19:28:29.434Z
+Generated: 2026-07-17T19:56:36.779Z
 
 ## Scope and safeguards
 
