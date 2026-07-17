@@ -1,0 +1,120 @@
+import { mkdir, readdir, stat, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import { canonEntities, creatures } from '../src/data/canon-registry';
+
+const sourceRoot = process.argv[2] || 'C:\\Users\\Janderson Santos\\Desktop\\Chronicles of Asterheim';
+const repositoryRoot = process.cwd();
+const reportsRoot = path.join(repositoryRoot, 'reports');
+const bestiaryDryRunEvidence = { files: 319, bytes: 17640941249, valid: 319, invalid: 0, canonicalAssetMatches: 102, unmatched: 217, duplicateChecksumGroups: 0, creatures: 34 };
+
+type AssetType = 'image' | 'model' | 'video' | 'document' | 'data' | 'archive' | 'binary' | 'other';
+type AuditStatus = 'EXISTS_COMPLETE' | 'EXISTS_MISSING_MEDIA' | 'EXISTS_MISSING_LORE' | 'EXISTS_MISSING_TRANSLATION' | 'EXISTS_OUTDATED' | 'NEW_READY' | 'NEW_INCOMPLETE' | 'DUPLICATE' | 'CONFLICT' | 'ORPHAN_ASSET' | 'REQUIRES_REVIEW';
+type InventoryItem = { path: string; name: string; extension: string; sizeBytes: number; modifiedAt: string; mediaType: AssetType; probableEntity: string; canonicalSlug?: string; category: string; realm?: string; language: string; versionCandidate: boolean; duplicateCandidate: boolean; quality: string; publicationUse: string; dependencies: string[]; repositoryMatch: boolean; status: AuditStatus; notes: string[] };
+type EntitySummary = { entity: string; canonicalSlug?: string; category: string; realm?: string; files: InventoryItem[]; status: AuditStatus; exists: boolean; assets: string[]; missingAssets: string[]; languages: string[]; conflicts: string[]; action: string };
+
+const extensionTypes: Record<string, AssetType> = {
+  '.png': 'image', '.jpg': 'image', '.jpeg': 'image', '.webp': 'image', '.gif': 'image', '.svg': 'image',
+  '.stl': 'model', '.glb': 'model', '.obj': 'model', '.fbx': 'model', '.3mf': 'model',
+  '.mp4': 'video', '.mov': 'video', '.webm': 'video', '.pdf': 'document', '.txt': 'document', '.md': 'document', '.docx': 'document',
+  '.json': 'data', '.csv': 'data', '.yaml': 'data', '.yml': 'data', '.zip': 'archive',
+  '.exe': 'binary', '.winmd': 'binary', '.cfgx': 'binary', '.cxdlpv4': 'binary',
+};
+const realmAliases: Record<string, string> = {
+  'frost-kingdom': 'frost-kingdom', 'frost-kingdoms': 'frost-kingdom', 'reino-de-gelo': 'frost-kingdom',
+  stormreach: 'stormreach', ironhold: 'ironhold', 'elder-forest': 'elder-forest', 'floresta-antiga': 'elder-forest',
+  abyss: 'kingdom-of-the-abyss', 'kingdom-of-the-abyss': 'kingdom-of-the-abyss', 'reino-do-abismo': 'kingdom-of-the-abyss',
+  'scorched-wastes': 'scorched-wastes', 'ermos-abrasados': 'scorched-wastes',
+};
+const genericNames = new Set(['chronicles-of-asterheim', 'beasts-of-asterheim', 'documentos', 'artbook', 'arte-visual', 'models', 'modelos', 'images', 'imagens', 'assets', 'media', 'gallery', 'galeria']);
+
+function normalize(value: string) {
+  return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[—–]/g, '-').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').replace(/-+/g, '-');
+}
+function cleanCandidate(value: string) { return normalize(value.replace(/\.[^.]+$/, '').replace(/(?:[-_ ](?:final|final\d*|copy|new|revised|backup|v\d+|\d{1,3}))$/i, '')); }
+function csv(value: unknown) { const text = String(value ?? ''); return /[",\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text; }
+function countBy<T>(values: T[], key: (value: T) => string | undefined) { const counts = new Map<string, number>(); for (const value of values) { const name = key(value) || 'unknown'; counts.set(name, (counts.get(name) || 0) + 1); } return [...counts.entries()].sort((a, b) => b[1] - a[1]); }
+function formatBytes(value: number) { return `${(value / 1024 / 1024).toFixed(2)} MB`; }
+function isVersionCandidate(name: string) { return /(?:^|[-_ .])(final\d*|copy|new|revised|backup|v\d+|\d{1,3})(?:\.[^.]+)?$/i.test(name); }
+function inferLanguage(value: string) { const token = normalize(value); if (/(^|-)pt(-|$)|portugues|portuguese/.test(token)) return 'pt-br'; if (/(^|-)es(-|$)|espanol|spanish/.test(token)) return 'es'; if (/(^|-)en(-|$)|english|ingles/.test(token)) return 'en'; return 'unknown'; }
+function categoryFor(parts: string[], canonicalKind?: string) { if (canonicalKind) return canonicalKind; const pathToken = normalize(parts.join('-')); if (pathToken.includes('beasts') || pathToken.includes('bestiary')) return 'creature'; if (pathToken.includes('crown')) return 'artifact'; if (pathToken.includes('guild') || pathToken.includes('ordem') || pathToken.includes('irmandade') || pathToken.includes('companhia')) return 'faction'; if (pathToken.includes('tavern') || pathToken.includes('company') || pathToken.includes('legends')) return 'collection'; if (pathToken.includes('document') || pathToken.includes('artbook')) return 'document'; return 'unknown'; }
+function qualityFor(type: AssetType, bytes: number) { if (!bytes) return 'invalid-zero-byte'; if (type === 'model' && bytes < 1024) return 'suspect-too-small'; if (type === 'image' && bytes < 512) return 'suspect-too-small'; if (type === 'video' && bytes < 4096) return 'suspect-too-small'; return 'requires-visual-or-format-review'; }
+
+async function walk(root: string): Promise<string[]> { const result: string[] = []; for (const entry of await readdir(root, { withFileTypes: true })) { const target = path.join(root, entry.name); if (entry.isDirectory()) result.push(...await walk(target)); else if (entry.isFile()) result.push(target); } return result; }
+
+async function repoAssetTokens() {
+  const roots = [path.join(repositoryRoot, 'public'), path.join(repositoryRoot, 'src', 'data')];
+  const paths: string[] = [];
+  for (const root of roots) { try { paths.push(...await walk(root)); } catch {} }
+  return new Set(paths.map((file) => normalize(path.relative(repositoryRoot, file))));
+}
+
+async function main() {
+  const source = path.resolve(sourceRoot);
+  const sourceFiles = await walk(source);
+  const repoTokens = await repoAssetTokens();
+  const canonLookup = new Map<string, typeof canonEntities[number]>();
+  for (const entity of canonEntities) {
+    const data = entity.data as Record<string, unknown>;
+    for (const value of [entity.slug, ...entity.aliases, data.name, data.title, data.id].filter((item): item is string => typeof item === 'string')) canonLookup.set(normalize(value), entity);
+  }
+  const creatureRealm = new Map(creatures.map((creature) => [creature.slug, creature.realmId]));
+  const preliminary: InventoryItem[] = [];
+  for (const file of sourceFiles.sort()) {
+    const info = await stat(file), relative = path.relative(source, file), parts = relative.split(path.sep), name = path.basename(file), extension = path.extname(name).toLowerCase(), type = extensionTypes[extension] || 'other';
+    const candidates = [...parts.slice(0, -1).reverse(), name.replace(/\.[^.]+$/, '')].map(cleanCandidate).filter((item) => item && !genericNames.has(item));
+    let canonical: typeof canonEntities[number] | undefined;
+    // Only inspect the nearest two labels (normally entity + realm). A broad
+    // collection name is not enough to claim that every child asset belongs to it.
+    for (const candidate of candidates.slice(0, 2)) {
+      canonical = canonLookup.get(candidate) || [...canonLookup.entries()].find(([key]) => key !== 'aster' && key.length > 4 && candidate.startsWith(`${key}-`))?.[1];
+      if (canonical) break;
+    }
+    const probableEntity = canonical?.slug || candidates[0] || cleanCandidate(name);
+    const realm = canonical?.kind === 'creature' ? creatureRealm.get(canonical.slug) : candidates.map((candidate) => realmAliases[candidate]).find(Boolean);
+    const repositoryMatch = canonical ? [...repoTokens].some((token) => token.includes(canonical!.slug)) : false;
+    const notes: string[] = [];
+    if (!canonical) notes.push('no-canonical-identity-match');
+    if (isVersionCandidate(name)) notes.push('version-like-suffix');
+    if (!realm && type === 'model' && categoryFor(parts, canonical?.kind) === 'creature') notes.push('creature-without-safe-realm-match');
+    preliminary.push({ path: relative.replaceAll('\\', '/'), name, extension, sizeBytes: info.size, modifiedAt: info.mtime.toISOString(), mediaType: type, probableEntity, canonicalSlug: canonical?.slug, category: categoryFor(parts, canonical?.kind), realm, language: inferLanguage(relative), versionCandidate: isVersionCandidate(name), duplicateCandidate: false, quality: qualityFor(type, info.size), publicationUse: type === 'model' ? 'source-only-until-optimized-and-reviewed' : type === 'video' ? 'review-before-publication' : type === 'image' ? 'candidate-for-derivative-generation' : 'reference-or-manual-review', dependencies: canonical ? [`canon:${canonical.kind}:${canonical.slug}`] : [], repositoryMatch, status: canonical ? (repositoryMatch ? 'EXISTS_MISSING_MEDIA' : 'EXISTS_MISSING_MEDIA') : 'ORPHAN_ASSET', notes });
+  }
+  const duplicateGroups = new Map<string, InventoryItem[]>();
+  for (const item of preliminary) { const key = `${item.probableEntity}:${cleanCandidate(item.name)}:${item.extension}`; duplicateGroups.set(key, [...(duplicateGroups.get(key) || []), item]); }
+  for (const items of duplicateGroups.values()) if (items.length > 1) for (const item of items) { item.duplicateCandidate = true; item.notes.push('same-normalized-name-group'); }
+  const grouped = new Map<string, InventoryItem[]>();
+  for (const item of preliminary) grouped.set(item.canonicalSlug || `candidate:${item.probableEntity}`, [...(grouped.get(item.canonicalSlug || `candidate:${item.probableEntity}`) || []), item]);
+  const entities: EntitySummary[] = [...grouped.entries()].map(([key, files]) => {
+    const canonicalSlug = files[0].canonicalSlug, exists = Boolean(canonicalSlug), assets = [...new Set(files.map((file) => file.mediaType))], hasVisual = files.some((file) => file.mediaType === 'image'), hasModel = files.some((file) => file.mediaType === 'model'), conflicts = [...new Set(files.flatMap((file) => file.notes.filter((note) => note.includes('suffix') || note.includes('same-normalized') || note.includes('without-safe'))))];
+    const missingAssets = canonicalSlug && !hasVisual ? ['no-source-image-found'] : [];
+    let status: AuditStatus = 'REQUIRES_REVIEW';
+    let action = 'Preserve source; review manually before any import.';
+    if (!exists) { status = files.some((file) => file.duplicateCandidate) ? 'DUPLICATE' : hasModel || hasVisual ? 'NEW_INCOMPLETE' : 'ORPHAN_ASSET'; action = 'Create no entity. Request editorial identity and provenance review.'; }
+    else if (conflicts.length) { status = 'CONFLICT'; action = 'Do not overwrite canonical asset; select version only after review.'; }
+    else if (!files.some((file) => file.repositoryMatch)) { status = 'EXISTS_MISSING_MEDIA'; action = 'Canonical identity exists but no repository asset match was evidenced; verify before adding a draft asset.'; }
+    else { status = 'EXISTS_COMPLETE'; action = hasModel ? 'Existing canonical record has source-model candidates; keep source-only until provenance and delivery review.' : 'Existing canonical record and repository asset match; no automatic import required.'; }
+    for (const file of files) file.status = status;
+    return { entity: canonicalSlug || key.replace(/^candidate:/, ''), canonicalSlug, category: files[0].category, realm: files[0].realm, files, status, exists, assets, missingAssets, languages: [...new Set(files.map((file) => file.language))], conflicts, action };
+  }).sort((a, b) => a.entity.localeCompare(b.entity));
+  const orphanFiles = preliminary.filter((item) => !item.canonicalSlug);
+  const conflicts = entities.filter((entity) => entity.status === 'CONFLICT' || entity.status === 'DUPLICATE' || entity.conflicts.length);
+  const canonEntitySlugs = new Set(canonEntities.map((entity) => entity.slug));
+  const matchedCanon = new Set(entities.flatMap((entity) => entity.canonicalSlug ? [entity.canonicalSlug] : []));
+  const canonDiff = { generatedAt: new Date().toISOString(), source, canonVersion: '1.1.0', sourceFiles: preliminary.length, sourceBytes: preliminary.reduce((sum, item) => sum + item.sizeBytes, 0), canonicalEntities: canonEntities.length, canonicalEntitiesMatchedBySourcePath: matchedCanon.size, canonicalEntitiesWithoutSourcePathMatch: [...canonEntitySlugs].filter((slug) => !matchedCanon.has(slug)).sort(), candidateEntitiesWithoutCanonicalIdentity: entities.filter((entity) => !entity.canonicalSlug).map((entity) => ({ entity: entity.entity, files: entity.files.length, status: entity.status })), sourceEntityGroups: entities.length, conflicts: conflicts.map((entity) => ({ entity: entity.entity, status: entity.status, conflicts: entity.conflicts })), importDecision: 'NO_IMPORT_PERFORMED_PENDING_EXPLICIT_APPROVAL' };
+  const totals = { extensions: countBy(preliminary, (item) => item.extension || '[none]'), categories: countBy(entities, (entity) => entity.category), realms: countBy(entities, (entity) => entity.realm), statuses: countBy(entities, (entity) => entity.status), languages: countBy(preliminary, (item) => item.language), readiness: countBy(entities, (entity) => entity.status === 'REQUIRES_REVIEW' ? 'review' : entity.status.startsWith('NEW') ? 'new' : entity.status.startsWith('EXISTS') ? 'existing' : 'blocked') };
+  await mkdir(reportsRoot, { recursive: true });
+  await writeFile(path.join(reportsRoot, 'chronicles-inventory.json'), JSON.stringify({ generatedAt: new Date().toISOString(), source, items: preliminary, entities: entities.map((entity) => ({ ...entity, files: entity.files.map((file) => file.path) })), totals }, null, 2));
+  const columns = ['path', 'name', 'extension', 'sizeBytes', 'modifiedAt', 'mediaType', 'probableEntity', 'canonicalSlug', 'category', 'realm', 'language', 'versionCandidate', 'duplicateCandidate', 'quality', 'publicationUse', 'repositoryMatch', 'status', 'notes'];
+  await writeFile(path.join(reportsRoot, 'chronicles-inventory.csv'), [columns.join(','), ...preliminary.map((item) => columns.map((column) => csv(item[column as keyof InventoryItem] instanceof Array ? (item[column as keyof InventoryItem] as string[]).join('|') : item[column as keyof InventoryItem])).join(','))].join('\n'));
+  const entityTable = entities.map((entity) => `| ${entity.entity} | ${entity.category} | ${entity.files.length} files | ${entity.realm || '—'} | ${entity.exists ? 'yes' : 'no'} | ${entity.status} | ${entity.assets.join(', ') || '—'} | ${entity.missingAssets.join(', ') || '—'} | ${entity.languages.join(', ')} | ${entity.conflicts.join(', ') || '—'} | ${entity.action} |`).join('\n');
+  const totalsTable = (title: string, values: [string, number][]) => `\n### ${title}\n\n| Value | Count |\n| --- | ---: |\n${values.map(([value, count]) => `| ${value} | ${count} |`).join('\n')}\n`;
+  await writeFile(path.join(reportsRoot, 'chronicles-audit.md'), `# Chronicles of Asterheim — content audit\n\nGenerated: ${new Date().toISOString()}\n\n## Scope and safeguards\n\n- Read-only scan of \`${source}\`; no source files were opened for mutation, copied, renamed or deleted.\n- No CMS, Preview database, migration, Canon import or Production action was performed.\n- Canon comparison uses \`src/data/canon-registry.ts\` (Canon 1.1.0). A path/name match is **not** proof of canonical approval.\n\n## Evidence\n\n- Files: **${preliminary.length}**\n- Size: **${formatBytes(canonDiff.sourceBytes)}**\n- Entity groups: **${entities.length}**\n- Canonical identities matched by source path: **${matchedCanon.size}/${canonEntities.length}**\n- Candidate groups without canonical identity: **${entities.filter((entity) => !entity.exists).length}**\n- Conflict or duplicate groups: **${conflicts.length}**\n- Orphan-source files: **${orphanFiles.length}**\n\n## Bestiary binary dry-run\n\nThe existing non-destructive scanner was executed against \`Beasts of Asterheim\` after the inventory scan: **${bestiaryDryRunEvidence.files}** files / **${formatBytes(bestiaryDryRunEvidence.bytes)}**; ${bestiaryDryRunEvidence.valid} valid, ${bestiaryDryRunEvidence.invalid} invalid; ${bestiaryDryRunEvidence.canonicalAssetMatches} canonical creature-asset matches across ${bestiaryDryRunEvidence.creatures} creatures; ${bestiaryDryRunEvidence.unmatched} unmatched files; ${bestiaryDryRunEvidence.duplicateChecksumGroups} duplicate checksum groups. It was dry-run only and wrote no source or destination assets.\n\n## Entity assessment\n\n| Entity | Category | Origin | Realm | Exists | State | Assets available | Assets absent | Languages | Conflicts | Recommended action |\n| --- | --- | ---: | --- | --- | --- | --- | --- | --- | --- | --- |\n${entityTable}\n${totalsTable('By extension', totals.extensions)}${totalsTable('By category', totals.categories)}${totalsTable('By realm', totals.realms)}${totalsTable('By status', totals.statuses)}${totalsTable('By language signal', totals.languages)}${totalsTable('By readiness', totals.readiness)}\n## Interpretation\n\nAll model, video and ambiguous-version assets remain source-only. NEW_READY is intentionally not assigned from filenames alone: provenance, canonical identity, usable derivatives and editorial approval are required.\n`);
+  await writeFile(path.join(reportsRoot, 'chronicles-conflicts.md'), `# Chronicles conflicts\n\nNo source or Canon change was made. The following groups require editorial resolution before any import.\n\n${conflicts.length ? conflicts.map((entity) => `## ${entity.entity}\n\n- Status: \`${entity.status}\`\n- Signals: ${entity.conflicts.join(', ') || 'multiple source candidates'}\n- Files:\n${entity.files.map((file) => `  - \`${file.path}\``).join('\n')}\n- Decision required: identify approved source/version and whether it changes lore, visual identity or only media.\n`).join('\n') : 'No filename-level conflicts were inferred; provenance still needs review.'}\n`);
+  await writeFile(path.join(reportsRoot, 'chronicles-orphan-assets.md'), `# Orphan or unassociated source assets\n\nThese files have no safe match to a Canon 1.1.0 identity. They are not evidence for creating entities.\n\n- Files: **${orphanFiles.length}**\n- Candidate groups: **${entities.filter((entity) => !entity.canonicalSlug).length}**\n\n| Candidate | Type | Files | Source paths | Action |\n| --- | --- | ---: | --- | --- |\n${entities.filter((entity) => !entity.canonicalSlug).map((entity) => `| ${entity.entity} | ${entity.category} | ${entity.files.length} | ${entity.files.slice(0, 3).map((file) => file.path).join('<br>')}${entity.files.length > 3 ? '<br>…' : ''} | ${entity.action} |`).join('\n')}\n`);
+  const translationRows = entities.filter((entity) => entity.canonicalSlug).map((entity) => `| ${entity.entity} | ${entity.languages.join(', ')} | Source paths contain no reliable editorial translation evidence; preserve existing PT-BR/EN/ES and do not infer replacements. |`).join('\n');
+  await writeFile(path.join(reportsRoot, 'chronicles-translation-gaps.md'), `# Translation evidence gaps\n\nFilename language signals do not establish a translation. This report intentionally records evidence gaps rather than inventing PT-BR, EN or ES content.\n\n| Canonical entity | Source language signals | Required action |\n| --- | --- | --- |\n${translationRows}\n`);
+  await writeFile(path.join(reportsRoot, 'chronicles-canon-diff.json'), JSON.stringify(canonDiff, null, 2));
+  await writeFile(path.join(reportsRoot, 'chronicles-import-plan.md'), `# Chronicles import plan — approval required\n\n## Global gate\n\n**No import was executed.** Do not publish to CMS, copy assets, change Canon, run migrations or connect to Production until every selected item has explicit approval.\n\n## Batch 1 — static derivatives with canonical identity\n\n- Scope: canonical entities with a single approved image source and no conflict.\n- Files: selected image assets only; generate derivatives outside \`public\` first.\n- Risk: wrong visual association or implicit lore change.\n- Rollback: remove only newly copied review artifacts by manifest; no overwrite permitted.\n- Tests: filename/slug validation, image readability, existing bestiary media validation, localized route check.\n- Acceptance: provenance approved, target slug canonical, no existing asset overwritten, status remains draft/review.\n\n## Batch 2 — structured textual content and relations\n\n- Scope: only records with supplied text, explicit provenance and approved canonical relationship references.\n- Risk: unauthorized lore, translation regression or graph orphan.\n- Rollback: CMS version restore or delete of a new draft only; Canon unchanged unless governance approves.\n- Tests: Canon dry-run, graph validation, slug uniqueness, translation completeness.\n- Acceptance: reviewer approval and zero orphan relations.\n\n## Batch 3 — heavy models and video\n\n- Scope: approved STL/GLB/MP4 assets with format, licensing and web-delivery review.\n- Risk: repository bloat, unreadable binaries, performance and unsupported runtime storage.\n- Rollback: delete newly uploaded object through its manifest; do not remove source files.\n- Tests: binary signature/readability, optimized web derivative, storage access control, page performance.\n- Acceptance: Blob/S3 destination approved, immutable source manifest stored, no large source binary committed directly to Git.\n\n## Batch 4 — conflicts and new identity proposals\n\n- Scope: entries in \`chronicles-conflicts.md\` and \`chronicles-orphan-assets.md\`.\n- Risk: Canon divergence.\n- Rollback: not applicable before approval; this batch starts with a governance decision, not an import.\n- Tests: narrative/technical approval, Canon diff review, aliases where a slug changes.\n- Acceptance: explicit Canon governance approval.\n`);
+  console.log(JSON.stringify({ files: preliminary.length, entities: entities.length, canonicalMatched: matchedCanon.size, orphanFiles: orphanFiles.length, conflicts: conflicts.length, reports: reportsRoot }, null, 2));
+}
+
+main().catch((error) => { console.error(error instanceof Error ? error.stack : error); process.exitCode = 1; });

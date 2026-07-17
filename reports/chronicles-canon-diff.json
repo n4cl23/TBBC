@@ -1,0 +1,366 @@
+{
+  "generatedAt": "2026-07-17T19:28:29.423Z",
+  "source": "C:\\Users\\Janderson Santos\\Desktop\\Chronicles of Asterheim",
+  "canonVersion": "1.1.0",
+  "sourceFiles": 639,
+  "sourceBytes": 30049187106,
+  "canonicalEntities": 142,
+  "canonicalEntitiesMatchedBySourcePath": 87,
+  "canonicalEntitiesWithoutSourcePathMatch": [
+    "abyss-crown",
+    "abyss-trident",
+    "awakening-six-forces",
+    "beasts-of-asterheim",
+    "covenant-of-guardians",
+    "dragon-crown",
+    "dragons-oath",
+    "elder-forest-circulo-da-raiz-mundo",
+    "elder-forest-pantano-sem-lua",
+    "elder-forest-ruinas-verdes",
+    "elder-forest-santuario-de-yggor",
+    "finn",
+    "foundation-six-realms",
+    "frost-crown",
+    "frost-kingdom-arquivo-glacial",
+    "frost-kingdom-fenda-azul",
+    "frost-kingdom-ponte-do-silencio",
+    "frost-kingdom-santuario-das-seis-geadas",
+    "hugo",
+    "iron-crown",
+    "iron-oath",
+    "iron-tankard-tavern",
+    "ironhold-campo-das-correntes",
+    "ironhold-cidadela-do-primeiro-portao",
+    "ironhold-forjas-profundas",
+    "ironhold-muralha-dos-seis",
+    "kingdom-of-the-abyss-farol-invertido",
+    "kingdom-of-the-abyss-fossa-sem-estrelas",
+    "kingdom-of-the-abyss-jardins-de-coral",
+    "kingdom-of-the-abyss-thalassar-submersa",
+    "last-dragon",
+    "last-dragon-slayer",
+    "lily",
+    "milo",
+    "morwen-iron-tankard",
+    "nereus",
+    "night-of-chains",
+    "oak-crown",
+    "olaf",
+    "raising-black-banner",
+    "rat-king-external",
+    "scorched-wastes-acampamento-da-ultima-brasa",
+    "scorched-wastes-cemiterio-dos-dragoes",
+    "scorched-wastes-cratera-do-ultimo-voo",
+    "scorched-wastes-forja-de-vidro",
+    "storm-crown",
+    "stormreach-bastiao-do-horizonte-partido",
+    "stormreach-costa-dos-naufragios",
+    "stormreach-templo-do-trovao",
+    "stormreach-torres-condutoras",
+    "the-vampire-lord",
+    "thunder-spear",
+    "war-of-the-skies",
+    "worldroot-staff"
+  ],
+  "candidateEntitiesWithoutCanonicalIdentity": [
+    {
+      "entity": "aster-vhal-o-arquivista-das-seis-coroas",
+      "files": 3,
+      "status": "NEW_INCOMPLETE"
+    },
+    {
+      "entity": "asterheim-atlas-das-criaturas-conceitos",
+      "files": 1,
+      "status": "ORPHAN_ASSET"
+    },
+    {
+      "entity": "bestiario-oficial-de-asterheim",
+      "files": 1,
+      "status": "ORPHAN_ASSET"
+    },
+    {
+      "entity": "borgrath-o-guardiao-das-correntes",
+      "files": 3,
+      "status": "NEW_INCOMPLETE"
+    },
+    {
+      "entity": "chefes-secundarios-de-asterheim-volume-i",
+      "files": 1,
+      "status": "ORPHAN_ASSET"
+    },
+    {
+      "entity": "demon-fogo",
+      "files": 3,
+      "status": "NEW_INCOMPLETE"
+    },
+    {
+      "entity": "ember-tick",
+      "files": 3,
+      "status": "NEW_INCOMPLETE"
+    },
+    {
+      "entity": "irmandade-dos-cacadores-de-asterheim",
+      "files": 1,
+      "status": "ORPHAN_ASSET"
+    },
+    {
+      "entity": "iron-hold-map",
+      "files": 1,
+      "status": "NEW_INCOMPLETE"
+    },
+    {
+      "entity": "kaelor-grimm-o-rastreador-das-sombras",
+      "files": 3,
+      "status": "NEW_INCOMPLETE"
+    },
+    {
+      "entity": "leao-de-escoria",
+      "files": 6,
+      "status": "NEW_INCOMPLETE"
+    },
+    {
+      "entity": "leao-de-escoria-boss-secundario-ironhold",
+      "files": 1,
+      "status": "ORPHAN_ASSET"
+    },
+    {
+      "entity": "madre-elyndra-guardia-dos-altares",
+      "files": 3,
+      "status": "NEW_INCOMPLETE"
+    },
+    {
+      "entity": "maelwen-a-matriarca-dos-espinhos",
+      "files": 3,
+      "status": "NEW_INCOMPLETE"
+    },
+    {
+      "entity": "material-de-divulgacao-pt-br",
+      "files": 2,
+      "status": "NEW_INCOMPLETE"
+    },
+    {
+      "entity": "material-de-divulgacao-pt-br-1",
+      "files": 1,
+      "status": "NEW_INCOMPLETE"
+    },
+    {
+      "entity": "material-de-divulgacao-pt-br-2",
+      "files": 1,
+      "status": "NEW_INCOMPLETE"
+    },
+    {
+      "entity": "mercadores-de-asterheim",
+      "files": 1,
+      "status": "ORPHAN_ASSET"
+    },
+    {
+      "entity": "mira-solenne-mensageira-da-ultima-bandeira",
+      "files": 3,
+      "status": "NEW_INCOMPLETE"
+    },
+    {
+      "entity": "nhalor-o-sacerdote-da-coroa-afogada",
+      "files": 3,
+      "status": "NEW_INCOMPLETE"
+    },
+    {
+      "entity": "nimbus-spirit",
+      "files": 3,
+      "status": "NEW_INCOMPLETE"
+    },
+    {
+      "entity": "npcs-de-asterheim-volume-i-revisado",
+      "files": 1,
+      "status": "ORPHAN_ASSET"
+    },
+    {
+      "entity": "orun-veyr-o-profeta-do-trovao",
+      "files": 3,
+      "status": "NEW_INCOMPLETE"
+    },
+    {
+      "entity": "seris-vale-a-cartografa-errante",
+      "files": 3,
+      "status": "NEW_INCOMPLETE"
+    },
+    {
+      "entity": "skara-a-cacadora-palida",
+      "files": 4,
+      "status": "NEW_INCOMPLETE"
+    },
+    {
+      "entity": "tempest-owl",
+      "files": 3,
+      "status": "NEW_INCOMPLETE"
+    },
+    {
+      "entity": "thalassor",
+      "files": 4,
+      "status": "NEW_INCOMPLETE"
+    },
+    {
+      "entity": "the-black-banner-bestiary-chainmaw-vol1",
+      "files": 1,
+      "status": "ORPHAN_ASSET"
+    },
+    {
+      "entity": "the-black-banner-ironhold-07-iron-wyrm",
+      "files": 1,
+      "status": "ORPHAN_ASSET"
+    },
+    {
+      "entity": "the-black-banner-ironhold-08-forge-sentinel",
+      "files": 1,
+      "status": "ORPHAN_ASSET"
+    },
+    {
+      "entity": "the-black-banner-ironhold-09-molten-guardian",
+      "files": 1,
+      "status": "ORPHAN_ASSET"
+    },
+    {
+      "entity": "the-black-banner-ironhold-09-molten-guardian-1",
+      "files": 1,
+      "status": "ORPHAN_ASSET"
+    },
+    {
+      "entity": "the-black-banner-ironhold-10-crystal-ram",
+      "files": 1,
+      "status": "ORPHAN_ASSET"
+    },
+    {
+      "entity": "the-black-banner-ironhold-11-iron-boar",
+      "files": 1,
+      "status": "ORPHAN_ASSET"
+    },
+    {
+      "entity": "the-black-banner-ironhold-12-ash-wolf",
+      "files": 1,
+      "status": "ORPHAN_ASSET"
+    },
+    {
+      "entity": "the-black-banner-ironhold-13-rock-burrower",
+      "files": 1,
+      "status": "ORPHAN_ASSET"
+    },
+    {
+      "entity": "the-black-banner-ironhold-14-tunnel-reaper",
+      "files": 1,
+      "status": "ORPHAN_ASSET"
+    },
+    {
+      "entity": "the-black-banner-ironhold-15-ore-leech",
+      "files": 1,
+      "status": "ORPHAN_ASSET"
+    },
+    {
+      "entity": "the-black-banner-ironhold-16-ember-tick",
+      "files": 1,
+      "status": "ORPHAN_ASSET"
+    },
+    {
+      "entity": "the-black-banner-ironhold-17-obsidian-colossus",
+      "files": 1,
+      "status": "ORPHAN_ASSET"
+    },
+    {
+      "entity": "varkhaz-o-carrasco-das-cinzas",
+      "files": 3,
+      "status": "NEW_INCOMPLETE"
+    },
+    {
+      "entity": "varkhul",
+      "files": 4,
+      "status": "NEW_INCOMPLETE"
+    }
+  ],
+  "sourceEntityGroups": 129,
+  "conflicts": [
+    {
+      "entity": "bestiario-oficial-de-asterheim",
+      "status": "ORPHAN_ASSET",
+      "conflicts": [
+        "version-like-suffix"
+      ]
+    },
+    {
+      "entity": "brotherhood-of-hunters",
+      "status": "CONFLICT",
+      "conflicts": [
+        "version-like-suffix",
+        "same-normalized-name-group"
+      ]
+    },
+    {
+      "entity": "demon-fogo",
+      "status": "NEW_INCOMPLETE",
+      "conflicts": [
+        "creature-without-safe-realm-match"
+      ]
+    },
+    {
+      "entity": "durgan",
+      "status": "CONFLICT",
+      "conflicts": [
+        "version-like-suffix"
+      ]
+    },
+    {
+      "entity": "ember-tick",
+      "status": "NEW_INCOMPLETE",
+      "conflicts": [
+        "creature-without-safe-realm-match"
+      ]
+    },
+    {
+      "entity": "ironhold",
+      "status": "CONFLICT",
+      "conflicts": [
+        "same-normalized-name-group"
+      ]
+    },
+    {
+      "entity": "leao-de-escoria-boss-secundario-ironhold",
+      "status": "ORPHAN_ASSET",
+      "conflicts": [
+        "version-like-suffix"
+      ]
+    },
+    {
+      "entity": "nimbus-spirit",
+      "status": "NEW_INCOMPLETE",
+      "conflicts": [
+        "creature-without-safe-realm-match"
+      ]
+    },
+    {
+      "entity": "tempest-owl",
+      "status": "NEW_INCOMPLETE",
+      "conflicts": [
+        "creature-without-safe-realm-match"
+      ]
+    },
+    {
+      "entity": "thalassor",
+      "status": "NEW_INCOMPLETE",
+      "conflicts": [
+        "creature-without-safe-realm-match"
+      ]
+    },
+    {
+      "entity": "the-last-dragon-slayer",
+      "status": "CONFLICT",
+      "conflicts": [
+        "version-like-suffix"
+      ]
+    },
+    {
+      "entity": "varkhul",
+      "status": "NEW_INCOMPLETE",
+      "conflicts": [
+        "creature-without-safe-realm-match"
+      ]
+    }
+  ],
+  "importDecision": "NO_IMPORT_PERFORMED_PENDING_EXPLICIT_APPROVAL"
+}
