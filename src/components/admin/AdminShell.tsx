@@ -5,7 +5,7 @@ import {usePathname} from 'next/navigation';
 import {
   BookImage, BookOpen, Box, Castle, Clock3, Crown, Database, FileBox,
   FileText, GitBranch, History, Home, Menu, Newspaper, Route, Shield,
-  PawPrint, Sparkles, Swords, Users, X,
+  MapPinned, PawPrint, Sparkles, Swords, Users, X,
 } from 'lucide-react';
 import {useState} from 'react';
 
@@ -16,6 +16,7 @@ const items = [
   ['/admin/world-builder', 'World Builder', Sparkles],
   ['/admin/relations', 'Relações', Sparkles],
   ['/admin/world', 'World Database', Database],
+  ['/admin/atlas', 'Atlas', MapPinned],
   ['/admin/creatures', 'Criaturas', PawPrint],
   ['/admin/personagens', 'Personagens', Users],
   ['/admin/colecoes', 'Coleções', Box],

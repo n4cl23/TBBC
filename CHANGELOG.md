@@ -1,5 +1,13 @@
 # Changelog
 
+## Atlas profissional — 2026-07-17
+
+- Adiciona mapas físico, político, histórico, comercial e climático ao Atlas de Asterheim.
+- Publica camadas navegáveis para rotas, rios, montanhas, fortalezas, ruínas, portos, florestas, minas, forjas, capitais e POIs.
+- Adiciona linhas vetoriais, filtros independentes, animações com preferência de movimento reduzido, zoom, pan e navegação por era.
+- Adiciona o painel de governança `/admin/atlas` ao CMS sem criar ou alterar entidades canônicas.
+- Amplia testes unitários e Playwright para cobertura cartográfica e responsividade.
+
 ## 1.1.0-preview-migration-recovery — 2026-07-15
 
 - Documenta o Cenário E da migration CMS falha: FK UUID contra `WorldEntity.canonicalId` persistido como texto.
