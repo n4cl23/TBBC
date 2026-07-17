@@ -2,6 +2,8 @@ name: Preview Database Gate
 
 on:
   workflow_dispatch:
+  push:
+    branches: [codex/postgres-cms-persistence]
   pull_request:
     branches: [main]
 
@@ -29,7 +31,7 @@ jobs:
       PREVIEW_POSTGRES_URL: ${{ secrets.PREVIEW_POSTGRES_URL }}
       PREVIEW_ADMIN_USER: ${{ secrets.PREVIEW_ADMIN_USER }}
       PREVIEW_ADMIN_PASSWORD: ${{ secrets.PREVIEW_ADMIN_PASSWORD }}
-      DATABASE_URL: ${{ secrets.PREVIEW_DATABASE_URL }}
+      DATABASE_URL: ${{ secrets.PREVIEW_DATABASE_URL_UNPOOLED }}
       DATABASE_URL_UNPOOLED: ${{ secrets.PREVIEW_DATABASE_URL_UNPOOLED }}
       POSTGRES_URL: ${{ secrets.PREVIEW_POSTGRES_URL }}
       ADMIN_USER: ${{ secrets.PREVIEW_ADMIN_USER }}
@@ -84,6 +86,10 @@ jobs:
           npm run db:integrity
           npm run db:canon:dry-run
           npm run db:canon:verify
+      - name: Read-only content integrity checks
+        run: node scripts/verify-preview-content-integrity.mjs
+      - name: Validate creature media files
+        run: npm run creatures:validate-media
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run test -- --reporter=junit --outputFile=test-results/unit-junit.xml
@@ -110,5 +116,7 @@ jobs:
           name: preview-gate-${{ github.run_id }}
           path: |
             test-results/*.xml
+            reports/preview-database-gate-integrity.md
+            reports/creature-media-validation.md
           retention-days: 3
           if-no-files-found: ignore
